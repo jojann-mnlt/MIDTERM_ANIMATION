@@ -63,21 +63,24 @@ public class SceneFrame extends JFrame {
         RGBLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
         RGBPanel.add(RGBLabel);
 
-        // RGB Panel, 2nd Cell
+        // RGB Panel, 2nd Cell (RED)
         redPanel.setLayout(new BorderLayout());
         redPanel.add(redSlider, BorderLayout.CENTER);
         redPanel.add(new JLabel(String.valueOf(redSlider.getValue())), BorderLayout.WEST);
         RGBPanel.add(redPanel);
 
-        // RGB Panel, 3rd Cell
+        // RGB Panel, 3rd Cell (GREEN)
+        greenPanel.setLayout(new BorderLayout());
+        greenPanel.add(greenSlider, BorderLayout.CENTER);
+        greenPanel.add(new JLabel(String.valueOf(greenSlider.getValue())), BorderLayout.WEST);
+        RGBPanel.add(greenPanel);
+
+        // RGB Panel, 4th Cell (BLUE)
         bluePanel.setLayout(new BorderLayout());
         bluePanel.add(blueSlider, BorderLayout.CENTER);
         bluePanel.add(new JLabel(String.valueOf(blueSlider.getValue())), BorderLayout.WEST);
         RGBPanel.add(bluePanel);
 
-        RGBPanel.add(redSlider);
-        RGBPanel.add(greenSlider);
-        RGBPanel.add(blueSlider);
         leftHalfPanel.add(RGBPanel);
 
         // right half
