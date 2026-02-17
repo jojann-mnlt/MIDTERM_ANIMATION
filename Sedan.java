@@ -1,6 +1,6 @@
 import java.awt.*;
 import java.awt.geom.*;
-public class Sedan implements DrawingObject{
+public class Sedan extends Car implements DrawingObject{
     private double x, y, width, height, size;
     private Color color;
     private Square body, window, roof;
@@ -19,9 +19,4 @@ public class Sedan implements DrawingObject{
         window.draw(g2d);
         roof.draw(g2d);
     }
-    public double getX(){return x;}
-    public double getY(){return y;}
-    public void moveX(double amount){x += amount;}
-    public void moveY(double amount){y += amount;}
-    public void changeColor(Color newColor){color = newColor;}
 }
