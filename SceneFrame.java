@@ -9,12 +9,17 @@ import javax.swing.event.ChangeListener;
 
 public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
+
     private CarSelect carSelect;
     private GearSelect gearSelect;
+
     private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel, RGBPanel;
+
     private JPanel redPanel, greenPanel, bluePanel;
-    private JButton driveButton;
+    private JPanel red, green, blue;
     private JSlider redSlider, greenSlider, blueSlider;
+
+    private JButton driveButton;
 
     public SceneFrame() {
         frame_width = 800;
@@ -36,6 +41,12 @@ public class SceneFrame extends JFrame {
         redSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
         greenSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
         blueSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
+
+        red = new JPanel();
+        green = new JPanel();
+        blue = new JPanel();
+
+
         ArrayList<JSlider> sliders = new ArrayList<>();
 
         sliders.add(greenSlider);
@@ -68,20 +79,24 @@ public class SceneFrame extends JFrame {
         // RGB Panel, 2nd Cell (RED)
         redPanel.setLayout(new BorderLayout());
         redPanel.add(redSlider, BorderLayout.CENTER);
-        redPanel.add(new JLabel(String.valueOf(redSlider.getValue())), BorderLayout.WEST);
+        redPanel.add(red, BorderLayout.WEST);
         RGBPanel.add(redPanel);
 
         // RGB Panel, 3rd Cell (GREEN)
         greenPanel.setLayout(new BorderLayout());
         greenPanel.add(greenSlider, BorderLayout.CENTER);
-        greenPanel.add(new JLabel(String.valueOf(greenSlider.getValue())), BorderLayout.WEST);
+        greenPanel.add(green, BorderLayout.WEST);
         RGBPanel.add(greenPanel);
 
         // RGB Panel, 4th Cell (BLUE)
         bluePanel.setLayout(new BorderLayout());
         bluePanel.add(blueSlider, BorderLayout.CENTER);
-        bluePanel.add(new JLabel(String.valueOf(blueSlider.getValue())), BorderLayout.WEST);
+        bluePanel.add(blue, BorderLayout.WEST);
         RGBPanel.add(bluePanel);
+
+        red.setBackground(new Color(100, 0, 0));
+        green.setBackground(new Color(0, 100, 0));
+        blue.setBackground(new Color(0, 0, 100));
 
         leftHalfPanel.add(RGBPanel);
 
@@ -112,8 +127,11 @@ public class SceneFrame extends JFrame {
                 Car car = carSelect.getCar();
                 JSlider slider = (JSlider) e.getSource();
                 int value = slider.getValue();
-                car.changeColor(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue())); // updates
+                car.changeColor(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue()));// updates
                 carSelect.repaint();
+                red.setBackground(new Color(redSlider.getValue(), 0, 0));
+                green.setBackground(new Color(0, greenSlider.getValue(), 0));
+                blue.setBackground(new Color(0, 0, blueSlider.getValue()));
             }
         };
         redSlider.addChangeListener(changeListener);
