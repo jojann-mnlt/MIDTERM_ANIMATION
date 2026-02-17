@@ -1,6 +1,6 @@
 import java.awt.*;
 import java.awt.geom.*;
-public class GearShifter {
+public class GearShifter implements DrawingObject{
     private Circle gearKnob, gearKnobOutline;
     private Square gap, gap12, gap34, gap5;
     private int gearLevel;
@@ -11,6 +11,7 @@ public class GearShifter {
         this.x = x;
         this.y = y;
         this.size = size;
+        gearLevel = 1;
         primary = color;
         secondary = Color.BLACK;
         accent = Color.decode("#292929");
@@ -31,4 +32,23 @@ public class GearShifter {
         gearKnobOutline.draw(g2d);
         gearKnob.draw(g2d);
     }
+    public void changeGear(int gear){
+        switch (gear){
+            case 1:
+                gearLevel = 1; break;
+            case 2:
+                gearLevel = 2; break;
+            case 3:
+                gearLevel = 3; break;
+            case 4:
+                gearLevel = 4; break;
+            case 5:
+                gearLevel = 5; break;
+        }
+    }
+    public int getGear() {return gearLevel;}
+    public double getX() {return x;}
+    public double getY() {return y;}
+    public void moveX(double amount) {x += amount;}
+    public void moveY(double amount) {y += amount;}
 }
