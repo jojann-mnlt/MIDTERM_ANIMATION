@@ -1,6 +1,5 @@
 // This is the base class for the GUI. You can make any additions as you wish. Don't delete anything.
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -9,9 +8,11 @@ import javax.swing.event.ChangeListener;
 public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
     private CarSelect carSelect;
-    private JPanel startMenuMainPanel, LeftHalfPanel, RightHalfPanel, RGBPanel;
+    private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel, RGBPanel;
+    private ArrayList<JPanel> RGBCellPanels;
+    private JPanel redPanel, greenPanel, bluePanel;
     private JButton driveButton;
-    private JSlider RedSlider,  GreenSlider, BlueSlider;
+    private JSlider redSlider, greenSlider, blueSlider;
 
     public SceneFrame() {
         frame_width = 800;
@@ -20,18 +21,28 @@ public class SceneFrame extends JFrame {
         carSelect = new CarSelect();
 
         startMenuMainPanel = new JPanel();
-        LeftHalfPanel = new JPanel();
-        RightHalfPanel = new JPanel();
+        leftHalfPanel = new JPanel();
+        rightHalfPanel = new JPanel();
         driveButton = new JButton("Drive");
 
         RGBPanel = new JPanel();
-        RedSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
-        GreenSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
-        BlueSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
+        redPanel = new JPanel();
+        greenPanel = new JPanel();
+        bluePanel = new JPanel();
+
+        redSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
+        greenSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
+        blueSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
         ArrayList<JSlider> sliders = new ArrayList<>();
-        sliders.add(GreenSlider);
-        sliders.add(BlueSlider);
-        sliders.add(RedSlider);
+
+        RGBCellPanels = new ArrayList<>();
+        RGBCellPanels.add(redPanel);
+        RGBCellPanels.add(greenPanel);
+        RGBCellPanels.add(bluePanel);
+
+        sliders.add(greenSlider);
+        sliders.add(blueSlider);
+        sliders.add(redSlider);
 
         for (JSlider slider : sliders) {
             slider.setPaintTrack(true);
@@ -46,25 +57,32 @@ public class SceneFrame extends JFrame {
         Container cp = getContentPane();
 
         // left half
-        LeftHalfPanel.setLayout(new GridLayout(2, 1));
-        LeftHalfPanel.add(carSelect);
+        leftHalfPanel.setLayout(new GridLayout(2, 1));
+        leftHalfPanel.add(carSelect);
 
-        RGBPanel.setLayout(new GridLayout(3, 1));
-        RGBPanel.add(RedSlider);
-        RGBPanel.add(GreenSlider);
-        RGBPanel.add(BlueSlider);
-        LeftHalfPanel.add(RGBPanel);
+        RGBPanel.setLayout(new GridLayout(4, 1));
+
+        // RGB Panel, 1st Cell
+        JLabel RGBLabel = new JLabel("SELECT CAR COLOR", JLabel.CENTER);
+        RGBLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
+        RGBPanel.add(RGBLabel);
+
+        // RGB Panel, 2nd Cell
+        RGBPanel.add(redSlider);
+        RGBPanel.add(greenSlider);
+        RGBPanel.add(blueSlider);
+        leftHalfPanel.add(RGBPanel);
 
         // right half
-        RightHalfPanel.setBackground(Color.CYAN);
-        RightHalfPanel.setLayout(new GridLayout(3, 1));
-        RightHalfPanel.add(new JLabel("Title here", JLabel.CENTER));
-        RightHalfPanel.add(new JLabel("Insert GearStick Here", JLabel.CENTER));
-        RightHalfPanel.add(new JLabel("Details", JLabel.CENTER));
+        rightHalfPanel.setBackground(Color.CYAN);
+        rightHalfPanel.setLayout(new GridLayout(3, 1));
+        rightHalfPanel.add(new JLabel("Title here", JLabel.CENTER));
+        rightHalfPanel.add(new JLabel("Insert GearStick Here", JLabel.CENTER));
+        rightHalfPanel.add(new JLabel("Details", JLabel.CENTER));
 
         startMenuMainPanel.setLayout(new GridLayout(1, 2));
 
-        startMenuMainPanel.add(LeftHalfPanel); startMenuMainPanel.add(RightHalfPanel); // adds the left and right half
+        startMenuMainPanel.add(leftHalfPanel); startMenuMainPanel.add(rightHalfPanel); // adds the left and right half
         cp.add(startMenuMainPanel);
         cp.add(driveButton, BorderLayout.SOUTH);
 
@@ -82,13 +100,13 @@ public class SceneFrame extends JFrame {
                 Car car = carSelect.getCar();
                 JSlider slider = (JSlider) e.getSource();
                 int value = slider.getValue();
-                car.changeColor(new Color(RedSlider.getValue(), GreenSlider.getValue(), BlueSlider.getValue())); // updates
+                car.changeColor(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue())); // updates
                 carSelect.repaint();
             }
         };
-        RedSlider.addChangeListener(changeListener);
-        GreenSlider.addChangeListener(changeListener);
-        BlueSlider.addChangeListener(changeListener);
+        redSlider.addChangeListener(changeListener);
+        greenSlider.addChangeListener(changeListener);
+        blueSlider.addChangeListener(changeListener);
     }
 
     public void setUpButtonListeners() {
