@@ -8,7 +8,7 @@ import javax.swing.event.ChangeListener;
 
 public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
-    private SceneCanvas sceneCanvas;
+    private CarSelect carSelect;
     private JPanel startMenuMainPanel, LeftHalfPanel, RightHalfPanel, RGBPanel;
     private JButton driveButton;
     private JSlider RedSlider,  GreenSlider, BlueSlider;
@@ -17,7 +17,7 @@ public class SceneFrame extends JFrame {
         frame_width = 800;
         frame_height = 600;
 
-        sceneCanvas = new SceneCanvas();
+        carSelect = new CarSelect();
 
         startMenuMainPanel = new JPanel();
         LeftHalfPanel = new JPanel();
@@ -47,7 +47,7 @@ public class SceneFrame extends JFrame {
 
         // left half
         LeftHalfPanel.setLayout(new GridLayout(2, 1));
-        LeftHalfPanel.add(sceneCanvas);
+        LeftHalfPanel.add(carSelect);
 
         RGBPanel.setLayout(new GridLayout(3, 1));
         RGBPanel.add(RedSlider);
@@ -79,11 +79,11 @@ public class SceneFrame extends JFrame {
         ChangeListener changeListener = new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Car car = sceneCanvas.getCar();
+                Car car = carSelect.getCar();
                 JSlider slider = (JSlider) e.getSource();
                 int value = slider.getValue();
                 car.changeColor(new Color(RedSlider.getValue(), GreenSlider.getValue(), BlueSlider.getValue())); // updates
-                sceneCanvas.repaint();
+                carSelect.repaint();
             }
         };
         RedSlider.addChangeListener(changeListener);
