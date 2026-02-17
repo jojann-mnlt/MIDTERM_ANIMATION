@@ -14,10 +14,10 @@ public class GearKnob implements DrawingObject{
         secondary = Color.BLACK;
     }
     public void draw(Graphics2D g2d){
-        gearStick = new Square(x+size*4/9, y+size*61/90, size*1/9, size*1/3, primary);
+        //gearStick = new Square(x+size*4/9, y+size*61/90, size*1/9, size*1/3, primary);
         gearKnobOutline = new Circle(x, y, size, size, secondary);
         gearKnob = new Circle(x+size*1/9, y+size*1/9, size*7/9, size*7/9, primary);
-        gearStick.draw(g2d);
+        //gearStick.draw(g2d);
         gearKnobOutline.draw(g2d);
         gearKnob.draw(g2d);
     }
