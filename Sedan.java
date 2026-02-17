@@ -6,7 +6,8 @@ public class Sedan extends Car{
     private Square body, window, roof;
     private Line front_left_pillar, front_right_pillar, middle_pillar, back_left_pillar, back_right_pillar;
     public Sedan(double k, double j, double s, Color c) {
-        this.x = k;
+        // k = x, j = y, s = size, c = color
+        this.x = k; 
         this.y = j;
         this.size = s;
         this.width = size;
