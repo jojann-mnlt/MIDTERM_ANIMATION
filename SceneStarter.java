@@ -4,5 +4,8 @@ public class SceneStarter {
     System.out.println("Fuck you Johann");
     System.out.println("I put this in VS Code");
     System.out.println("I also put this in VS Code");
+
+    SceneFrame scene =  new SceneFrame();
+    scene.setUpGUI();
   }
 }
