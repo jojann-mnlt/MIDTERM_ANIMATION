@@ -2,11 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
 
-public class SceneCanvas extends JComponent {
+public class CarSelect extends JComponent {
 
     private Sedan sedan;
 
-    public SceneCanvas() {
+    public CarSelect() {
         sedan = new Sedan(0, 0, 75, Color.BLUE);
     }
 
