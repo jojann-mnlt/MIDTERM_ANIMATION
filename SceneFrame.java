@@ -152,7 +152,35 @@ public class SceneFrame extends JFrame {
             public void mouseExited(MouseEvent e){
                 System.out.println("Left gear select");
             }
-            @Override public void mouseClicked(MouseEvent e){}
+            @Override public void mouseClicked(MouseEvent e){
+                GearShifter g = gearSelect.getShifter();
+                GearKnob gk = gearSelect.getKnob();
+                System.out.println("Shift");
+                int currentGear = g.getGear();
+                int size = g.getSize();
+                double xdelta = size*8/9;
+                double ydelta = size*16/9;
+                if (currentGear == 1){
+                    gk.moveY(ydelta);
+                    g.changeGear(2);
+                } else if (currentGear == 2){
+                    gk.moveX(xdelta);
+                    gk.moveY(-ydelta);
+                    g.changeGear(3);
+                } else if (currentGear == 3){
+                    gk.moveY(ydelta);
+                    g.changeGear(4);
+                } else if (currentGear == 4){
+                    gk.moveX(xdelta);
+                    gk.moveY(-ydelta);
+                    g.changeGear(5);
+                } else if (currentGear == 5){
+                    gk.moveX(-ydelta);
+                    g.changeGear(1);
+                }
+                System.out.println(g.getGear());
+                gearSelect.repaint();
+            }
             @Override public void mousePressed(MouseEvent e){}
             @Override public void mouseReleased(MouseEvent e){}
         };
