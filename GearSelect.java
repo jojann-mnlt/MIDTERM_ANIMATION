@@ -3,8 +3,10 @@ import java.awt.*;
 import java.awt.geom.*;
 public class GearSelect extends JComponent {
     private GearShifter gears;
+    private GearKnob knob;
     public GearSelect(){
-        gears = new GearShifter(50, 0, 75, Color.WHITE);
+        gears = new GearShifter(125, 25, 50, Color.WHITE);
+        knob = new GearKnob(125, 0, 50);
     }
     @Override
     protected void paintComponent(Graphics g){
@@ -19,6 +21,8 @@ public class GearSelect extends JComponent {
 
         setPreferredSize(new Dimension(400, 300));
         gears.draw(g2d);
+        knob.draw(g2d);
     }
     public GearShifter getShifter(){return gears;}
+    public GearKnob getKnob(){return knob;}
 }
