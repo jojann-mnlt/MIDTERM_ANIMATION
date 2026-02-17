@@ -70,7 +70,10 @@ public class SceneFrame extends JFrame {
         RGBPanel.add(redPanel);
 
         // RGB Panel, 3rd Cell
-        bluePanel.setLayout(new GridLayout(1, 2));
+        bluePanel.setLayout(new BorderLayout());
+        bluePanel.add(blueSlider, BorderLayout.CENTER);
+        bluePanel.add(new JLabel(String.valueOf(blueSlider.getValue())), BorderLayout.WEST);
+        RGBPanel.add(bluePanel);
 
         RGBPanel.add(redSlider);
         RGBPanel.add(greenSlider);
