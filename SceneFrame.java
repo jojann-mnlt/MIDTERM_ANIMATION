@@ -4,11 +4,11 @@ import java.awt.event.*;
 import javax.swing.*;
 public class SceneFrame {
     private JFrame frame;
-    private int width, height;
+    private int frame_width, frame_height; 
     public SceneFrame(){
         frame = new JFrame();
-        width = 800;
-        height = 600;
+        frame_width = 800;
+        frame_height = 600;
     }
     public void setUpGUI(){
         Container cp = frame.getContentPane();
