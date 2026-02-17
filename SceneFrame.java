@@ -124,7 +124,7 @@ public class SceneFrame extends JFrame {
     public void setUpButtonListeners() {
     }
 
-    public void setUpMouseListener() {
+    public void setUpMouseListeners() {
         MouseListener mouseListener = new MouseListener() {
             GearShifter g = gearSelect.getShifter();
             @Override

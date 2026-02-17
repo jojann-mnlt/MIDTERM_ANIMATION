@@ -4,5 +4,6 @@ public class SceneStarter {
     scene.setUpGUI();
     scene.setUpSliderListeners();
     scene.setUpButtonListeners();
+    scene.setUpMouseListeners();
   }
 }
