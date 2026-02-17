@@ -4,10 +4,10 @@ import java.awt.geom.*;
 
 public class CarSelect extends JComponent {
 
-    private Sedan sedan;
-
+    private Car sedan, sportsCar;
     public CarSelect() {
         sedan = new Sedan(160, 40, 75, Color.BLUE);
+        sportsCar = new SportsCar(160, 40, 75, Color.YELLOW);
     }
 
     @Override
@@ -16,8 +16,8 @@ public class CarSelect extends JComponent {
         setPreferredSize(new Dimension(400, 300));
         g2d.setColor(Color.decode("#00bf63"));
         g2d.fillRect(0, 0, getWidth(), getHeight());
-        sedan.draw(g2d);
+        sportsCar.draw(g2d);
     }
 
-    public Sedan getCar() { return sedan; }
+    public Car getCar() { return sedan; }
 }

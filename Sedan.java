@@ -13,6 +13,8 @@ public class Sedan extends Car{
         this.height = size*2.4;
         this.color = color;
     }
+
+    @Override
     public void draw(Graphics2D g2d){
         g2d.setColor(color);
         // Instantiating car parts
