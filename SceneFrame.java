@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
     private CarSelect carSelect;
+    private GearSelect gearSelect;
     private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel, RGBPanel;
     private ArrayList<JPanel> RGBCellPanels;
     private JPanel redPanel, greenPanel, bluePanel;
@@ -19,6 +20,7 @@ public class SceneFrame extends JFrame {
         frame_height = 600;
 
         carSelect = new CarSelect();
+        gearSelect = new GearSelect();
 
         startMenuMainPanel = new JPanel();
         leftHalfPanel = new JPanel();
@@ -77,7 +79,7 @@ public class SceneFrame extends JFrame {
         rightHalfPanel.setBackground(Color.CYAN);
         rightHalfPanel.setLayout(new GridLayout(3, 1));
         rightHalfPanel.add(new JLabel("Title here", JLabel.CENTER));
-        rightHalfPanel.add(new JLabel("Insert GearStick Here", JLabel.CENTER));
+        rightHalfPanel.add(gearSelect);
         rightHalfPanel.add(new JLabel("Details", JLabel.CENTER));
 
         startMenuMainPanel.setLayout(new GridLayout(1, 2));

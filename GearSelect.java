@@ -11,4 +11,5 @@ public class GearSelect extends JComponent {
         Graphics2D g2d = (Graphics2D) g;
         gears.draw(g2d);
     }
+    public GearShifter getShifter(){return gears;}
 }
