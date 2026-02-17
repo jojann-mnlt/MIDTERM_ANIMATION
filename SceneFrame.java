@@ -159,7 +159,7 @@ public class SceneFrame extends JFrame {
                 int currentGear = g.getGear();
                 int size = g.getSize();
                 double xdelta = size*8/9;
-                double ydelta = size*16/9;
+                double ydelta = size*3/2;
                 if (currentGear == 1){
                     gk.moveY(ydelta);
                     g.changeGear(2);
@@ -175,7 +175,7 @@ public class SceneFrame extends JFrame {
                     gk.moveY(-ydelta);
                     g.changeGear(5);
                 } else if (currentGear == 5){
-                    gk.moveX(-ydelta);
+                    gk.moveX(-size*16/9);
                     g.changeGear(1);
                 }
                 System.out.println(g.getGear());

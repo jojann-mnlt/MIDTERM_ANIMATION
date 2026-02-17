@@ -5,19 +5,20 @@ public class GearKnob implements DrawingObject{
     private Square gearStick;
     private double x, y;
     private int size;
-    private Color primary, secondary;
+    private Color knobMain, knobOutline, stickColor;
     public GearKnob(double x, double y, int size){
         this.x = x;
         this.y = y;
         this.size = size;
-        primary = Color.WHITE;
-        secondary = Color.BLACK;
+        knobMain = Color.WHITE;
+        knobOutline = Color.BLACK;
+        stickColor = Color.decode("#585858");
     }
     public void draw(Graphics2D g2d){
-        //gearStick = new Square(x+size*4/9, y+size*61/90, size*1/9, size*1/3, primary);
-        gearKnobOutline = new Circle(x, y, size, size, secondary);
-        gearKnob = new Circle(x+size*1/9, y+size*1/9, size*7/9, size*7/9, primary);
-        //gearStick.draw(g2d);
+        gearStick = new Square(x+size*4/9, y+size*5/6, size*1/9, size*1/3, stickColor);
+        gearKnobOutline = new Circle(x, y, size, size, knobOutline);
+        gearKnob = new Circle(x+size*1/9, y+size*1/9, size*7/9, size*7/9, knobMain);
+        gearStick.draw(g2d);
         gearKnobOutline.draw(g2d);
         gearKnob.draw(g2d);
     }

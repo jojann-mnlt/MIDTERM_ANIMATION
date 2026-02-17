@@ -6,7 +6,7 @@ public class GearSelect extends JComponent {
     private GearKnob knob;
     public GearSelect(){
         gears = new GearShifter(125, 25, 50, Color.WHITE);
-        knob = new GearKnob(125, 25, 50);
+        knob = new GearKnob(125, 0, 50);
     }
     @Override
     protected void paintComponent(Graphics g){
