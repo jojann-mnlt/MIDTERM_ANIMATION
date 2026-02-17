@@ -20,8 +20,8 @@ public class Circle implements DrawingObject {
         g2d.fill(square);
     }
 
-    public double getX() {return x;} // Made all the getter methods one line.
-    public double getY() {return y;}
-    public void moveX(double amount) {x += amount;}
-    public void moveY(double amount) {y += amount;}
+    public double getX() { return x; } // Made all the getter methods one line.
+    public double getY() { return y; }
+    public void moveX(double amount) { x += amount; }
+    public void moveY(double amount) { y += amount; }
 }
