@@ -7,7 +7,7 @@ public class SceneCanvas extends JComponent {
     private Sedan sedan;
 
     public SceneCanvas() {
-        sedan = new Sedan(0, 0, 75, Color.BLUE);
+        sedan = new Sedan(160, 40, 75, Color.BLUE);
     }
 
     @Override

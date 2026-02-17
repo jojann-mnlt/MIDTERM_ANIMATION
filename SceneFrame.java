@@ -1,6 +1,7 @@
 // This is the base class for the GUI. You can make any additions as you wish. Don't delete anything.
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -24,23 +25,21 @@ public class SceneFrame extends JFrame {
         driveButton = new JButton("Drive");
 
         RGBPanel = new JPanel();
-        RedSlider = new JSlider(JSlider.HORIZONTAL, 255, 0);
-        GreenSlider = new JSlider(JSlider.HORIZONTAL, 255, 0);
-        BlueSlider = new JSlider(JSlider.HORIZONTAL, 255, 0);
+        RedSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
+        GreenSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
+        BlueSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
+        ArrayList<JSlider> sliders = new ArrayList<>();
+        sliders.add(GreenSlider);
+        sliders.add(BlueSlider);
+        sliders.add(RedSlider);
 
-        RedSlider.setPaintTrack(true);
-        RedSlider.setPaintTicks(true);
-        RedSlider.setPaintLabels(true);
-        RedSlider.setMajorTickSpacing(50);
-        RedSlider.setMinorTickSpacing(5);
-
-        GreenSlider.setPaintTrack(true);
-        GreenSlider.setPaintTicks(true);
-        GreenSlider.setPaintLabels(true);
-
-        BlueSlider.setPaintTrack(true);
-        BlueSlider.setPaintTicks(true);
-        BlueSlider.setPaintLabels(true);
+        for (JSlider slider : sliders) {
+            slider.setPaintTrack(true);
+            slider.setPaintTicks(true);
+            slider.setPaintLabels(true);
+            slider.setMajorTickSpacing(255);
+            slider.setMinorTickSpacing(5);
+        }
     }
 
     public void setUpGUI() {
