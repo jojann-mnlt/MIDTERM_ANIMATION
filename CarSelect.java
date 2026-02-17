@@ -7,7 +7,7 @@ public class CarSelect extends JComponent {
     private Sedan sedan;
 
     public CarSelect() {
-        sedan = new Sedan(0, 0, 75, Color.BLUE);
+        sedan = new Sedan(160, 40, 75, Color.BLUE);
     }
 
     @Override

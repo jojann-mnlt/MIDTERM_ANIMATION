@@ -10,7 +10,6 @@ public class SceneFrame extends JFrame {
     private CarSelect carSelect;
     private GearSelect gearSelect;
     private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel, RGBPanel;
-    private ArrayList<JPanel> RGBCellPanels;
     private JPanel redPanel, greenPanel, bluePanel;
     private JButton driveButton;
     private JSlider redSlider, greenSlider, blueSlider;
@@ -36,11 +35,6 @@ public class SceneFrame extends JFrame {
         greenSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
         blueSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
         ArrayList<JSlider> sliders = new ArrayList<>();
-
-        RGBCellPanels = new ArrayList<>();
-        RGBCellPanels.add(redPanel);
-        RGBCellPanels.add(greenPanel);
-        RGBCellPanels.add(bluePanel);
 
         sliders.add(greenSlider);
         sliders.add(blueSlider);
@@ -70,6 +64,14 @@ public class SceneFrame extends JFrame {
         RGBPanel.add(RGBLabel);
 
         // RGB Panel, 2nd Cell
+        redPanel.setLayout(new BorderLayout());
+        redPanel.add(redSlider, BorderLayout.CENTER);
+        redPanel.add(new JLabel(String.valueOf(redSlider.getValue())), BorderLayout.WEST);
+        RGBPanel.add(redPanel);
+
+        // RGB Panel, 3rd Cell
+        bluePanel.setLayout(new GridLayout(1, 2));
+
         RGBPanel.add(redSlider);
         RGBPanel.add(greenSlider);
         RGBPanel.add(blueSlider);
