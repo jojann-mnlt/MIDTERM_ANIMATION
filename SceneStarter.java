@@ -1,4 +1,4 @@
-public class test {
+public class SceneStarter {
   public static void main (String[] args) {
     System.out.println("Jacob is a bitch");
   }
