@@ -144,7 +144,6 @@ public class SceneFrame extends JFrame {
 
     public void setUpMouseListeners() {
         MouseListener mouseListener = new MouseListener() {
-            GearShifter g = gearSelect.getShifter();
             @Override
             public void mouseEntered(MouseEvent e){
                 System.out.println("Ready to shift");
