@@ -1,5 +1,7 @@
 // This is the base class for the GUI. You can make any additions as you wish. Don't delete anything.
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -117,5 +119,23 @@ public class SceneFrame extends JFrame {
     }
 
     public void setUpButtonListeners() {
+    }
+
+    public void setUpMouseListener() {
+        MouseListener mouseListener = new MouseListener() {
+            GearShifter g = gearSelect.getShifter();
+            @Override
+            public void mouseEntered(MouseEvent e){
+                System.out.println("Ready to shift");
+            }
+            @Override
+            public void mouseExited(MouseEvent e){
+                System.out.println("Left gear select");
+            }
+            @Override public void mouseClicked(MouseEvent e){}
+            @Override public void mousePressed(MouseEvent e){}
+            @Override public void mouseReleased(MouseEvent e){}
+        };
+        gearSelect.addMouseListener(mouseListener);
     }
 }
