@@ -83,33 +83,15 @@ public class SceneFrame extends JFrame {
                 Car car = sceneCanvas.getCar();
                 JSlider slider = (JSlider) e.getSource();
                 int value = slider.getValue();
-
-                if (!slider.getValueIsAdjusting()) {
-                    System.out.println("The value is " + value);
-                    car.changeColor(new Color(RedSlider.getValue(), GreenSlider.getValue(), BlueSlider.getValue()));
-                    sceneCanvas.repaint();
-                }
-
-
-
+                car.changeColor(new Color(RedSlider.getValue(), GreenSlider.getValue(), BlueSlider.getValue())); // updates
+                sceneCanvas.repaint();
             }
         };
-
         RedSlider.addChangeListener(changeListener);
         GreenSlider.addChangeListener(changeListener);
         BlueSlider.addChangeListener(changeListener);
     }
 
     public void setUpButtonListeners() {
-        driveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Car car = sceneCanvas.getCar();
-                System.out.println(RedSlider.getValue());
-                System.out.println(GreenSlider.getValue());
-                System.out.println(BlueSlider.getValue());
-                car.changeColor(new Color(RedSlider.getValue(), GreenSlider.getValue(), BlueSlider.getValue()));
-            }
-        });
     }
 }
