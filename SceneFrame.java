@@ -15,13 +15,13 @@ public class SceneFrame extends JFrame {
     private CarSelect carSelect;
     private GearSelect gearSelect;
 
-    private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel, RGBPanel;
+    private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel, RGBPanel, carSelectPanel, selectButtonPanel;
 
     private JPanel redPanel, greenPanel, bluePanel;
     private JPanel red, green, blue;
     private JSlider redSlider, greenSlider, blueSlider;
 
-    private JButton driveButton;
+    private JButton driveButton, selectLeftButton, selectRightButton, selectCarButton;
 
     public SceneFrame() {
         frame_width = 800;
@@ -34,6 +34,13 @@ public class SceneFrame extends JFrame {
         leftHalfPanel = new JPanel();
         rightHalfPanel = new JPanel();
         driveButton = new JButton("Drive");
+
+        carSelectPanel = new JPanel();
+        selectButtonPanel = new JPanel();
+
+        selectLeftButton = new JButton("<");
+        selectRightButton = new JButton(">");
+        selectCarButton = new JButton("Select Car");
 
         RGBPanel = new JPanel();
         redPanel = new JPanel();
@@ -69,7 +76,15 @@ public class SceneFrame extends JFrame {
 
         // left half
         leftHalfPanel.setLayout(new GridLayout(2, 1));
-        leftHalfPanel.add(carSelect);
+        carSelectPanel.setLayout(new BorderLayout());
+        carSelectPanel.add(carSelect);
+        selectButtonPanel.setLayout(new BorderLayout());
+        selectButtonPanel.add(selectLeftButton, BorderLayout.WEST);
+        selectButtonPanel.add(selectRightButton, BorderLayout.EAST);
+        selectButtonPanel.add(selectCarButton);
+        carSelectPanel.add(carSelect, BorderLayout.CENTER);
+        carSelectPanel.add(selectButtonPanel, BorderLayout.SOUTH);
+        leftHalfPanel.add(carSelectPanel);
 
         RGBPanel.setLayout(new GridLayout(4, 1));
 
@@ -190,14 +205,19 @@ public class SceneFrame extends JFrame {
         ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == driveButton) {
+                if (e.getSource() == selectCarButton || e.getSource() == selectRightButton) {
                     System.out.println("Changing car...");
-                    carSelect.changeVehicle();
+                    carSelect.changeVehicle(1);
+                } else if (e.getSource() == selectLeftButton) {
+                    System.out.println("Changing left...");
+                    carSelect.changeVehicle(-1);
                 }
                 carSelect.repaint();
             }
         };
 
-        driveButton.addActionListener(actionListener);
+        selectCarButton.addActionListener(actionListener);
+        selectLeftButton.addActionListener(actionListener);
+        selectRightButton.addActionListener(actionListener);
     }
 }
