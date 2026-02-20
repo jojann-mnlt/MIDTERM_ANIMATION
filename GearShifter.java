@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.geom.*;
 public class GearShifter implements DrawingObject{
     private Square gap, gap12, gap34, gap5;
     private int gearLevel;
@@ -14,12 +13,12 @@ public class GearShifter implements DrawingObject{
         accent = Color.decode("#292929");
     }
     public void draw(Graphics2D g2d){
-        // Instantiating gear shifter parts
+        // Instantiating
         gap = new Square(x+size*7/18, y+size*23/18, size*2, size*2/9, accent);
         gap12 = new Square(x+size*7/18, y+size*0.5, size*2/9, size*16/9, accent);
         gap34 = new Square(x+size*23/18, y+size*0.5, size*2/9, size*16/9, accent);
         gap5 = new Square(x+size*13/6, y+size*0.5, size*2/9, size*7/9, accent);
-        // Rendering gear shifter parts
+        // Rendering
         gap.draw(g2d);
         gap12.draw(g2d);
         gap34.draw(g2d);

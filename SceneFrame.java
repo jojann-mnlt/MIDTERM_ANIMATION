@@ -1,10 +1,7 @@
 // This is the base class for the GUI. You can make any additions as you wish. Don't delete anything.
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.ArrayList;
+import java.awt.event.*;
+import java.util.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -170,43 +167,39 @@ public class SceneFrame extends JFrame {
 
     public void setUpMouseListeners() {
         MouseListener mouseListener = new MouseListener() {
-            @Override
-            public void mouseEntered(MouseEvent e){
-                System.out.println("Ready to shift");
-            }
-            @Override
-            public void mouseExited(MouseEvent e){
-                System.out.println("Left gear select");
-            }
             @Override public void mouseClicked(MouseEvent e){
-                GearShifter g = gearSelect.getShifter();
-                GearKnob gk = gearSelect.getKnob();
-                System.out.println("Shift");
-                int currentGear = g.getGear();
-                int size = g.getSize();
-                double xdelta = size*8/9;
-                double ydelta = size*3/2;
-                if (currentGear == 1){
-                    gk.moveY(ydelta);
-                    g.changeGear(2);
-                } else if (currentGear == 2){
-                    gk.moveX(xdelta);
-                    gk.moveY(-ydelta);
-                    g.changeGear(3);
-                } else if (currentGear == 3){
-                    gk.moveY(ydelta);
-                    g.changeGear(4);
-                } else if (currentGear == 4){
-                    gk.moveX(xdelta);
-                    gk.moveY(-ydelta);
-                    g.changeGear(5);
-                } else if (currentGear == 5){
-                    gk.moveX(-size*16/9);
-                    g.changeGear(1);
+                JComponent eventSource = (JComponent) e.getSource();
+                if (eventSource == gearSelect) {
+                    GearShifter g = gearSelect.getShifter();
+                    GearKnob gk = gearSelect.getKnob();
+                    int currentGear = g.getGear();
+                    int size = g.getSize();
+                    double xdelta = size*8/9;
+                    double ydelta = size*3/2;
+                    if (currentGear == 1){
+                        gk.moveY(ydelta);
+                        g.changeGear(2);
+                    } else if (currentGear == 2){
+                        gk.moveX(xdelta);
+                        gk.moveY(-ydelta);
+                        g.changeGear(3);
+                    } else if (currentGear == 3){
+                        gk.moveY(ydelta);
+                        g.changeGear(4);
+                    } else if (currentGear == 4){
+                        gk.moveX(xdelta);
+                        gk.moveY(-ydelta);
+                        g.changeGear(5);
+                    } else if (currentGear == 5){
+                        gk.moveX(-size*16/9);
+                        g.changeGear(1);
+                    }
+                    gearSelect.repaint();
                 }
-                System.out.println(g.getGear());
-                gearSelect.repaint();
             }
+            //Unused methods
+            @Override public void mouseEntered(MouseEvent e){}
+            @Override public void mouseExited(MouseEvent e){}
             @Override public void mousePressed(MouseEvent e){}
             @Override public void mouseReleased(MouseEvent e){}
         };

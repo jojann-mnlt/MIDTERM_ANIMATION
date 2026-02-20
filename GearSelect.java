@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.*;
 public class GearSelect extends JComponent {
     private GearShifter gears;
     private GearKnob knob;
