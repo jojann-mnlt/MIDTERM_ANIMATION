@@ -14,6 +14,7 @@ public class SceneFrame extends JFrame {
 
     private CarSelect carSelect;
     private GearSelect gearSelect;
+    private SceneCanvas sceneCanvas;
 
     private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel, RGBPanel, carSelectPanel, selectButtonPanel;
 
@@ -137,6 +138,17 @@ public class SceneFrame extends JFrame {
         setVisible(true);
     }
 
+    private void setUpGameGUI() {
+        Container cp = getContentPane();
+        cp.repaint();
+        cp.add(sceneCanvas = new SceneCanvas(frame_width, frame_height));
+
+        setTitle("Midterm Project - Buenaventura - Manulat");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setPreferredSize(new Dimension(frame_width, frame_height));
+        setVisible(true);
+    }
+
     public void setUpSliderListeners() {
         ChangeListener changeListener = new ChangeListener() {
             @Override
@@ -216,8 +228,20 @@ public class SceneFrame extends JFrame {
             }
         };
 
+        ActionListener startButtonListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Starting...");
+                getContentPane().removeAll();
+                setUpGameGUI();
+                revalidate();
+                repaint();
+            }
+        };
+
         selectCarButton.addActionListener(actionListener);
         selectLeftButton.addActionListener(actionListener);
         selectRightButton.addActionListener(actionListener);
+        driveButton.addActionListener(startButtonListener);
     }
 }
