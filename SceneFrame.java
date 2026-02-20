@@ -1,5 +1,7 @@
 // This is the base class for the GUI. You can make any additions as you wish. Don't delete anything.
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -139,9 +141,6 @@ public class SceneFrame extends JFrame {
         blueSlider.addChangeListener(changeListener);
     }
 
-    public void setUpButtonListeners() {
-    }
-
     public void setUpMouseListeners() {
         MouseListener mouseListener = new MouseListener() {
             @Override
@@ -185,5 +184,20 @@ public class SceneFrame extends JFrame {
             @Override public void mouseReleased(MouseEvent e){}
         };
         gearSelect.addMouseListener(mouseListener);
+    }
+
+    public void setUpButtonListeners() {
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (e.getSource() == driveButton) {
+                    System.out.println("Changing car...");
+                    carSelect.changeVehicle();
+                }
+                carSelect.repaint();
+            }
+        };
+
+        driveButton.addActionListener(actionListener);
     }
 }

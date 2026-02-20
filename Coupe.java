@@ -1,12 +1,13 @@
 import java.awt.*;
-import java.awt.geom.*;
-public abstract class Car implements DrawingObject {
+
+public class Coupe extends Car {
     private double x, y, width, height, size;
-
     private Color color;
-    private Square body;
+    private
 
-    public abstract void draw(Graphics2D g2d);
+    public void draw(Graphics2D g2d) {
+
+    }
 
     public double getX(){return x;}
     public double getY(){return y;}
