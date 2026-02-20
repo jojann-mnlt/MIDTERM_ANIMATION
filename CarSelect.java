@@ -10,12 +10,11 @@ public class CarSelect extends JComponent {
     private ArrayList<Car> cars;
 
     public CarSelect() {
-        sedan = new Sedan(160, 40, 75, Color.BLUE);
-        coupe = new Coupe(160, 40, 75, Color.BLUE);
+        sedan = new Sedan(160, 40, 75, Color.WHITE);
+        coupe = new Coupe(160, 40, 75, Color.WHITE);
         cars = new ArrayList<>();
         cars.add(sedan);
         cars.add(coupe);
-        cars.add(new Sedan(160, 40, 75, Color.YELLOW));
         currentCar = 0;
     }
 

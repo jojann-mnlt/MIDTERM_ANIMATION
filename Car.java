@@ -1,10 +1,7 @@
 import java.awt.*;
-import java.awt.geom.*;
 public abstract class Car implements DrawingObject {
-    private double x, y, width, height, size;
-
+    private double x, y;
     private Color color;
-    private Square body;
 
     public abstract void draw(Graphics2D g2d);
 

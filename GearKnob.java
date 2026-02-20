@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.geom.*;
 public class GearKnob implements DrawingObject{
     private Circle gearKnob, gearKnobOutline;
     private Square gearStick;
