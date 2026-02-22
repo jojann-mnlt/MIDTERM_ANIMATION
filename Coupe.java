@@ -5,6 +5,7 @@ public class Coupe extends Car {
     private Square base, body, windowBase, roof;
     private Circle frontBumper, frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel, windshield, rearWindow, roofFront, roofBack, rearBumper;
     private Line aPillarL, aPillarR, cPillarL,  cPillarR, bPillar;
+    private String carModel;
 
     public Coupe(double x, double y, double size, Color color) {
         this.x = x;
@@ -14,6 +15,7 @@ public class Coupe extends Car {
         this.height = size*2.4;
         this.color = color;
         windowColor = Color.decode("#202020");
+        carModel = "Coupe";
     }
 
     @Override
@@ -60,6 +62,7 @@ public class Coupe extends Car {
         bPillar.draw(g2d);
         cPillarL.draw(g2d);
         cPillarR.draw(g2d);
-
     }
+    @Override public String getCarModel(){return carModel;}
+    @Override public void changeColor(Color newColor){color = newColor;}
 }

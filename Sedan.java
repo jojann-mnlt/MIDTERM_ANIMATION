@@ -6,6 +6,7 @@ public class Sedan extends Car{
     private Circle frontBumper, rearBumper, windShield, rearWindow, roofFront, roofRear;
     private Triangle frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel;
     private Line aPillarL, aPillarR, cPillarL, cPillarR, bPillar;
+    private String carModel;
 
     public Sedan(double x, double y, double size, Color color) {
         this.x = x;
@@ -15,6 +16,7 @@ public class Sedan extends Car{
         this.height = size*2.4;
         this.color = color;
         windowColor = Color.decode("#202020");
+        carModel = "Sedan";
     }
 
     @Override
@@ -66,4 +68,6 @@ public class Sedan extends Car{
         cPillarL.draw(g2d);
         cPillarR.draw(g2d);
     }
+    @Override public String getCarModel(){return carModel;}
+    @Override public void changeColor(Color newColor){color = newColor;}
 }

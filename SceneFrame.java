@@ -18,7 +18,7 @@ public class SceneFrame extends JFrame {
     private JPanel red, green, blue;
     private JSlider redSlider, greenSlider, blueSlider;
 
-    private JButton driveButton, selectLeftButton, selectRightButton, selectCarButton;
+    private JButton driveButton;
 
     public SceneFrame() {
         frame_width = 800;
@@ -34,10 +34,6 @@ public class SceneFrame extends JFrame {
 
         carSelectPanel = new JPanel();
         selectButtonPanel = new JPanel();
-
-        selectLeftButton = new JButton("<");
-        selectRightButton = new JButton(">");
-        selectCarButton = new JButton("Select Car");
 
         RGBPanel = new JPanel();
         redPanel = new JPanel();
@@ -76,9 +72,7 @@ public class SceneFrame extends JFrame {
         carSelectPanel.setLayout(new BorderLayout());
         carSelectPanel.add(carSelect);
         selectButtonPanel.setLayout(new BorderLayout());
-        selectButtonPanel.add(selectLeftButton, BorderLayout.WEST);
-        selectButtonPanel.add(selectRightButton, BorderLayout.EAST);
-        selectButtonPanel.add(selectCarButton);
+
         carSelectPanel.add(carSelect, BorderLayout.CENTER);
         carSelectPanel.add(selectButtonPanel, BorderLayout.SOUTH);
         leftHalfPanel.add(carSelectPanel);
@@ -86,8 +80,8 @@ public class SceneFrame extends JFrame {
         RGBPanel.setLayout(new GridLayout(4, 1));
 
         // RGB Panel, 1st Cell
-        JLabel RGBLabel = new JLabel("SELECT CAR COLOR", JLabel.CENTER);
-        RGBLabel.setFont(new Font("Times New Roman", Font.BOLD, 30));
+        JLabel RGBLabel = new JLabel("Select Car Color", JLabel.CENTER);
+        RGBLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
         RGBPanel.add(RGBLabel);
 
         // RGB Panel, 2nd Cell (RED)
@@ -151,7 +145,6 @@ public class SceneFrame extends JFrame {
             public void stateChanged(ChangeEvent e) {
                 Car car = carSelect.getCar();
                 JSlider slider = (JSlider) e.getSource();
-                int value = slider.getValue();
                 car.changeColor(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue()));// updates
                 carSelect.repaint();
                 red.setBackground(new Color(redSlider.getValue(), 0, 0));
@@ -194,6 +187,10 @@ public class SceneFrame extends JFrame {
                         g.changeGear(1);
                     }
                     gearSelect.repaint();
+                } else if (eventSource == carSelect) {
+                    carSelect.changeVehicle(1);
+                    System.out.println("Car Change: "+carSelect.getCar().getCarModel());
+                    carSelect.repaint();
                 }
             }
             //Unused methods
@@ -203,37 +200,22 @@ public class SceneFrame extends JFrame {
             @Override public void mouseReleased(MouseEvent e){}
         };
         gearSelect.addMouseListener(mouseListener);
+        carSelect.addMouseListener(mouseListener);
     }
 
     public void setUpButtonListeners() {
-        ActionListener actionListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (e.getSource() == selectCarButton || e.getSource() == selectRightButton) {
-                    System.out.println("Changing car...");
-                    carSelect.changeVehicle(1);
-                } else if (e.getSource() == selectLeftButton) {
-                    System.out.println("Changing left...");
-                    carSelect.changeVehicle(-1);
-                }
-                carSelect.repaint();
-            }
-        };
-
         ActionListener startButtonListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Starting...");
                 getContentPane().removeAll();
                 setUpGameGUI();
                 revalidate();
                 repaint();
+                System.out.println("Car Model: "+carSelect.getCar().getCarModel());
+                System.out.println("Car Color: "+carSelect.getCar().getColor());
+                System.out.println("Gear Level: "+gearSelect.getShifter().getGear());
             }
         };
-
-        selectCarButton.addActionListener(actionListener);
-        selectLeftButton.addActionListener(actionListener);
-        selectRightButton.addActionListener(actionListener);
         driveButton.addActionListener(startButtonListener);
     }
 }
