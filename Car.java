@@ -13,6 +13,8 @@ public abstract class Car implements DrawingObject {
 
     public void moveX(double amount){x += amount;}
     public void moveY(double amount){y += amount;}
+    public abstract void moveTo(double x, double y);
 
-    public void changeColor(Color newColor){color = newColor;}
+    public abstract void changeColor(Color newColor);
+    public abstract void changeSize(double size);
 }

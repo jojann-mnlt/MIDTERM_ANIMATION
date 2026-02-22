@@ -20,6 +20,9 @@ public class SceneFrame extends JFrame {
 
     private JButton driveButton;
 
+    private Car selectedCar;
+    private int selectedGear;
+
     public SceneFrame() {
         frame_width = 800;
         frame_height = 600;
@@ -207,12 +210,13 @@ public class SceneFrame extends JFrame {
         ActionListener startButtonListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                selectedCar = carSelect.getCar();
+                selectedGear = gearSelect.getShifter().getGear();
                 getContentPane().removeAll();
                 setUpGameGUI();
                 revalidate();
                 repaint();
                 System.out.println("Car Model: "+carSelect.getCar().getCarModel());
-                System.out.println("Car Color: "+carSelect.getCar().getColor());
                 System.out.println("Gear Level: "+gearSelect.getShifter().getGear());
             }
         };

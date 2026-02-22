@@ -70,4 +70,9 @@ public class Sedan extends Car{
     }
     @Override public String getCarModel(){return carModel;}
     @Override public void changeColor(Color newColor){color = newColor;}
+    @Override public void moveTo(double x, double y){
+        this.x = x;
+        this.y = y;
+    }
+    @Override public void changeSize(double size){this.size = size;}
 }
