@@ -42,4 +42,6 @@ public class CarSelect extends JComponent {
             currentCar = 0;
         }
     }
+
+    public ArrayList<Car> getListOfCars() { return cars; }
 }

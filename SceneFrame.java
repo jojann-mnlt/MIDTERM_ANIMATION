@@ -65,6 +65,10 @@ public class SceneFrame extends JFrame {
             slider.setMajorTickSpacing(255);
             slider.setMinorTickSpacing(5);
         }
+        setUpGUI();
+        setUpButtonListeners();
+        setUpMouseListeners();
+        setUpSliderListeners();
     }
 
     public void setUpGUI() {
@@ -134,7 +138,7 @@ public class SceneFrame extends JFrame {
     private void setUpGameGUI() {
         Container cp = getContentPane();
         cp.repaint();
-        cp.add(sceneCanvas = new SceneCanvas(frame_width, frame_height));
+        cp.add(sceneCanvas = new SceneCanvas(frame_width, frame_height, selectedCar));
 
         setTitle("Midterm Project - Buenaventura - Manulat");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -216,8 +220,8 @@ public class SceneFrame extends JFrame {
                 setUpGameGUI();
                 revalidate();
                 repaint();
-                System.out.println("Car Model: "+carSelect.getCar().getCarModel());
-                System.out.println("Gear Level: "+gearSelect.getShifter().getGear());
+                System.out.println("Car Model: "+ selectedCar.getCarModel());
+                System.out.println("Gear Level: "+ selectedGear);
             }
         };
         driveButton.addActionListener(startButtonListener);

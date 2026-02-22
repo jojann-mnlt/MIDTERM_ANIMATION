@@ -1,6 +1,6 @@
 import java.awt.*;
 public class Coupe extends Car {
-    private double x, y, width, height, size;
+    private double x, y, width, height, size, angle;
     private Color color, windowColor;
     private Square base, body, windowBase, roof;
     private Circle frontBumper, frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel, windshield, rearWindow, roofFront, roofBack, rearBumper;
@@ -14,12 +14,14 @@ public class Coupe extends Car {
         this.width = size;
         this.height = size*2.4;
         this.color = color;
+        angle = 0;
         windowColor = Color.decode("#202020");
         carModel = "Coupe";
     }
 
     @Override
     public void draw(Graphics2D g2d) {
+        g2d.rotate(Math.toRadians(angle), x+size*.50, y+size*.50);
         //Body
         base = new Square(x, y, width, height, Color.GRAY);
         frontBumper = new Circle(x+size*0.025, y+size*.30, width*.95, height*5/24, color);
@@ -70,4 +72,6 @@ public class Coupe extends Car {
         this.y = y;
     }
     @Override public void changeSize(double size){this.size = size;}
+    @Override public void rotateLeft(){this.angle = 15;}
+    @Override public void rotateRight(){this.angle = -15;}
 }

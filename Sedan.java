@@ -1,6 +1,6 @@
 import java.awt.*;
 public class Sedan extends Car{
-    private double x, y, width, height, size;
+    private double x, y, width, height, size, angle;
     private Color color, windowColor;
     private Square base, hood, body, trunk, windowBase, roof;
     private Circle frontBumper, rearBumper, windShield, rearWindow, roofFront, roofRear;
@@ -15,12 +15,15 @@ public class Sedan extends Car{
         this.width = size;
         this.height = size*2.4;
         this.color = color;
+        this.angle = 0;
         windowColor = Color.decode("#202020");
         carModel = "Sedan";
     }
 
     @Override
     public void draw(Graphics2D g2d){
+        g2d.rotate(Math.toRadians(angle), x+size*.50, y+size*.50);
+
         //Body
         base = new Square(x, y, width, height, Color.GRAY);
         frontBumper = new Circle(x+size*0.025, y, width*0.95, height*0.125, color);
@@ -46,7 +49,6 @@ public class Sedan extends Car{
         cPillarL = new Line(x+size*0.05, y+size*2.028, x+size*0.225, y+size*1.744, 6, color);
         cPillarR = new Line(x+size*0.95, y+size*2.028, x+size*0.775, y+size*1.744, 6, color);
         //Render
-        base.draw(g2d);
         frontBumper.draw(g2d);
         hood.draw(g2d);
         frontLeftWheel.draw(g2d);
@@ -75,4 +77,7 @@ public class Sedan extends Car{
         this.y = y;
     }
     @Override public void changeSize(double size){this.size = size;}
+    @Override public void rotateLeft(){this.angle = 15;}
+    @Override public void rotateRight(){this.angle = -15;}
+
 }

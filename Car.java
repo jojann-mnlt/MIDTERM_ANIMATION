@@ -1,6 +1,6 @@
 import java.awt.*;
 public abstract class Car implements DrawingObject {
-    private double x, y;
+    private double x, y, angle;
     private Color color;
     private String carModel;
 
@@ -17,4 +17,6 @@ public abstract class Car implements DrawingObject {
 
     public abstract void changeColor(Color newColor);
     public abstract void changeSize(double size);
+    public abstract void rotateLeft();
+    public abstract void rotateRight();
 }
