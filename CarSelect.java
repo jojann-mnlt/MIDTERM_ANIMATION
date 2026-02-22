@@ -4,16 +4,20 @@ import java.util.*;
 
 public class CarSelect extends JComponent {
 
-    private Car sedan, coupe;
+    private Car sedan, coupe, test, test2;
     private int currentCar;
     private ArrayList<Car> cars;
 
     public CarSelect() {
         sedan = new Sedan(160, 40, 75, 0, Color.WHITE);
         coupe = new Coupe(160, 40, 75, 0, Color.WHITE);
+        test = new TestCar(160, 40, 75, 0, Color.YELLOW); // Proof of concept, delete if necessary
+        test2 = new TestCar2(160, 40, 75, 0, Color.YELLOW); 
         cars = new ArrayList<>();
         cars.add(sedan);
         cars.add(coupe);
+        cars.add(test);
+        cars.add(test2);
         currentCar = 0;
     }
 
@@ -34,11 +38,11 @@ public class CarSelect extends JComponent {
     }
 
     public Car getCar() { return cars.get(currentCar); }
-    public void changeVehicle(int amount) {
-        currentCar += amount;
-        if (currentCar < 0) {
-            currentCar = cars.size() - 1;
-        } else if (currentCar >= cars.size()) {
+    public void changeVehicle() {
+        // currentCar += amount;
+        if (currentCar < cars.size()) {
+            currentCar += 1;
+        } else {
             currentCar = 0;
         }
     }

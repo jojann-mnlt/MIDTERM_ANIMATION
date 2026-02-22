@@ -197,7 +197,7 @@ public class SceneFrame extends JFrame {
                     System.out.println("Current Gear: "+gearSelect.getShifter().getGear());
                     gearSelect.repaint();
                 } else if (eventSource == carSelect) {
-                    carSelect.changeVehicle(1);
+                    carSelect.changeVehicle();
                     System.out.println("Car Change: "+carSelect.getCar().getCarModel());
                     carSelect.repaint();
                 }
@@ -218,7 +218,6 @@ public class SceneFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 selectedCar = carSelect.getCar();
                 selectedGear = gearSelect.getShifter().getGear();
-                selectedCar.changeSize(100);
                 getContentPane().removeAll();
                 setUpGameGUI();
                 revalidate();
