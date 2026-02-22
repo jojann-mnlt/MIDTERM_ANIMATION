@@ -14,9 +14,9 @@ public class GearKnob implements DrawingObject{
         stickColor = Color.decode("#585858");
     }
     public void draw(Graphics2D g2d){
-        gearStick = new Square(x+size*4/9, y+size*5/6, size*1/9, size*1/3, stickColor);
-        gearKnobOutline = new Circle(x, y, size, size, knobOutline);
-        gearKnob = new Circle(x+size*1/9, y+size*1/9, size*7/9, size*7/9, knobMain);
+        gearKnobOutline = new Circle(x, y, size*0.9, size*0.9, knobOutline);
+        gearKnob = new Circle(x+size*0.1, y+size*0.1, size*0.7, size*0.7, knobMain);
+        gearStick = new Square(x+size*0.4, y+size*0.45, size*0.1, size*0.6, stickColor);
         gearStick.draw(g2d);
         gearKnobOutline.draw(g2d);
         gearKnob.draw(g2d);

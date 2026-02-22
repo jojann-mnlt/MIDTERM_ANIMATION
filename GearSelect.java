@@ -1,17 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.*;
+
 public class GearSelect extends JComponent {
+    private double x, y;
+    private int size;
     private GearShifter gears;
     private GearKnob knob;
-    private Square gearStickArea;
-    private Square gearStickAreaOuter;
+    private ArrayList<DrawingObject> shifterParts;
 
     public GearSelect(){
-        gears = new GearShifter(125, 25, 50, Color.WHITE);
-        knob = new GearKnob(125, 0, 50);
-        gearStickArea = new Square(129, 30, 130, 130, Color.BLACK);
-        gearStickAreaOuter = new Square(120, 20, 150, 150, Color.GRAY);
-
+        shifterParts = new ArrayList<DrawingObject>();
+        x = 130;
+        y = 70;
+        size = 70;
+        gears = new GearShifter(x, y, size, Color.WHITE);
+        knob = new GearKnob(x-size*0.05, y-size*0.65, size);
+        shifterParts.add(gears);
+        shifterParts.add(knob);
     }
     @Override
     protected void paintComponent(Graphics g){
@@ -28,10 +34,9 @@ public class GearSelect extends JComponent {
         g2d.addRenderingHints(AA);
 
         setPreferredSize(new Dimension(400, 300));
-        gearStickAreaOuter.draw(g2d);
-        gearStickArea.draw(g2d);
-        gears.draw(g2d);
-        knob.draw(g2d);
+        for (DrawingObject p : shifterParts){
+            p.draw(g2d);
+        }
     }
     public GearShifter getShifter(){return gears;}
     public GearKnob getKnob(){return knob;}

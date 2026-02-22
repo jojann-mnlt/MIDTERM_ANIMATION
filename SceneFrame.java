@@ -3,8 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+import javax.swing.event.*;
 
 public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
@@ -117,8 +116,8 @@ public class SceneFrame extends JFrame {
 
         // right half
         rightHalfPanel.setBackground(Color.CYAN);
-        rightHalfPanel.setLayout(new GridLayout(3, 1));
-        rightHalfPanel.add(new JLabel("Title here", JLabel.CENTER));
+        rightHalfPanel.setLayout(new GridLayout(2, 1));
+        //rightHalfPanel.add(new JLabel("Title here", JLabel.CENTER));
         rightHalfPanel.add(gearSelect);
         rightHalfPanel.add(new JLabel("Details", JLabel.CENTER));
 
@@ -174,8 +173,8 @@ public class SceneFrame extends JFrame {
                     GearKnob gk = gearSelect.getKnob();
                     int currentGear = g.getGear();
                     int size = g.getSize();
-                    double xdelta = size*8/9;
-                    double ydelta = size*3/2;
+                    double xdelta = size*0.6;
+                    double ydelta = size*1.25;
                     if (currentGear == 1){
                         gk.moveY(ydelta);
                         g.changeGear(2);
@@ -191,7 +190,7 @@ public class SceneFrame extends JFrame {
                         gk.moveY(-ydelta);
                         g.changeGear(5);
                     } else if (currentGear == 5){
-                        gk.moveX(-size*16/9);
+                        gk.moveX(-size*1.2);
                         g.changeGear(1);
                     }
                     gearSelect.repaint();
