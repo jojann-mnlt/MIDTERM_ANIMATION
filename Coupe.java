@@ -1,21 +1,12 @@
 import java.awt.*;
 public class Coupe extends Car {
-    private double x, y, width, height, size, angle;
-    private Color color, windowColor;
     private Square base, body, windowBase, roof;
     private Circle frontBumper, frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel, windshield, rearWindow, roofFront, roofBack, rearBumper;
     private Line aPillarL, aPillarR, cPillarL,  cPillarR, bPillar;
     private String carModel;
 
-    public Coupe(double x, double y, double size, Color color) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.width = size;
-        this.height = size*2.4;
-        this.color = color;
-        angle = 0;
-        windowColor = Color.decode("#202020");
+    public Coupe(double x, double y, double size, double angle, Color color) {
+        super(x, y, size, angle, color);
         carModel = "Coupe";
     }
 
@@ -66,12 +57,4 @@ public class Coupe extends Car {
         cPillarR.draw(g2d);
     }
     @Override public String getCarModel(){return carModel;}
-    @Override public void changeColor(Color newColor){color = newColor;}
-    @Override public void moveTo(double x, double y){
-        this.x = x;
-        this.y = y;
-    }
-    @Override public void changeSize(double size){this.size = size;}
-    @Override public void rotateLeft(){this.angle = 15;}
-    @Override public void rotateRight(){this.angle = -15;}
 }

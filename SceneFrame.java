@@ -138,8 +138,8 @@ public class SceneFrame extends JFrame {
     private void setUpGameGUI() {
         Container cp = getContentPane();
         cp.repaint();
-        cp.add(sceneCanvas = new SceneCanvas(frame_width, frame_height, selectedCar));
-
+        selectedCar.moveTo((frame_width/2)-50, (frame_height/2));
+        cp.add(sceneCanvas = new SceneCanvas(frame_width, frame_height, selectedCar, selectedGear));
         setTitle("Midterm Project - Buenaventura - Manulat");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(frame_width, frame_height));
@@ -150,9 +150,10 @@ public class SceneFrame extends JFrame {
         ChangeListener changeListener = new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                Car car = carSelect.getCar();
-                JSlider slider = (JSlider) e.getSource();
-                car.changeColor(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue()));// updates
+                ArrayList<Car> cars = carSelect.getListOfCars();
+                for (Car c : cars){
+                    c.changeColor(new Color(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue())); // Updates color across all car models
+                }
                 carSelect.repaint();
                 red.setBackground(new Color(redSlider.getValue(), 0, 0));
                 green.setBackground(new Color(0, greenSlider.getValue(), 0));
@@ -193,6 +194,7 @@ public class SceneFrame extends JFrame {
                         gk.moveX(-size*1.2);
                         g.changeGear(1);
                     }
+                    System.out.println("Current Gear: "+gearSelect.getShifter().getGear());
                     gearSelect.repaint();
                 } else if (eventSource == carSelect) {
                     carSelect.changeVehicle(1);
@@ -216,6 +218,7 @@ public class SceneFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 selectedCar = carSelect.getCar();
                 selectedGear = gearSelect.getShifter().getGear();
+                selectedCar.changeSize(100);
                 getContentPane().removeAll();
                 setUpGameGUI();
                 revalidate();

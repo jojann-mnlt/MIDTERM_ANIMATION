@@ -1,22 +1,13 @@
 import java.awt.*;
 public class Sedan extends Car{
-    private double x, y, width, height, size, angle;
-    private Color color, windowColor;
     private Square base, hood, body, trunk, windowBase, roof;
     private Circle frontBumper, rearBumper, windShield, rearWindow, roofFront, roofRear;
     private Triangle frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel;
     private Line aPillarL, aPillarR, cPillarL, cPillarR, bPillar;
     private String carModel;
 
-    public Sedan(double x, double y, double size, Color color) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.width = size;
-        this.height = size*2.4;
-        this.color = color;
-        this.angle = 0;
-        windowColor = Color.decode("#202020");
+    public Sedan(double x, double y, double size, double angle, Color color) {
+        super(x, y, size, angle, color);
         carModel = "Sedan";
     }
 
@@ -49,6 +40,7 @@ public class Sedan extends Car{
         cPillarL = new Line(x+size*0.05, y+size*2.028, x+size*0.225, y+size*1.744, 6, color);
         cPillarR = new Line(x+size*0.95, y+size*2.028, x+size*0.775, y+size*1.744, 6, color);
         //Render
+        base.draw(g2d);
         frontBumper.draw(g2d);
         hood.draw(g2d);
         frontLeftWheel.draw(g2d);
@@ -71,13 +63,4 @@ public class Sedan extends Car{
         cPillarR.draw(g2d);
     }
     @Override public String getCarModel(){return carModel;}
-    @Override public void changeColor(Color newColor){color = newColor;}
-    @Override public void moveTo(double x, double y){
-        this.x = x;
-        this.y = y;
-    }
-    @Override public void changeSize(double size){this.size = size;}
-    @Override public void rotateLeft(){this.angle = 15;}
-    @Override public void rotateRight(){this.angle = -15;}
-
 }

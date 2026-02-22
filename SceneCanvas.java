@@ -4,12 +4,14 @@ import javax.swing.*;
 
 public class SceneCanvas extends JComponent {
     private double width, height;
-    private Car carSelected;
+    private Car selectedCar;
+    private int difficulty;
 
-    public SceneCanvas(double width, double height, Car carSelected){
+    public SceneCanvas(double width, double height, Car selectedCar, int selectedGear){
         this.width = width;
         this.height = height;
-        this.carSelected = carSelected;
+        this.selectedCar = selectedCar;
+        difficulty = selectedGear;
     }
 
     @Override
@@ -24,6 +26,6 @@ public class SceneCanvas extends JComponent {
         Rectangle2D.Double background = new Rectangle2D.Double(0, 0, width, height);
         g2d.setColor(Color.DARK_GRAY);
         g2d.fill(background);
-        carSelected.draw(g2d);
+        selectedCar.draw(g2d);
     }
 }

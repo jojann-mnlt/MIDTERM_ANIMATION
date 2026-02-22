@@ -9,8 +9,8 @@ public class CarSelect extends JComponent {
     private ArrayList<Car> cars;
 
     public CarSelect() {
-        sedan = new Sedan(160, 40, 75, Color.WHITE);
-        coupe = new Coupe(160, 40, 75, Color.WHITE);
+        sedan = new Sedan(160, 40, 75, 0, Color.WHITE);
+        coupe = new Coupe(160, 40, 75, 0, Color.WHITE);
         cars = new ArrayList<>();
         cars.add(sedan);
         cars.add(coupe);
