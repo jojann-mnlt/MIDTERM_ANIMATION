@@ -30,11 +30,11 @@ public class Coupe extends Car {
         roofFront = new Circle(x+size*.20, y+size*1.15, width*.60, height*1/24, color);
         roof = new Square(x+size*.20, y+size*1.20, width*.60, height*1/6, color);
         roofBack = new Circle(x+size*.20, y+size*1.525,width*.60, height*1/16, color);
-        aPillarL = new Line(x+size*.10, y+size*.8, x+size*.221, y+size*1.2, pillarThickness, color);
-        aPillarR = new Line(x+size*.90, y+size*.8, x+size*.779, y+size*1.2, pillarThickness, color);
-        bPillar = new Line(x+size*.10, y+size*1.525, x+size*.90, y+size*1.525, pillarThickness, color);
-        cPillarL = new Line(x+size*.10, y+size*1.85, x+size*.221, y+size*1.6, pillarThickness, color);
-        cPillarR = new Line(x+size*.90, y+size*1.85, x+size*.779, y+size*1.6, pillarThickness, color);
+        aPillarL = new Line(x+size*.10, y+size*.8, x+size*.221, y+size*1.2, pillarThicknessInt, color);
+        aPillarR = new Line(x+size*.90, y+size*.8, x+size*.779, y+size*1.2, pillarThicknessInt, color);
+        bPillar = new Line(x+size*.10, y+size*1.525, x+size*.90, y+size*1.525, pillarThicknessInt, color);
+        cPillarL = new Line(x+size*.10, y+size*1.85, x+size*.221, y+size*1.6, pillarThicknessInt, color);
+        cPillarR = new Line(x+size*.90, y+size*1.85, x+size*.779, y+size*1.6, pillarThicknessInt, color);
         //Render
         base.draw(g2d);
         frontBumper.draw(g2d);

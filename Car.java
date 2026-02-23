@@ -1,7 +1,7 @@
 import java.awt.*;
 public abstract class Car implements DrawingObject {
-    protected static double x, y, size, width, height, angle;
-    protected static int pillarThickness;
+    protected static double x, y, size, width, height, angle, pillarThickness;
+    protected static int pillarThicknessInt;
     protected static Color color, windowColor;
     protected String carModel;
 
@@ -13,7 +13,8 @@ public abstract class Car implements DrawingObject {
         height = size*2.4;
         Car.angle = angle;
         Car.color = color;
-        Car.pillarThickness = (int) size/20;
+        Car.pillarThickness = size*0.06;
+        pillarThicknessInt = (int) pillarThickness;
         windowColor = Color.decode("#202020");
     }
     // Draw Method
@@ -36,7 +37,8 @@ public abstract class Car implements DrawingObject {
         Car.size = size;
         Car.width = size;
         Car.height = size*2.4;
-        Car.pillarThickness = (int) size/20;
+        Car.pillarThickness = size*0.06;
+        pillarThicknessInt = (int) pillarThickness;
     }
     public void changeColor(Color color){Car.color = color;}
 }
