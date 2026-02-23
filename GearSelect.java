@@ -12,7 +12,7 @@ public class GearSelect extends JComponent {
     public GearSelect(){
         shifterParts = new ArrayList<DrawingObject>();
         x = 30;
-        y = 100;
+        y = 90;
         size = 70;
         gears = new GearShifter(x, y, size, Color.WHITE);
         knob = new GearKnob(x-size*0.05, y-size*0.65, size);
