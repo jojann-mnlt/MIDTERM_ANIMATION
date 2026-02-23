@@ -12,12 +12,15 @@ public class SceneFrame extends JFrame {
     private GearSelect gearSelect;
     private SceneCanvas sceneCanvas;
 
-    private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel, RGBPanel, carSelectPanel, gearSelectPanel;
+    private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel,
+            RGBPanel, carSelectPanel, gearSelectPanel, detailsPanel,
+            redPanel, greenPanel, bluePanel,
+            red, green, blue;
 
-    private JPanel redPanel, greenPanel, bluePanel;
-    private JPanel red, green, blue;
+    private JLabel difficultyLabel, livesLabel, lanesLabel, startSpeedLabel,
+            difficulty, lives, lanes, startSpeed;
+
     private JSlider redSlider, greenSlider, blueSlider;
-
     private JButton driveButton;
 
     private Car selectedCar;
@@ -37,8 +40,10 @@ public class SceneFrame extends JFrame {
 
         carSelectPanel = new JPanel();
         gearSelectPanel = new JPanel();
+        detailsPanel = new JPanel();
 
         RGBPanel = new JPanel();
+        RGBPanel.setBackground(Color.DARK_GRAY);
         redPanel = new JPanel();
         greenPanel = new JPanel();
         bluePanel = new JPanel();
@@ -58,12 +63,28 @@ public class SceneFrame extends JFrame {
         sliders.add(redSlider);
 
         for (JSlider slider : sliders) {
+            slider.setBackground(Color.DARK_GRAY);
             slider.setPaintTrack(true);
             slider.setPaintTicks(true);
             slider.setPaintLabels(true);
             slider.setMajorTickSpacing(255);
             slider.setMinorTickSpacing(5);
         }
+
+        ArrayList<JLabel> labels = new ArrayList<>();
+        labels.add(difficulty = new JLabel("★", JLabel.CENTER));
+        labels.add(lives = new JLabel("❤❤❤", JLabel.CENTER));
+        labels.add(lanes = new JLabel("Lanes", JLabel.CENTER));
+        labels.add(startSpeed = new JLabel("10 kph", JLabel.CENTER));
+        labels.add(difficultyLabel = new JLabel("Difficulty", JLabel.CENTER));
+        labels.add(startSpeedLabel = new JLabel("Start Speed", JLabel.CENTER));
+        labels.add(lanesLabel = new JLabel("Lanes", JLabel.CENTER));
+        labels.add(livesLabel = new JLabel("Lives", JLabel.CENTER));
+
+        for (JLabel label : labels) {
+            label.setFont(new Font("Sans Serif", Font.PLAIN, 24));
+        }
+
         setUpGUI();
         setUpButtonListeners();
         setUpMouseListeners();
@@ -79,13 +100,14 @@ public class SceneFrame extends JFrame {
         carSelectPanel.add(carSelect);
 
         carSelectPanel.add(carSelect, BorderLayout.CENTER);
+        carSelectPanel.add(driveButton, BorderLayout.SOUTH);
         leftHalfPanel.add(carSelectPanel);
 
         RGBPanel.setLayout(new GridLayout(4, 1));
 
         // RGB Panel, 1st Cell
         JLabel RGBLabel = new JLabel("Select Car Color", JLabel.CENTER);
-        RGBLabel.setFont(new Font("SansSerif", Font.BOLD, 30));
+        RGBLabel.setFont(new Font("Sans Serif", Font.BOLD, 30));
         RGBPanel.add(RGBLabel);
 
         // RGB Panel, 2nd Cell (RED)
@@ -114,8 +136,20 @@ public class SceneFrame extends JFrame {
         rightHalfPanel.setBackground(Color.CYAN);
         rightHalfPanel.setLayout(new GridLayout(2, 1));
         gearSelectPanel.setLayout(new GridLayout(1,2 ));
+
+        detailsPanel.setLayout(new GridLayout(8, 1));
+        detailsPanel.add(difficultyLabel);
+        detailsPanel.add(difficulty, JLabel.CENTER, 1);
+        detailsPanel.add(startSpeedLabel);
+        detailsPanel.add(startSpeed, JLabel.CENTER, 3);
+        detailsPanel.add(livesLabel);
+        detailsPanel.add(lives, JLabel.CENTER, 5);
+        detailsPanel.add(lanesLabel);
+        detailsPanel.add(lanes, JLabel.CENTER, 7);
+
+
         gearSelectPanel.add(gearSelect);
-        gearSelectPanel.add(new JLabel("Insert Details Here"));
+        gearSelectPanel.add(detailsPanel);
         rightHalfPanel.add(gearSelectPanel);
         rightHalfPanel.add(RGBPanel);
 
@@ -123,8 +157,6 @@ public class SceneFrame extends JFrame {
 
         startMenuMainPanel.add(leftHalfPanel); startMenuMainPanel.add(rightHalfPanel); // adds the left and right half
         cp.add(startMenuMainPanel);
-        cp.add(driveButton, BorderLayout.SOUTH);
-
         setTitle("Midterm Project - Buenaventura - Manulat");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(frame_width, frame_height));
@@ -192,6 +224,32 @@ public class SceneFrame extends JFrame {
                         g.changeGear(1);
                     }
                     System.out.println("Current Gear: "+gearSelect.getShifter().getGear());
+
+                    String stars = "";
+                    for (int i = 1; i <= gearSelect.getShifter().getGear(); i++) {
+                        stars = stars + "★";
+
+                        switch (i) {
+                            case 1:
+                                lives.setText("❤❤❤");
+                                startSpeed.setText("10 kph");
+                                break;
+                            case 2:
+                                lives.setText("❤❤❤");
+                                startSpeed.setText("30 kph");
+                                break;
+                            case 3, 4:
+                                lives.setText("❤❤");
+                                startSpeed.setText("50 kph");
+                                break;
+                            case 5:
+                                lives.setText("❤");
+                                startSpeed.setText("70 kph");
+                                break;
+                        }
+                        difficulty.setText(stars);
+                    }
+
                     gearSelect.repaint();
                 } else if (eventSource == carSelect) {
                     carSelect.changeVehicle();
