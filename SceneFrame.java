@@ -167,7 +167,8 @@ public class SceneFrame extends JFrame {
     private void setUpGameGUI() {
         Container cp = getContentPane();
         cp.repaint();
-        selectedCar.moveTo((frame_width/2)-50, (frame_height/2));
+        selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2));
+        selectedCar.changeSize(75);
         cp.add(sceneCanvas = new SceneCanvas(frame_width, frame_height, selectedCar, selectedGear));
         setTitle("Midterm Project - Buenaventura - Manulat");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -272,7 +273,6 @@ public class SceneFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectedCar = carSelect.getCar();
-                selectedCar.changeSize(75);
                 selectedGear = gearSelect.getShifter().getGear();
                 getContentPane().removeAll();
                 setUpGameGUI();
