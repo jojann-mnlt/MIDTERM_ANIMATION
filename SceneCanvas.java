@@ -6,7 +6,7 @@ public class SceneCanvas extends JComponent {
     private double width, height;
     private Car selectedCar;
     private int difficulty;
-    private Lane lane1;
+    private Road road;
 
     public SceneCanvas(double width, double height, Car selectedCar, int selectedGear){
         this.width = width;
@@ -23,12 +23,13 @@ public class SceneCanvas extends JComponent {
         g2d.setRenderingHints(AA);
 
         Rectangle2D.Double background = new Rectangle2D.Double(0, 0, width, height);
-        g2d.setColor(Color.DARK_GRAY);
+        g2d.setColor(Color.decode("#399c00"));
         g2d.fill(background);
         selectedCar.draw(g2d);
 
-        lane1 = new Lane((width/2)-60, 0, 100, false, false);
-        lane1.draw(g2d);
+        road = new Road(340, 0, difficulty);
+        road.draw(g2d);
         selectedCar.draw(g2d);
     }
+    public Road getRoad(){return road;}
 }

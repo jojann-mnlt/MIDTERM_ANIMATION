@@ -21,7 +21,7 @@ public class Lane implements DrawingObject{
     public void draw(Graphics2D g2d){
         asphalt = new Square(x, y, width, height, asphaltColor);
         yellowLineL = new Square(x+size*0.05, y, size*0.05, height, yellow);
-        yellowLineR = new Square(x+size*0.05, y, size*0.05, height, yellow);
+        yellowLineR = new Square(x+size*1.1, y, size*0.05, height, yellow);
         whiteLineL = new Square(x-size*0.025, y, size*0.05, height, white);
         whiteLineR = new Square(x+size*47/40, y, size*0.05, height, white);
         asphalt.draw(g2d);
