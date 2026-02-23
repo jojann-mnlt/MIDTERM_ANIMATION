@@ -1,6 +1,6 @@
 import java.awt.*;
 public class Sedan extends Car{
-    private Square base, hood, body, trunk, windowBase, roof;
+    private Square hood, body, trunk, windowBase, roof;
     private Circle frontBumper, rearBumper, windShield, rearWindow, roofFront, roofRear;
     private Triangle frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel;
     private Line aPillarL, aPillarR, cPillarL, cPillarR, bPillar;
@@ -16,7 +16,6 @@ public class Sedan extends Car{
         g2d.rotate(Math.toRadians(angle), x+size*.50, y+size*.50);
 
         //Body
-        base = new Square(x, y, width, height, Color.GRAY);
         frontBumper = new Circle(x+size*0.025, y, width*0.95, height*0.125, color);
         hood = new Square(x+size*0.025, y+size*0.15, width*0.95, height*11/48, color);
         frontLeftWheel = new Triangle(x, y+size*0.15, width*0.05, height*11/48, color);
@@ -40,7 +39,6 @@ public class Sedan extends Car{
         cPillarL = new Line(x+size*0.05, y+size*2.028, x+size*0.225, y+size*1.744, pillarThicknessInt, color);
         cPillarR = new Line(x+size*0.95, y+size*2.028, x+size*0.775, y+size*1.744, pillarThicknessInt, color);
         //Render
-        base.draw(g2d);
         frontBumper.draw(g2d);
         hood.draw(g2d);
         frontLeftWheel.draw(g2d);

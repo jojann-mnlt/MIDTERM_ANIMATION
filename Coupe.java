@@ -1,6 +1,6 @@
 import java.awt.*;
 public class Coupe extends Car {
-    private Square base, body, windowBase, roof;
+    private Square body, windowBase, roof;
     private Circle frontBumper, frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel, windshield, rearWindow, roofFront, roofBack, rearBumper;
     private Line aPillarL, aPillarR, cPillarL,  cPillarR, bPillar;
     private String carModel;
@@ -14,7 +14,6 @@ public class Coupe extends Car {
     public void draw(Graphics2D g2d) {
         g2d.rotate(Math.toRadians(angle), x+size*.50, y+size*.50);
         //Body
-        base = new Square(x, y, width, height, Color.GRAY);
         frontBumper = new Circle(x+size*0.025, y+size*.15, width*.95, height*5/24, color);
         frontLeftWheel = new Circle(x, y+size*0.34, width*0.1, height*1/4, color);
         frontRightWheel = new Circle(x+size*0.90, y+size*0.34, width*.1, height*1/4, color);
@@ -36,7 +35,6 @@ public class Coupe extends Car {
         cPillarL = new Line(x+size*.10, y+size*1.85, x+size*.221, y+size*1.6, pillarThicknessInt, color);
         cPillarR = new Line(x+size*.90, y+size*1.85, x+size*.779, y+size*1.6, pillarThicknessInt, color);
         //Render
-        base.draw(g2d);
         frontBumper.draw(g2d);
         frontLeftWheel.draw(g2d);
         frontRightWheel.draw(g2d);
