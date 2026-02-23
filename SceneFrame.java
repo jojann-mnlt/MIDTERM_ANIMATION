@@ -12,7 +12,7 @@ public class SceneFrame extends JFrame {
     private GearSelect gearSelect;
     private SceneCanvas sceneCanvas;
 
-    private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel, RGBPanel, carSelectPanel, selectButtonPanel;
+    private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel, RGBPanel, carSelectPanel, gearSelectPanel;
 
     private JPanel redPanel, greenPanel, bluePanel;
     private JPanel red, green, blue;
@@ -36,7 +36,7 @@ public class SceneFrame extends JFrame {
         driveButton = new JButton("Drive");
 
         carSelectPanel = new JPanel();
-        selectButtonPanel = new JPanel();
+        gearSelectPanel = new JPanel();
 
         RGBPanel = new JPanel();
         redPanel = new JPanel();
@@ -50,7 +50,6 @@ public class SceneFrame extends JFrame {
         red = new JPanel();
         green = new JPanel();
         blue = new JPanel();
-
 
         ArrayList<JSlider> sliders = new ArrayList<>();
 
@@ -75,13 +74,11 @@ public class SceneFrame extends JFrame {
         Container cp = getContentPane();
 
         // left half
-        leftHalfPanel.setLayout(new GridLayout(2, 1));
+        leftHalfPanel.setLayout(new GridLayout(1, 1));
         carSelectPanel.setLayout(new BorderLayout());
         carSelectPanel.add(carSelect);
-        selectButtonPanel.setLayout(new BorderLayout());
 
         carSelectPanel.add(carSelect, BorderLayout.CENTER);
-        carSelectPanel.add(selectButtonPanel, BorderLayout.SOUTH);
         leftHalfPanel.add(carSelectPanel);
 
         RGBPanel.setLayout(new GridLayout(4, 1));
@@ -113,14 +110,14 @@ public class SceneFrame extends JFrame {
         green.setBackground(new Color(0, 100, 0));
         blue.setBackground(new Color(0, 0, 100));
 
-        leftHalfPanel.add(RGBPanel);
-
         // right half
         rightHalfPanel.setBackground(Color.CYAN);
         rightHalfPanel.setLayout(new GridLayout(2, 1));
-        //rightHalfPanel.add(new JLabel("Title here", JLabel.CENTER));
-        rightHalfPanel.add(gearSelect);
-        rightHalfPanel.add(new JLabel("Details", JLabel.CENTER));
+        gearSelectPanel.setLayout(new GridLayout(1,2 ));
+        gearSelectPanel.add(gearSelect);
+        gearSelectPanel.add(new JLabel("Insert Details Here"));
+        rightHalfPanel.add(gearSelectPanel);
+        rightHalfPanel.add(RGBPanel);
 
         startMenuMainPanel.setLayout(new GridLayout(1, 2));
 
@@ -217,6 +214,7 @@ public class SceneFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 selectedCar = carSelect.getCar();
+                selectedCar.changeSize(75);
                 selectedGear = gearSelect.getShifter().getGear();
                 getContentPane().removeAll();
                 setUpGameGUI();

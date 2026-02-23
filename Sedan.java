@@ -34,11 +34,11 @@ public class Sedan extends Car{
         roofFront = new Circle(x+size*0.2, y+size*1.128, width*0.6, height*1/24, color);
         roof = new Square(x+size*0.2, y+size*1.178, width*0.6, height*1/4, color);
         roofRear = new Circle(x+size*0.2, y+size*1.723, width*0.6, height*1/24, color);
-        aPillarL = new Line(x+size*0.05, y+size*0.7, x+size*0.225, y+size*1.178, 6, color);
-        aPillarR = new Line(x+size*0.95, y+size*0.7, x+size*0.775, y+size*1.178, 6, color);
-        bPillar = new Line(x+size*0.1, y+size*1.458, x+size*0.9, y+size*1.458, 6, color);
-        cPillarL = new Line(x+size*0.05, y+size*2.028, x+size*0.225, y+size*1.744, 6, color);
-        cPillarR = new Line(x+size*0.95, y+size*2.028, x+size*0.775, y+size*1.744, 6, color);
+        aPillarL = new Line(x+size*0.05, y+size*0.7, x+size*0.225, y+size*1.178, pillarThickness, color);
+        aPillarR = new Line(x+size*0.95, y+size*0.7, x+size*0.775, y+size*1.178, pillarThickness, color);
+        bPillar = new Line(x+size*0.1, y+size*1.458, x+size*0.9, y+size*1.458, pillarThickness, color);
+        cPillarL = new Line(x+size*0.05, y+size*2.028, x+size*0.225, y+size*1.744, pillarThickness, color);
+        cPillarR = new Line(x+size*0.95, y+size*2.028, x+size*0.775, y+size*1.744, pillarThickness, color);
         //Render
         base.draw(g2d);
         frontBumper.draw(g2d);

@@ -11,8 +11,8 @@ public class GearSelect extends JComponent {
 
     public GearSelect(){
         shifterParts = new ArrayList<DrawingObject>();
-        x = 130;
-        y = 70;
+        x = 30;
+        y = 100;
         size = 70;
         gears = new GearShifter(x, y, size, Color.WHITE);
         knob = new GearKnob(x-size*0.05, y-size*0.65, size);
@@ -25,15 +25,11 @@ public class GearSelect extends JComponent {
         g2d.setColor(Color.decode("#222222"));
         g2d.fillRect(0, 0, getWidth(), getHeight());
         g2d.setColor(Color.WHITE);
-
-        RenderingHints AA = new RenderingHints(
-                RenderingHints.KEY_ANTIALIASING,
-                RenderingHints.VALUE_ANTIALIAS_ON
-        );
-
+        
+        setPreferredSize(new Dimension(200, 300));
+        RenderingHints AA = new RenderingHints(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.addRenderingHints(AA);
 
-        setPreferredSize(new Dimension(400, 300));
         for (DrawingObject p : shifterParts){
             p.draw(g2d);
         }
