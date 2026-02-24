@@ -216,14 +216,37 @@ public class SceneFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 selectedCar = carSelect.getCar();
                 selectedGear = gearSelect.getShifter().getGear();
-                getContentPane().removeAll();
-                setUpGameGUI();
-                revalidate();
-                repaint();
                 System.out.println("Car Model: "+ selectedCar.getCarModel());
                 System.out.println("Gear Level: "+ selectedGear);
+                getContentPane().removeAll();
+                setUpGameGUI();
+                setUpKeyListeners();
+                revalidate();
+                repaint();
             }
         };
         driveButton.addActionListener(startButtonListener);
+    }
+
+    public void setUpKeyListeners() {
+        KeyListener keyListener = new KeyListener() {
+            // Use keyPressed for the keybinds
+            @Override public void keyPressed(KeyEvent e){
+                Road road = sceneCanvas.getRoad();
+                int amount = 10;
+                if (e.getKeyCode() == KeyEvent.VK_A){
+                    road.moveX(amount);
+                }
+                else if (e.getKeyCode() == KeyEvent.VK_D){
+                    road.moveX(-amount);
+                }
+                sceneCanvas.repaint();
+            }
+            @Override public void keyReleased(KeyEvent e){}
+            @Override public void keyTyped(KeyEvent e){}
+        };
+        sceneCanvas.setFocusable(true);
+        sceneCanvas.addKeyListener(keyListener);
+        sceneCanvas.requestFocus();
     }
 }

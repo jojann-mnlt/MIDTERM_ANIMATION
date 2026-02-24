@@ -13,6 +13,7 @@ public class SceneCanvas extends JComponent {
         this.height = height;
         this.selectedCar = selectedCar;
         difficulty = selectedGear;
+        road = new Road(340, 0, difficulty);
     }
 
     @Override
@@ -27,7 +28,6 @@ public class SceneCanvas extends JComponent {
         g2d.fill(background);
         selectedCar.draw(g2d);
 
-        road = new Road(340, 0, difficulty);
         road.draw(g2d);
         selectedCar.draw(g2d);
     }
