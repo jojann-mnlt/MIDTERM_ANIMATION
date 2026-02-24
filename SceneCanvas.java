@@ -13,7 +13,11 @@ public class SceneCanvas extends JComponent {
         this.height = height;
         this.selectedCar = selectedCar;
         difficulty = selectedGear;
+<<<<<<< HEAD
         road = new Road(340, 0, difficulty);
+=======
+
+>>>>>>> 1cd2be6c60d68bde069825eba31c21e8a3d35403
     }
 
     @Override
