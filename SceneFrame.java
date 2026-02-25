@@ -1,7 +1,6 @@
 // This is the base class for the GUI. You can make any additions as you wish. Don't delete anything.
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.geom.AffineTransform;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.Timer;
@@ -11,7 +10,6 @@ public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
     private boolean left, right;
     private Timer gameTimer, distanceTimer;
-    private AffineTransform original;
 
     //Game trackers
     private int km;
@@ -286,6 +284,7 @@ public class SceneFrame extends JFrame {
                 selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
                 selectedCar.changeSize(75);
                 kph = gearSelect.getShifter().getSpeed();
+                km = 0;
                 System.out.println("Car Model: "+ selectedCar.getCarModel());
                 System.out.println("Gear Level: "+ selectedGear);
                 System.out.println("Starting Speed: "+ kph+" kph");
@@ -362,8 +361,24 @@ public class SceneFrame extends JFrame {
             System.out.println(km+ "00 meters");
             km++;
         }
-        traffic.driveNormalCars(ydelta*0.8);
-        traffic.driveCounterFlowCars(ydelta);
+
+
+        Car[] normalCars = traffic.getNormalCars();
+        for (Car c : normalCars){
+            c.moveY(ydelta*0.8);
+            if (c.getY() > 800) {
+                traffic.refreshNormalRNG();
+                c.moveY(-1500);
+            }
+        }
+        Car[] counterFlowCars = traffic.getCounterFlowCars();
+        for (Car c : counterFlowCars){
+            c.moveY(ydelta);
+            if (c.getY() > 800) {
+                traffic.refreshCounterRNG();
+                c.moveY(-1500);
+            }
+        }
     }
 
     public void movement() {
@@ -374,17 +389,21 @@ public class SceneFrame extends JFrame {
 
         Road road = sceneCanvas.getRoad();
         TrafficSystem traffic = sceneCanvas.getTraffic();
+        Car[] normalCars = traffic.getNormalCars();
+        Car[] counterFlowCars = traffic.getCounterFlowCars();
         double maxRight = road.getMaxXR();
         double maxLeft = road.getMaxXL();
 
         if (left && selectedCar.getX() != maxLeft) {
             road.moveX(amount);
-            traffic.moveX(amount);
+            for (Car c : normalCars){c.moveX(amount);}
+            for (Car c : counterFlowCars){c.moveX(amount);}
             selectedCar.rotate(-15);
         }
         else if (right && selectedCar.getX() != maxRight) {
             road.moveX(-amount);
-            traffic.moveX(-amount);
+            for (Car c : normalCars){c.moveX(-amount);}
+            for (Car c : counterFlowCars){c.moveX(-amount);}
             selectedCar.rotate(15);
         }
         else if ((!left && !right) || (selectedCar.getX() == maxLeft || selectedCar.getX() == maxRight)) {
