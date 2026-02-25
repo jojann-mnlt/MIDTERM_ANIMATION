@@ -8,6 +8,9 @@ public class Sedan extends Car{
 
     public Sedan(double x, double y, double size, double angle, Color color) {
         super(x, y, size, angle, color);
+        this.x = x;
+        this.y = y;
+        this.color = color;
         carModel = "Sedan";
     }
 

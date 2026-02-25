@@ -1,19 +1,19 @@
 import java.awt.*;
 public abstract class Car implements DrawingObject {
-    protected static double x, y, size, width, height, angle, pillarThickness;
-    protected static int pillarThicknessInt;
-    protected static Color color, windowColor;
+    protected double x, y, size, angle, width, height, pillarThickness;
+    protected int pillarThicknessInt;
+    protected Color color, windowColor;
     protected String carModel;
 
     public Car(double x, double y, double size, double angle, Color color){
-        Car.x = x;
-        Car.y = y;
-        Car.size = size;
+        this.x = x;
+        this.y = y;
+        this.size = size;
         width = size;
         height = size*2.4;
-        Car.angle = angle;
-        Car.color = color;
-        Car.pillarThickness = size*0.06;
+        this.angle = angle;
+        this.color = color;
+        this.pillarThickness = size*0.06;
         pillarThicknessInt = (int) pillarThickness;
         windowColor = Color.decode("#202020");
     }
@@ -29,16 +29,16 @@ public abstract class Car implements DrawingObject {
     public void moveX(double amount){x += amount;}
     public void moveY(double amount){y += amount;}
     public void moveTo(double x, double y){
-        Car.x = x;
-        Car.y = y;
+        this.x = x;
+        this.y = y;
     }
     public void rotate(double amt){angle = amt;}
     public void changeSize(double size){
-        Car.size = size;
-        Car.width = size;
-        Car.height = size*2.4;
-        Car.pillarThickness = size*0.06;
+        this.size = size;
+        this.width = size;
+        this.height = size*2.4;
+        this.pillarThickness = size*0.06;
         pillarThicknessInt = (int) pillarThickness;
     }
-    public void changeColor(Color color){Car.color = color;}
+    public void changeColor(Color color){this.color = color;}
 }

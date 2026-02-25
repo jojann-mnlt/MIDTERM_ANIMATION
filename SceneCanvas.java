@@ -7,6 +7,7 @@ public class SceneCanvas extends JComponent {
     private Car selectedCar;
     private int difficulty;
     private Road road;
+    private TrafficSystem trafficSystem;
 
     public SceneCanvas(double width, double height, Car selectedCar, int selectedGear){
         this.width = width;
@@ -14,6 +15,7 @@ public class SceneCanvas extends JComponent {
         this.selectedCar = selectedCar;
         difficulty = selectedGear;
         road = new Road(340, -39400, difficulty);
+        trafficSystem = new TrafficSystem(362.5, 50, selectedGear);
     }
 
     @Override
@@ -28,6 +30,7 @@ public class SceneCanvas extends JComponent {
         g2d.fill(background);
         road.draw(g2d);
         selectedCar.draw(g2d);
+        trafficSystem.draw(g2d);
     }
     public Road getRoad(){return road;}
 }
