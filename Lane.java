@@ -10,7 +10,7 @@ public class Lane implements DrawingObject{
         this.y = y;
         this.size = size;
         width = size*1.2;
-        height = 40000;
+        height = 4000;
         hasYellowL = left;
         hasYellowR = right;
         asphaltColor = Color.decode("#272727");

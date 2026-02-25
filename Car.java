@@ -23,6 +23,8 @@ public abstract class Car implements DrawingObject {
     public double getX(){return x;}
     public double getY(){return y;}
     public double getAngle(){return angle;}
+    public double getWidth(){return width;} //for collision
+    public double getHeight(){return height;} //for collision
     public Color getColor(){return color;}
     public abstract String getCarModel();
     // Mutator Methods
@@ -41,4 +43,12 @@ public abstract class Car implements DrawingObject {
         pillarThicknessInt = (int) pillarThickness;
     }
     public void changeColor(Color color){this.color = color;}
+    public boolean isColliding(Car otherCar){
+        if ((this.getX() == otherCar.getX()) || 
+            (this.getX()+width == otherCar.getX()+otherCar.getWidth()) ||
+            (this.getY() == otherCar.getY()) ||
+            (this.getY()+height == otherCar.getY()+otherCar.getHeight())
+        ) {return true;}
+        else return false;
+    }
 }

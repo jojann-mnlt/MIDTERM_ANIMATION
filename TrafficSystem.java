@@ -1,48 +1,45 @@
 import java.awt.*;
-import java.util.*;
 public class TrafficSystem implements DrawingObject{
-    private Car main;
-    private ArrayList<Car> Traffic;
     private double x, y;
+    private Car[] normal, counterFlow;
+    private int numNormal, numCounter;
     private Color highwayCarColor;
     private int difficulty;
     public TrafficSystem(double x, double y, int difficulty){
         this.x = x;
         this.y = y;
         this.difficulty = difficulty;
-        Traffic = new ArrayList<Car>();
+        switch (difficulty){
+            case 1: numNormal = 2; numCounter = 0; break;
+            case 2: numNormal = 3; numCounter = 0; break;
+            case 3: numNormal = 4; numCounter = 0; break;
+            case 4: numNormal = 2; numCounter = 2; break;
+            case 5: numNormal = 3; numCounter = 3; break;
+        }
+        normal = new Car[numNormal];
+        counterFlow = new Car[numCounter];
         highwayCarColor = Color.WHITE;
     }
     @Override
     public void draw(Graphics2D g2d){
-        RenderingHints AA = new RenderingHints(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setRenderingHints(AA);
-        
-        main = new Sedan(x, y, 75, 0, highwayCarColor);
-        main.draw(g2d);
-        switch (difficulty){
-            case 1:
-                Traffic.add(new Sedan(x-120, y, 75, 0, highwayCarColor)); break;
-            case 2: 
-                Traffic.add(new Sedan(x-120, y, 75, 0, highwayCarColor));
-                Traffic.add(new Sedan(x-(120*2), y, 75, 0, highwayCarColor)); break;
-            case 3:
-                Traffic.add(new Sedan(x-120, y, 75, 0, highwayCarColor));
-                Traffic.add(new Sedan(x-(120*2), y, 75, 0, highwayCarColor));
-                Traffic.add(new Sedan(x-(120*3), y, 75, 0, highwayCarColor)); break;
-            case 4:
-                Traffic.add(new Sedan(x-120, y, 75, 0, highwayCarColor));
-                Traffic.add(new Sedan(x-(120*2), y, 75, 0, highwayCarColor));
-                Traffic.add(new Sedan(x-(120*3), y, 75, 180, highwayCarColor)); break;
-            case 5:
-                Traffic.add(new Sedan(x-120, y, 75, 0, highwayCarColor));
-                Traffic.add(new Sedan(x-(120*2), y, 75, 0, highwayCarColor));
-                Traffic.add(new Sedan(x-(120*3), y, 75, 180, highwayCarColor));
-                Traffic.add(new Sedan(x-(120*4), y, 75, 180, highwayCarColor));
-                Traffic.add(new Sedan(x-(120*5), y, 75, 180, highwayCarColor)); break;
+        for (int i = 0; i < numNormal; i++) {
+            normal[i] = new Sedan(x-(120*i), y, 75, 0, highwayCarColor);
+            normal[i].draw(g2d);
         }
-        for (Car c : Traffic){c.draw(g2d);}
+        for (int i = 0; i < numCounter; i++) {
+            if (difficulty == 4){
+                counterFlow[i] = new Sedan(x-(120*(i+2)), y, 75, 180, highwayCarColor);
+            } else if (difficulty == 5){
+                counterFlow[i] = new Sedan(x-(120*(i+3)), y, 75, 180, highwayCarColor);
+            }
+            counterFlow[i].draw(g2d);
+        }
     }
+
+    public Car[] getNormalCars(){return normal;}
+    public Car[] getCounterFlowCars(){return counterFlow;}
+    public void driveNormalCars(double amount){for (Car c : normal){c.moveY(amount);}}
+    public void driveCounterFlowCars(double amount){for (Car c : counterFlow){c.moveY(amount);}}
 
     public double getX(){return x;}
     public double getY(){return y;}
