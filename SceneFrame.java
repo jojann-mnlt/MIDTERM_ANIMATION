@@ -283,7 +283,7 @@ public class SceneFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 selectedCar = carSelect.getCar();
                 selectedGear = gearSelect.getShifter().getGear();
-                selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2));
+                selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
                 selectedCar.changeSize(75);
                 kph = gearSelect.getShifter().getSpeed();
                 System.out.println("Car Model: "+ selectedCar.getCarModel());
@@ -350,32 +350,41 @@ public class SceneFrame extends JFrame {
 
         distanceTimer = new Timer(16, e-> drive(kph));
         distanceTimer.start();
-
     }
 
     public void drive(double speed){
         double ydelta = (((speed*40000)/60)/60)/60;
         Road road = sceneCanvas.getRoad();
+        TrafficSystem traffic = sceneCanvas.getTraffic();
         road.moveY(ydelta);
         if (road.getY() >= 0){
-            road.moveY(-39400);
-            System.out.println(km+ " km");
+            road.moveY(-3400);
+            System.out.println(km+ "00 meters");
             km++;
         }
+        traffic.driveNormalCars(ydelta*0.8);
+        traffic.driveCounterFlowCars(ydelta);
     }
 
     public void movement() {
-        int amount = 5;
+        double amount = 0;
+        if (kph*0.2 < 5) amount = 5;
+        else if (kph*0.2 > 15) amount = 15;
+        else amount = kph*0.2;
+
         Road road = sceneCanvas.getRoad();
+        TrafficSystem traffic = sceneCanvas.getTraffic();
         double maxRight = road.getMaxXR();
         double maxLeft = road.getMaxXL();
 
         if (left && selectedCar.getX() != maxLeft) {
             road.moveX(amount);
+            traffic.moveX(amount);
             selectedCar.rotate(-15);
         }
         else if (right && selectedCar.getX() != maxRight) {
             road.moveX(-amount);
+            traffic.moveX(-amount);
             selectedCar.rotate(15);
         }
         else if ((!left && !right) || (selectedCar.getX() == maxLeft || selectedCar.getX() == maxRight)) {
