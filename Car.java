@@ -32,7 +32,7 @@ public abstract class Car implements DrawingObject {
         Car.x = x;
         Car.y = y;
     }
-    public void rotate(double amt){angle += amt;}
+    public void rotate(double amt){angle = amt;}
     public void changeSize(double size){
         Car.size = size;
         Car.width = size;

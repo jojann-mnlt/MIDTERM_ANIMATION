@@ -40,7 +40,7 @@ public class Road implements DrawingObject{
                 lane4.draw(g2d);
                 break;
             case 5:
-                lane2 = new Lane(x-120, y, 100, false, false);
+                    lane2 = new Lane(x-120, y, 100, false, false);
                 lane3 = new Lane(x-(120*2), y, 100, true, false);
                 lane4 = new Lane(x-(120*3), y, 100, false, true);
                 lane5 = new Lane(x-(120*4), y, 100, false, false);

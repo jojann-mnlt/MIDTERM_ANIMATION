@@ -3,10 +3,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.Timer;
 import javax.swing.event.*;
 
 public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
+    private boolean left, right;
+    private Timer gameTimer;
 
     private CarSelect carSelect;
     private GearSelect gearSelect;
@@ -287,24 +290,53 @@ public class SceneFrame extends JFrame {
     }
 
     public void setUpKeyListeners() {
+
         KeyListener keyListener = new KeyListener() {
             // Use keyPressed for the keybinds
             @Override public void keyPressed(KeyEvent e){
-                Road road = sceneCanvas.getRoad();
-                int amount = 10;
                 if (e.getKeyCode() == KeyEvent.VK_A){
-                    road.moveX(amount);
+                    left = true;
                 }
                 else if (e.getKeyCode() == KeyEvent.VK_D){
-                    road.moveX(-amount);
+                    right = true;
                 }
                 sceneCanvas.repaint();
             }
-            @Override public void keyReleased(KeyEvent e){}
+            @Override public void keyReleased(KeyEvent e){
+                if (e.getKeyCode() == KeyEvent.VK_A){
+                    left = false;
+                }
+                else if (e.getKeyCode() == KeyEvent.VK_D){
+                    right = false;
+                }
+            }
             @Override public void keyTyped(KeyEvent e){}
         };
+
         sceneCanvas.setFocusable(true);
         sceneCanvas.addKeyListener(keyListener);
         sceneCanvas.requestFocus();
+
+        gameTimer = new Timer(16, e -> movement());
+        gameTimer.start();
+    }
+
+    public void movement() {
+        int amount = 5;
+        Road road = sceneCanvas.getRoad();
+
+        if (left) {
+            road.moveX(amount);
+            selectedCar.rotate(-15);
+        }
+        if (right) {
+            road.moveX(-amount);
+            selectedCar.rotate(15);
+        }
+        else if (!left && !right) {
+            selectedCar.rotate(0);
+        }
+
+        sceneCanvas.repaint();
     }
 }
