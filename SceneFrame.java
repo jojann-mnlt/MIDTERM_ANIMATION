@@ -324,16 +324,18 @@ public class SceneFrame extends JFrame {
     public void movement() {
         int amount = 5;
         Road road = sceneCanvas.getRoad();
+        double maxRight = road.getMaxXR();
+        double maxLeft = road.getMaxXL();
 
-        if (left) {
+        if (left && selectedCar.getX() != maxLeft) {
             road.moveX(amount);
             selectedCar.rotate(-15);
         }
-        if (right) {
+        else if (right && selectedCar.getX() != maxRight) {
             road.moveX(-amount);
             selectedCar.rotate(15);
         }
-        else if (!left && !right) {
+        else if ((!left && !right) || (selectedCar.getX() == maxLeft || selectedCar.getX() == maxRight)) {
             selectedCar.rotate(0);
         }
 
