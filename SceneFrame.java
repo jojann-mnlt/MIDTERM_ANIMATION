@@ -12,8 +12,9 @@ public class SceneFrame extends JFrame {
     private Timer gameTimer, distanceTimer;
 
     //Game trackers
-    private int km;
-    private double kph;
+    private double score;
+    private double gameSpeed;
+    private int gameLives;
 
     private CarSelect carSelect;
     private GearSelect gearSelect;
@@ -34,7 +35,9 @@ public class SceneFrame extends JFrame {
     private int selectedGear;
 
     public SceneFrame() {
-        km = 1; kph = 0;
+        //Game Trackers
+        score = 0; gameSpeed = 0; gameLives = 3;
+
         frame_width = 800;
         frame_height = 600;
 
@@ -283,11 +286,10 @@ public class SceneFrame extends JFrame {
                 selectedGear = gearSelect.getShifter().getGear();
                 selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
                 selectedCar.changeSize(75);
-                kph = gearSelect.getShifter().getSpeed();
-                km = 0;
+                gameSpeed = gearSelect.getShifter().getSpeed();
+                score = 0;
                 System.out.println("Car Model: "+ selectedCar.getCarModel());
                 System.out.println("Gear Level: "+ selectedGear);
-                System.out.println("Starting Speed: "+ kph+" kph");
                 getContentPane().removeAll();
                 setUpGameGUI();
                 setUpKeyListeners();
@@ -296,7 +298,7 @@ public class SceneFrame extends JFrame {
                 repaint();
             }
         };
-        driveButton.addActionListener(startButtonListener);
+        driveButton.addActionListener(startButtonListener); 
     }
 
     public void setUpKeyListeners() {
@@ -331,6 +333,7 @@ public class SceneFrame extends JFrame {
                     dispose();
                     getContentPane().removeAll();
                     setUpGUI();
+                    System.out.println("Score: "+ score);
                 }
             }
             @Override public void keyReleased(KeyEvent e){}
@@ -347,35 +350,41 @@ public class SceneFrame extends JFrame {
         gameTimer = new Timer(16, e -> movement());
         gameTimer.start();
 
-        distanceTimer = new Timer(16, e-> drive(kph));
+        distanceTimer = new Timer(16, e-> drive(gameSpeed));
         distanceTimer.start();
     }
 
     public void drive(double speed){
-        double ydelta = (((speed*40000)/60)/60)/60;
+        double delta = (((speed*40000)/60)/60)/60;
         Road road = sceneCanvas.getRoad();
         TrafficSystem traffic = sceneCanvas.getTraffic();
-        road.moveY(ydelta);
+        road.moveY(delta);
+        score += 1;
         if (road.getY() >= 0){
             road.moveY(-3400);
-            System.out.println(km+ "00 meters");
-            km++;
         }
-
 
         Car[] normalCars = traffic.getNormalCars();
         for (Car c : normalCars){
-            c.moveY(ydelta*0.8);
+            c.moveY(delta*0.8);
             if (c.getY() > 800) {
                 traffic.refreshNormalRNG();
+                c.moveY(-1500);
+            } else if (c.isColliding(selectedCar) && c.isVisible()){
+                System.out.println("Crash!");
+                gameLives -= 1;
                 c.moveY(-1500);
             }
         }
         Car[] counterFlowCars = traffic.getCounterFlowCars();
         for (Car c : counterFlowCars){
-            c.moveY(ydelta);
+            c.moveY(delta);
             if (c.getY() > 800) {
                 traffic.refreshCounterRNG();
+                c.moveY(-1500);
+            } else if (c.isColliding(selectedCar) && c.isVisible()){
+                System.out.println("Crash!");
+                gameLives -= 1;
                 c.moveY(-1500);
             }
         }
@@ -383,30 +392,28 @@ public class SceneFrame extends JFrame {
 
     public void movement() {
         double amount = 0;
-        if (kph*0.2 < 5) amount = 5;
-        else if (kph*0.2 > 15) amount = 15;
-        else amount = kph*0.2;
+        if (gameSpeed*0.2 < 5) amount = 5;
+        else if (gameSpeed*0.2 > 15) amount = 15;
+        else amount = gameSpeed*0.2;
 
         Road road = sceneCanvas.getRoad();
         TrafficSystem traffic = sceneCanvas.getTraffic();
         Car[] normalCars = traffic.getNormalCars();
         Car[] counterFlowCars = traffic.getCounterFlowCars();
-        double maxRight = road.getMaxXR();
-        double maxLeft = road.getMaxXL();
 
-        if (left && selectedCar.getX() != maxLeft) {
+        if (left && selectedCar.getX() != road.getMaxXL()) {
             road.moveX(amount);
             for (Car c : normalCars){c.moveX(amount);}
             for (Car c : counterFlowCars){c.moveX(amount);}
             selectedCar.rotate(-15);
         }
-        else if (right && selectedCar.getX() != maxRight) {
+        else if (right && selectedCar.getX() != road.getMaxXR()) {
             road.moveX(-amount);
             for (Car c : normalCars){c.moveX(-amount);}
             for (Car c : counterFlowCars){c.moveX(-amount);}
             selectedCar.rotate(15);
         }
-        else if ((!left && !right) || (selectedCar.getX() == maxLeft || selectedCar.getX() == maxRight)) {
+        else if ((!left && !right) || (selectedCar.getX() == road.getMaxXL() || selectedCar.getX() == road.getMaxXR())) {
             selectedCar.rotate(0);
         }
 
