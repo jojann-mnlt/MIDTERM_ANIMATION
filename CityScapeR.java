@@ -3,6 +3,10 @@ import java.awt.*;
 public class CityScapeR {
     private double x, y, size, numberOfAdditionalLanes;
     private Square sidewalk;
+    private Square sand1;
+    private Square sand2;
+    private Square sand3;
+    private Square beach;
 
     public CityScapeR(double x, double y, double size) {
         this.x = x;
