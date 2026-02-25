@@ -30,7 +30,7 @@ public class SceneFrame extends JFrame {
     private int selectedGear;
 
     public SceneFrame() {
-        km = 0;
+        km = 1;
         frame_width = 800;
         frame_height = 600;
 
@@ -328,12 +328,14 @@ public class SceneFrame extends JFrame {
     }
 
     public void drive(){
-        double ydelta = 10;
+        double speed = 4000;
         Road road = sceneCanvas.getRoad();
-        road.moveY(ydelta);
-        if (road.getY() == 0){road.moveY(-400);}
-        System.out.println(km);
-        km++;
+        road.moveY(speed);
+        if (road.getY() == 0){
+            road.moveY(-39400);
+            System.out.println(km+"km");
+            km++;
+        }
     }
 
     public void movement() {
