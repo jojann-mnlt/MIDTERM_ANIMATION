@@ -4,6 +4,7 @@ public abstract class Car implements DrawingObject {
     protected int pillarThicknessInt;
     protected Color color, windowColor;
     protected String carModel;
+    protected boolean rendered;
 
     public Car(double x, double y, double size, double angle, Color color){
         this.x = x;
@@ -16,6 +17,7 @@ public abstract class Car implements DrawingObject {
         this.pillarThickness = size*0.06;
         pillarThicknessInt = (int) pillarThickness;
         windowColor = Color.decode("#202020");
+        rendered = false;
     }
     // Draw Method
     public abstract void draw(Graphics2D g2d);
@@ -27,6 +29,14 @@ public abstract class Car implements DrawingObject {
     public double getHeight(){return height;} //for collision
     public Color getColor(){return color;}
     public abstract String getCarModel();
+    public boolean isColliding(Car otherCar){
+        return !((this.x + this.width <= otherCar.getX()) ||
+            (this.x >= otherCar.getX() + otherCar.getWidth()) ||
+            (this.y + this.height <= otherCar.getY()) ||
+            (this.y >= otherCar.getY() + otherCar.getHeight())
+        );
+    }
+    public boolean isVisible(){return rendered;}
     // Mutator Methods
     public void moveX(double amount){x += amount;}
     public void moveY(double amount){y += amount;}
@@ -43,12 +53,5 @@ public abstract class Car implements DrawingObject {
         pillarThicknessInt = (int) pillarThickness;
     }
     public void changeColor(Color color){this.color = color;}
-    public boolean isColliding(Car otherCar){
-        if ((this.getX() == otherCar.getX()) || 
-            (this.getX()+width == otherCar.getX()+otherCar.getWidth()) ||
-            (this.getY() == otherCar.getY()) ||
-            (this.getY()+height == otherCar.getY()+otherCar.getHeight())
-        ) {return true;}
-        else return false;
-    }
+    public void changeRenderState(boolean b){rendered = b;}
 }

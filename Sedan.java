@@ -64,6 +64,7 @@ public class Sedan extends Car{
         cPillarL.draw(g2d);
         cPillarR.draw(g2d);
         g2d.setTransform(ogTransform);
+        this.changeRenderState(true);
     }
     @Override public String getCarModel(){return carModel;}
 }

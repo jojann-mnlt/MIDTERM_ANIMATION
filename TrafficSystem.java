@@ -35,10 +35,12 @@ public class TrafficSystem implements DrawingObject{
     public void draw(Graphics2D g2d){
         for (int i = 0; i < numNormal; i++) {
             if (i != removeNormal) normal[i].draw(g2d);
+            if (i == removeNormal) normal[i].changeRenderState(false);
         }
         if (difficulty >= 4){
             for (int i = 0; i < numCounter; i++) {
                 if (i != removeCounter) counterFlow[i].draw(g2d);
+                if (i == removeCounter) counterFlow[i].changeRenderState(false);
             }
         }
     }

@@ -10,10 +10,9 @@ public class Road implements DrawingObject{
         maxXR = x+22.5;
         switch (difficulty){
             case 4:
-                maxXL = x-(120*(3))+22.5;
-                break;
+                maxXL = x-(120*(3))+22.5; break;
             default:
-                maxXL = x-(120*difficulty)+22.5;
+                maxXL = x-(120*difficulty)+22.5; break;
         }
     }
     public void draw(Graphics2D g2d){
@@ -72,10 +71,9 @@ public class Road implements DrawingObject{
         maxXR = x+22.5;
         switch (difficulty){
             case 4:
-                maxXL = x-(120*(3))+22.5;
-                break;
+                maxXL = x-(120*(3))+22.5; break;
             default:
-                maxXL = x-(120*difficulty)+22.5;
+                maxXL = x-(120*difficulty)+22.5; break;
         }
     }
     public void moveY(double amount){y += amount;}
