@@ -1,5 +1,7 @@
 import java.awt.*;
 public class Coupe extends Car {
+    private double x, y;
+    private Color color;
     private Square body, windowBase, roof;
     private Circle frontBumper, frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel, windshield, rearWindow, roofFront, roofBack, rearBumper;
     private Line aPillarL, aPillarR, cPillarL,  cPillarR, bPillar;
@@ -7,6 +9,9 @@ public class Coupe extends Car {
 
     public Coupe(double x, double y, double size, double angle, Color color) {
         super(x, y, size, angle, color);
+        this.x = x;
+        this.y = y;
+        this.color = color;
         carModel = "Coupe";
     }
 

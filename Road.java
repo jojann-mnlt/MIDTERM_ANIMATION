@@ -8,7 +8,12 @@ public class Road implements DrawingObject{
         this.y = y;
         this.difficulty = difficulty;
         maxXR = x+22.5;
-        maxXL = x-(120*difficulty)+22.5;
+        switch (difficulty){
+            case 4:
+                maxXL = x-(120*(difficulty-1))+22.5;
+            default:
+                maxXL = x-(120*difficulty)+22.5;
+        }
     }
     public void draw(Graphics2D g2d){
         main = new Lane(x, y, 100, false, false);
@@ -42,7 +47,7 @@ public class Road implements DrawingObject{
                 lane4.draw(g2d);
                 break;
             case 5:
-                    lane2 = new Lane(x-120, y, 100, false, false);
+                lane2 = new Lane(x-120, y, 100, false, false);
                 lane3 = new Lane(x-(120*2), y, 100, true, false);
                 lane4 = new Lane(x-(120*3), y, 100, false, true);
                 lane5 = new Lane(x-(120*4), y, 100, false, false);
