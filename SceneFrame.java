@@ -10,7 +10,7 @@ public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
     private boolean left, right;
     private Timer gameTimer, distanceTimer;
-    private UIManager ui;
+    private String stars;
 
     //Game trackers
     private double score;
@@ -41,9 +41,10 @@ public class SceneFrame extends JFrame {
 
         frame_width = 800;
         frame_height = 600;
-        ui = new UIManager();
+        stars = "★";
 
-        ui.put("Label.foreground", Color.WHITE);
+        UIManager.put("Label.font", new Font("Courier New", Font.BOLD, 12));
+        UIManager.put("Label.foreground", Color.WHITE);
         carSelect = new CarSelect();
         gearSelect = new GearSelect();
 
@@ -88,7 +89,7 @@ public class SceneFrame extends JFrame {
         }
 
         ArrayList<JLabel> labels = new ArrayList<>();
-        labels.add(difficulty = new JLabel("★", JLabel.CENTER));
+        labels.add(difficulty = new JLabel("Difficulty: " + stars, JLabel.CENTER));
         labels.add(lives = new JLabel("❤❤❤", JLabel.CENTER));
         labels.add(lanes = new JLabel("Lanes", JLabel.CENTER));
         labels.add(startSpeed = new JLabel("10 kph", JLabel.CENTER));
@@ -97,9 +98,7 @@ public class SceneFrame extends JFrame {
         labels.add(lanesLabel = new JLabel("Lanes", JLabel.CENTER));
         labels.add(livesLabel = new JLabel("Lives", JLabel.CENTER));
 
-        for (JLabel label : labels) {
-            label.setFont(new Font("Sans Serif", Font.PLAIN, 24));
-        }
+
 
         setUpGUI();
         setUpButtonListeners();
@@ -156,7 +155,7 @@ public class SceneFrame extends JFrame {
         gearSelectPanel.setLayout(new GridLayout(1,2 ));
 
         detailsPanel.setLayout(new GridLayout(8, 1));
-        detailsPanel.add(difficultyLabel);
+        detailsPanel.add(new JLabel());
         detailsPanel.add(difficulty, JLabel.CENTER, 1);
         detailsPanel.add(startSpeedLabel);
         detailsPanel.add(startSpeed, JLabel.CENTER, 3);
@@ -164,7 +163,13 @@ public class SceneFrame extends JFrame {
         detailsPanel.add(lives, JLabel.CENTER, 5);
         detailsPanel.add(lanesLabel);
         detailsPanel.add(lanes, JLabel.CENTER, 7);
+        UIManager.put("Label.font", new Font("Times New Roman", Font.BOLD, 24));
 
+        /*
+        Speed: [No. of stars]
+        Normal Flow Lanes:
+        Counter Flow Lanes:
+         */
 
         gearSelectPanel.add(gearSelect);
         gearSelectPanel.add(detailsPanel);
@@ -241,30 +246,22 @@ public class SceneFrame extends JFrame {
                         g.changeGear(1);
                     }
                     System.out.println("Current Gear: "+gearSelect.getShifter().getGear());
-
-                    String stars = "";
-                    for (int i = 1; i <= gearSelect.getShifter().getGear(); i++) {
-                        stars = stars + "★";
-
-                        switch (i) {
+                        switch (gearSelect.getShifter().getGear()) {
                             case 1:
-                                lives.setText("❤❤❤");
-                                startSpeed.setText("10 kph");
+                                difficulty.setText("Difficulty: ★");
                                 break;
                             case 2:
-                                lives.setText("❤❤❤");
-                                startSpeed.setText("30 kph");
+                                difficulty.setText("Difficulty: ★★");
                                 break;
-                            case 3, 4:
-                                lives.setText("❤❤");
-                                startSpeed.setText("50 kph");
+                            case 3:
+                                difficulty.setText("Difficulty: ★★★");
+                                break;
+                            case 4:
+                                difficulty.setText("Difficulty: ★★★★");
                                 break;
                             case 5:
-                                lives.setText("❤");
-                                startSpeed.setText("70 kph");
+                                difficulty.setText("Difficulty: ★★★★★");
                                 break;
-                        }
-                        difficulty.setText(stars);
                     }
 
                     gearSelect.repaint();

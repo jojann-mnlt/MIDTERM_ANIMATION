@@ -29,7 +29,7 @@ public class SceneCanvas extends JComponent {
         g2d.setRenderingHints(AA);
 
         Rectangle2D.Double background = new Rectangle2D.Double(0, 0, width, height);
-        g2d.setColor(Color.decode("#399c00"));
+        g2d.setColor(Color.decode("#222222"));
         g2d.fill(background);
         road.draw(g2d);
         selectedCar.draw(g2d);
