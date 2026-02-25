@@ -331,7 +331,7 @@ public class SceneFrame extends JFrame {
         double ydelta = 10;
         Road road = sceneCanvas.getRoad();
         road.moveY(ydelta);
-        if (road.getY() == 0){road.moveY(-1000);}
+        if (road.getY() == 0){road.moveY(-400);}
         System.out.println(km);
         km++;
     }
