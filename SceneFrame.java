@@ -10,6 +10,7 @@ public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
     private boolean left, right;
     private Timer gameTimer, distanceTimer;
+    private UIManager ui;
 
     //Game trackers
     private int km;
@@ -37,7 +38,9 @@ public class SceneFrame extends JFrame {
         km = 1; kph = 0;
         frame_width = 800;
         frame_height = 600;
+        ui = new UIManager();
 
+        ui.put("Label.foreground", Color.WHITE);
         carSelect = new CarSelect();
         gearSelect = new GearSelect();
 
@@ -55,6 +58,7 @@ public class SceneFrame extends JFrame {
         redPanel = new JPanel();
         greenPanel = new JPanel();
         bluePanel = new JPanel();
+        detailsPanel.setBackground(Color.decode("#222222"));
 
         redSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
         greenSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
@@ -102,6 +106,8 @@ public class SceneFrame extends JFrame {
 
     public void setUpGUI() {
         Container cp = getContentPane();
+
+        detailsPanel.removeAll();
 
         // left half
         leftHalfPanel.setLayout(new GridLayout(1, 1));
@@ -328,8 +334,9 @@ public class SceneFrame extends JFrame {
                     selectedCar.changeSize(150);
                     gameTimer.stop();
                     distanceTimer.stop();
-                    dispose();
                     getContentPane().removeAll();
+                    revalidate();
+                    repaint();
                     setUpGUI();
                 }
             }
