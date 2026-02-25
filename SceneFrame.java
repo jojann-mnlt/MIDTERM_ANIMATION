@@ -7,9 +7,9 @@ import javax.swing.Timer;
 import javax.swing.event.*;
 
 public class SceneFrame extends JFrame {
-    private int frame_width, frame_height;
+    private int frame_width, frame_height, km;
     private boolean left, right;
-    private Timer gameTimer;
+    private Timer gameTimer, distanceTimer;
 
     private CarSelect carSelect;
     private GearSelect gearSelect;
@@ -30,6 +30,7 @@ public class SceneFrame extends JFrame {
     private int selectedGear;
 
     public SceneFrame() {
+        km = 0;
         frame_width = 800;
         frame_height = 600;
 
@@ -282,6 +283,7 @@ public class SceneFrame extends JFrame {
                 getContentPane().removeAll();
                 setUpGameGUI();
                 setUpKeyListeners();
+                setUpTimers();
                 revalidate();
                 repaint();
             }
@@ -290,7 +292,6 @@ public class SceneFrame extends JFrame {
     }
 
     public void setUpKeyListeners() {
-
         KeyListener keyListener = new KeyListener() {
             // Use keyPressed for the keybinds
             @Override public void keyPressed(KeyEvent e){
@@ -316,9 +317,23 @@ public class SceneFrame extends JFrame {
         sceneCanvas.setFocusable(true);
         sceneCanvas.addKeyListener(keyListener);
         sceneCanvas.requestFocus();
+    }
 
+    public void setUpTimers(){
         gameTimer = new Timer(16, e -> movement());
         gameTimer.start();
+
+        distanceTimer = new Timer(16, e-> drive());
+        distanceTimer.start();
+    }
+
+    public void drive(){
+        double ydelta = 10;
+        Road road = sceneCanvas.getRoad();
+        road.moveY(ydelta);
+        if (road.getY() == 0){road.moveY(-1000);}
+        System.out.println(km);
+        km++;
     }
 
     public void movement() {
