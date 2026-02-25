@@ -2,8 +2,6 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
-
-import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import javax.swing.Timer;
 import javax.swing.event.*;
@@ -321,9 +319,25 @@ public class SceneFrame extends JFrame {
             }
             @Override public void keyTyped(KeyEvent e){}
         };
+        KeyListener returnToStart = new KeyListener() {
+            @Override public void keyPressed(KeyEvent e){
+                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    getContentPane().removeAll();
+                    setUpGUI();
+                    setUpButtonListeners();
+                    setUpMouseListeners();
+                    setUpSliderListeners();
+                    revalidate();
+                    repaint();
+                }
+            }
+            @Override public void keyReleased(KeyEvent e){}
+            @Override public void keyTyped(KeyEvent e){}
+        };
 
         sceneCanvas.setFocusable(true);
         sceneCanvas.addKeyListener(keyListener);
+        sceneCanvas.addKeyListener(returnToStart);
         sceneCanvas.requestFocus();
     }
 
