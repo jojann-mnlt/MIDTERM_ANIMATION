@@ -1,12 +1,14 @@
 import java.awt.*;
 public class Road implements DrawingObject{
-    private double x, y;
+    private double x, y, maxXL, maxXR;
     private Lane main, lane2, lane3, lane4, lane5, lane6;
     private int difficulty;
     public Road(double x, double y, int difficulty){
         this.x = x;
         this.y = y;
         this.difficulty = difficulty;
+        maxXR = x+22.5;
+        maxXL = x-(120*difficulty)+22.5;
     }
     public void draw(Graphics2D g2d){
         main = new Lane(x, y, 100, false, false);
@@ -55,7 +57,13 @@ public class Road implements DrawingObject{
     }
     public double getX(){return x;}
     public double getY(){return y;}
+    public double getMaxXL(){return maxXL;}
+    public double getMaxXR(){return maxXR;}
 
-    public void moveX(double amount){x += amount;}
+    public void moveX(double amount){
+        x += amount;
+        maxXR = x+22.5;
+        maxXL = x-(120*difficulty)+22.5;
+    }
     public void moveY(double amount){y += amount;}
 }
