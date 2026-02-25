@@ -36,6 +36,6 @@ public class SceneCanvas extends JComponent {
         trafficSystem.draw(g2d);
     }
 
-
     public Road getRoad(){return road;}
+    public TrafficSystem getTraffic(){return trafficSystem;}
 }

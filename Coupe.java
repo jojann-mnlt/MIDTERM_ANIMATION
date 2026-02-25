@@ -1,7 +1,5 @@
 import java.awt.*;
 public class Coupe extends Car {
-    private double x, y;
-    private Color color;
     private Square body, windowBase, roof;
     private Circle frontBumper, frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel, windshield, rearWindow, roofFront, roofBack, rearBumper;
     private Line aPillarL, aPillarR, cPillarL,  cPillarR, bPillar;
@@ -17,7 +15,7 @@ public class Coupe extends Car {
 
     @Override
     public void draw(Graphics2D g2d) {
-        g2d.rotate(Math.toRadians(angle), x+size*.50, y+size*.50);
+        g2d.rotate(Math.toRadians(angle), x+width*.50, y+height*.50);
         //Body
         frontBumper = new Circle(x+size*0.025, y+size*.15, width*.95, height*5/24, color);
         frontLeftWheel = new Circle(x, y+size*0.34, width*0.1, height*1/4, color);

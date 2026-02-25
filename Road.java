@@ -10,7 +10,8 @@ public class Road implements DrawingObject{
         maxXR = x+22.5;
         switch (difficulty){
             case 4:
-                maxXL = x-(120*(difficulty-1))+22.5;
+                maxXL = x-(120*(3))+22.5;
+                break;
             default:
                 maxXL = x-(120*difficulty)+22.5;
         }
@@ -69,7 +70,13 @@ public class Road implements DrawingObject{
     public void moveX(double amount){
         x += amount;
         maxXR = x+22.5;
-        maxXL = x-(120*difficulty)+22.5;
+        switch (difficulty){
+            case 4:
+                maxXL = x-(120*(3))+22.5;
+                break;
+            default:
+                maxXL = x-(120*difficulty)+22.5;
+        }
     }
     public void moveY(double amount){y += amount;}
 }

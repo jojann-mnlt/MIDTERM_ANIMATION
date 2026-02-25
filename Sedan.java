@@ -16,8 +16,7 @@ public class Sedan extends Car{
 
     @Override
     public void draw(Graphics2D g2d){
-        g2d.rotate(Math.toRadians(angle), x+size*.50, y+size*.50);
-
+        g2d.rotate(Math.toRadians(angle), x+width*.50, y+height*.50);
         //Body
         frontBumper = new Circle(x+size*0.025, y, width*0.95, height*0.125, color);
         hood = new Square(x+size*0.025, y+size*0.15, width*0.95, height*11/48, color);
