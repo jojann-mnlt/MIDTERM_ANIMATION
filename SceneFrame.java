@@ -2,14 +2,20 @@
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+
+import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import javax.swing.Timer;
 import javax.swing.event.*;
 
 public class SceneFrame extends JFrame {
-    private int frame_width, frame_height, km;
+    private int frame_width, frame_height;
     private boolean left, right;
     private Timer gameTimer, distanceTimer;
+
+    //Game trackers
+    private int km;
+    private double kph;
 
     private CarSelect carSelect;
     private GearSelect gearSelect;
@@ -30,7 +36,7 @@ public class SceneFrame extends JFrame {
     private int selectedGear;
 
     public SceneFrame() {
-        km = 1;
+        km = 1; kph = 0;
         frame_width = 800;
         frame_height = 600;
 
@@ -278,8 +284,10 @@ public class SceneFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 selectedCar = carSelect.getCar();
                 selectedGear = gearSelect.getShifter().getGear();
+                kph = gearSelect.getShifter().getSpeed();
                 System.out.println("Car Model: "+ selectedCar.getCarModel());
                 System.out.println("Gear Level: "+ selectedGear);
+                System.out.println("Starting Speed: "+ kph+" kph");
                 getContentPane().removeAll();
                 setUpGameGUI();
                 setUpKeyListeners();
@@ -323,17 +331,17 @@ public class SceneFrame extends JFrame {
         gameTimer = new Timer(16, e -> movement());
         gameTimer.start();
 
-        distanceTimer = new Timer(16, e-> drive());
+        distanceTimer = new Timer(16, e-> drive(kph));
         distanceTimer.start();
     }
 
-    public void drive(){
-        double speed = 4000;
+    public void drive(double speed){
+        double ydelta = (((speed*40000)/60)/60)/60;
         Road road = sceneCanvas.getRoad();
-        road.moveY(speed);
-        if (road.getY() == 0){
+        road.moveY(ydelta);
+        if (road.getY() >= 0){
             road.moveY(-39400);
-            System.out.println(km+"km");
+            System.out.println(km+ " km");
             km++;
         }
     }
