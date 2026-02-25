@@ -54,6 +54,7 @@ public class Road implements DrawingObject{
                 lane6.draw(g2d);
                 break;
         }
+
     }
     public double getX(){return x;}
     public double getY(){return y;}

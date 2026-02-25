@@ -20,6 +20,9 @@ public class SceneCanvas extends JComponent {
     protected void paintComponent(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
 
+        AffineTransform oldTransform = g2d.getTransform();
+        g2d.setTransform(oldTransform);
+
         RenderingHints AA = new RenderingHints(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHints(AA);
 
@@ -29,5 +32,7 @@ public class SceneCanvas extends JComponent {
         road.draw(g2d);
         selectedCar.draw(g2d);
     }
+
+
     public Road getRoad(){return road;}
 }

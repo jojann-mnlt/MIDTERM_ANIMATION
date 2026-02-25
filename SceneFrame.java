@@ -1,6 +1,7 @@
 // This is the base class for the GUI. You can make any additions as you wish. Don't delete anything.
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.geom.AffineTransform;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.Timer;
@@ -10,6 +11,7 @@ public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
     private boolean left, right;
     private Timer gameTimer, distanceTimer;
+    private AffineTransform original;
 
     //Game trackers
     private int km;
@@ -24,7 +26,7 @@ public class SceneFrame extends JFrame {
             redPanel, greenPanel, bluePanel,
             red, green, blue;
 
-    private JLabel difficultyLabel, livesLabel, lanesLabel, startSpeedLabel,
+    private JLabel RGBLabel, difficultyLabel, livesLabel, lanesLabel, startSpeedLabel,
             difficulty, lives, lanes, startSpeed;
 
     private JSlider redSlider, greenSlider, blueSlider;
@@ -64,6 +66,7 @@ public class SceneFrame extends JFrame {
         green = new JPanel();
         blue = new JPanel();
 
+        RGBLabel = new JLabel("Select Car Color", JLabel.CENTER);
         ArrayList<JSlider> sliders = new ArrayList<>();
 
         sliders.add(greenSlider);
@@ -114,7 +117,7 @@ public class SceneFrame extends JFrame {
         RGBPanel.setLayout(new GridLayout(4, 1));
 
         // RGB Panel, 1st Cell
-        JLabel RGBLabel = new JLabel("Select Car Color", JLabel.CENTER);
+
         RGBLabel.setFont(new Font("Sans Serif", Font.BOLD, 30));
         RGBPanel.add(RGBLabel);
 
@@ -322,13 +325,13 @@ public class SceneFrame extends JFrame {
         KeyListener returnToStart = new KeyListener() {
             @Override public void keyPressed(KeyEvent e){
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    selectedCar.moveTo(125, 100);
+                    selectedCar.changeSize(150);
+                    gameTimer.stop();
+                    distanceTimer.stop();
+                    dispose();
                     getContentPane().removeAll();
                     setUpGUI();
-                    setUpButtonListeners();
-                    setUpMouseListeners();
-                    setUpSliderListeners();
-                    revalidate();
-                    repaint();
                 }
             }
             @Override public void keyReleased(KeyEvent e){}
@@ -347,6 +350,7 @@ public class SceneFrame extends JFrame {
 
         distanceTimer = new Timer(16, e-> drive(kph));
         distanceTimer.start();
+
     }
 
     public void drive(double speed){
