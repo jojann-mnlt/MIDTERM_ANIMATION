@@ -29,6 +29,8 @@ public abstract class Car implements DrawingObject {
     protected Square hitbox;
 
     public Car(double x, double y, double size, double angle, Color color){
+        /** This constructor instantiates the car object. It sets the width and height
+        to be a specific 1:2.4 ratio. */
         this.x = x;
         this.y = y;
         this.size = size;
@@ -43,8 +45,10 @@ public abstract class Car implements DrawingObject {
         hitbox = new Square(x+size*0.05, y+size*0.3, width*0.9, height*0.75, Color.RED);
     }
 
-    // Renders the car object
+    /** This abstract method ensures that all cars can be drawn/rendered. */
     public abstract void draw(Graphics2D g2d); 
+
+    /** These set of methods allow access to this class' private fields */
     public double getX(){return x;} 
     public double getY(){return y;} 
     public double getAngle(){return angle;} 
@@ -52,10 +56,16 @@ public abstract class Car implements DrawingObject {
     public double getHeight(){return height;}
     public Color getColor(){return color;}
 
-    // Checks to see if the car has been drawn/rendered
+    /** This method returns the "rendered" field, which checks to see if the car is
+    visible to the player. */
     public boolean isVisible(){return rendered;}
 
-    // Checks if the car hitbox is colliding with another car's hitbox
+    /** This method creates and returns a car's hitbox. */
+    public Square getHitbox(){
+        hitbox = new Square(x+size*0.05, y+size*0.35, width*0.9, height*0.75, Color.RED);
+        return hitbox;
+    }
+    /** This method checks if the hitbox of a car is colliding with the hitbox of another. */
     public boolean isColliding(Car otherCar){
         return !((this.hitbox.getX() + this.hitbox.getWidth() <= otherCar.getHitbox().getX()) ||
             (this.hitbox.getX() >= otherCar.getHitbox().getX() + otherCar.getHitbox().getWidth()) ||
@@ -63,12 +73,8 @@ public abstract class Car implements DrawingObject {
             (this.hitbox.getY() >= otherCar.getHitbox().getY() + otherCar.getHitbox().getHeight())
         );
     }
-    // Creates (but doesn't render) the car hitbox for collision detection
-    public Square getHitbox(){
-        hitbox = new Square(x+size*0.05, y+size*0.35, width*0.9, height*0.75, Color.RED);
-        return hitbox;
-    }
     
+    /** These methods change various characteristics of a car: size, shape, rotation, color, position. */
     public void moveX(double amount){
         x += amount;
         hitbox.moveX(amount);

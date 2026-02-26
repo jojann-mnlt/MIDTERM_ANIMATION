@@ -321,7 +321,6 @@ public class SceneFrame extends JFrame {
                         gk.moveX(-size*1.2);
                         g.changeGear(1);
                     }
-                    System.out.println("Current Gear: "+gearSelect.getShifter().getGear());
                         switch (gearSelect.getShifter().getGear()) {
                             case 1:
                                 startSpeed.setText("★");
@@ -413,7 +412,6 @@ public class SceneFrame extends JFrame {
                     revalidate();
                     repaint();
                     setUpGUI();
-                    System.out.println(score);
                 }
 
                 if (bgm != null && bgm.isRunning()) {
@@ -539,7 +537,6 @@ public class SceneFrame extends JFrame {
             revalidate();
             repaint();
             setUpPauseGUI();
-            System.out.println(score);
         }
         sceneCanvas.repaint();
     }
