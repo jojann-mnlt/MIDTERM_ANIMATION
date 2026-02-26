@@ -3,9 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.InputStream;
 import java.util.*;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.Timer;
 import javax.swing.event.*;
@@ -14,7 +12,6 @@ public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
     private boolean left, right;
     private Timer gameTimer;
-    private String stars;
 
     //Game trackers
     private double gameSpeed;
@@ -31,7 +28,7 @@ public class SceneFrame extends JFrame {
             startSpeedPanel, livesPanel, normalLanesPanel, counterflowPanel,
             gamePausePanel, pauseButtons;
 
-    private JLabel RGBLabel, difficultyLabel, livesLabel, normalLanesLabel, counterflowLanesLabel, startSpeedLabel,
+    private JLabel RGBLabel, livesLabel, normalLanesLabel, counterflowLanesLabel, startSpeedLabel,
             difficulty, lives, normalLanes, counterflowLanes, startSpeed,
             pauseText;
 
@@ -53,8 +50,6 @@ public class SceneFrame extends JFrame {
 
         frame_width = 800;
         frame_height = 600;
-        stars = "★";
-
         phone =  new Phone();
 
         carSelect = new CarSelect();
