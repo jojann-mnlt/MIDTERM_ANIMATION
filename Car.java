@@ -21,19 +21,20 @@ public abstract class Car implements DrawingObject {
         rendered = false;
         hitbox = new Square(x+size*0.05, y+size*0.3, width*0.9, height*0.75, Color.RED);
     }
-    // Draw Method
-    public abstract void draw(Graphics2D g2d);
-    // Getter Methods
-    public double getX(){return x;}
-    public double getY(){return y;}
-    public double getAngle(){return angle;}
-    public double getWidth(){return width;} //for collision
-    public double getHeight(){return height;} //for collision
+
+    // Renders the car object
+    public abstract void draw(Graphics2D g2d); 
+    public double getX(){return x;} 
+    public double getY(){return y;} 
+    public double getAngle(){return angle;} 
+    public double getWidth(){return width;} 
+    public double getHeight(){return height;}
     public Color getColor(){return color;}
-    public abstract String getCarModel();
+
+    // Checks to see if the car has been drawn/rendered
     public boolean isVisible(){return rendered;}
 
-    // Hitbox detection
+    // Checks if the car hitbox is colliding with another car's hitbox
     public boolean isColliding(Car otherCar){
         return !((this.hitbox.getX() + this.hitbox.getWidth() <= otherCar.getHitbox().getX()) ||
             (this.hitbox.getX() >= otherCar.getHitbox().getX() + otherCar.getHitbox().getWidth()) ||
@@ -41,11 +42,12 @@ public abstract class Car implements DrawingObject {
             (this.hitbox.getY() >= otherCar.getHitbox().getY() + otherCar.getHitbox().getHeight())
         );
     }
+    // Creates (but doesn't render) the car hitbox for collision detection
     public Square getHitbox(){
         hitbox = new Square(x+size*0.05, y+size*0.35, width*0.9, height*0.75, Color.RED);
         return hitbox;
     }
-    // Mutator Methods
+    
     public void moveX(double amount){
         x += amount;
         hitbox.moveX(amount);

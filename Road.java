@@ -9,18 +9,17 @@ public class Road implements DrawingObject{
         this.difficulty = difficulty;
         maxXR = x+22.5;
         switch (difficulty){
-            case 4:
-                maxXL = x-(120*(3))+22.5; break;
-            default:
-                maxXL = x-(120*difficulty)+22.5; break;
+            case 4: maxXL = x-(120*(3))+22.5; break;
+            default: maxXL = x-(120*difficulty)+22.5; break;
         }
     }
+
+    // Renders the roads based on difficulty
     public void draw(Graphics2D g2d){
         main = new Lane(x, y, 100, "Dotted", "White");
         new CityScapeR(x, y, 100).draw(g2d);
         main.draw(g2d);
 
-        // Switch cases depending on difficulty
         switch (difficulty){
             case 1:
                 lane2 = new Lane(x-120, y, 100, "White", "Dotted");

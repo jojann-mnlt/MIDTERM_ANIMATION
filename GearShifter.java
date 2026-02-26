@@ -5,7 +5,7 @@ public class GearShifter implements DrawingObject{
     private double x, y, speed;
     private int size;
     private Color baseColor, baseOutline, gapColor;
-    public GearShifter(double x, double y, int size, Color color){
+    public GearShifter(double x, double y, int size){
         this.x = x;
         this.y = y;
         this.size = size;

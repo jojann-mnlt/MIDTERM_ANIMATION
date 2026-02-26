@@ -39,13 +39,9 @@ public class FreeformQuadrilateral implements DrawingObject {
         g2d.fill(quad);
     }
 
-    public double getX() { return x1; }
-
-    public double getY() { return y1; }
-
-    public void moveX(double amount) { x1 += amount; }
-
-    public void moveY(double amount) { y1 += amount; }
-
-    public void changeColor(Color color) { this.color = color; }
+    public double getX() {return x1;}
+    public double getY() {return y1;}
+    public void moveX(double amount) {x1 += amount;}
+    public void moveY(double amount) {y1 += amount;}
+    public void changeColor(Color color) {this.color = color;}
 }

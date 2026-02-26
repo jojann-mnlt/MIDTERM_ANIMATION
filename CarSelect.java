@@ -88,11 +88,8 @@ public class CarSelect extends JComponent {
     public Car getCar() { return cars.get(currentCar); }
     public void changeVehicle() {
         int carListSize = cars.size() - 1;
-        if (currentCar < carListSize) {
-            currentCar += 1;
-        } else if (currentCar == carListSize) {
-            currentCar = 0;
-        }
+        if (currentCar < carListSize) {currentCar += 1;} 
+        else if (currentCar == carListSize) {currentCar = 0;}
     }
 
     public ArrayList<Car> getListOfCars() { return cars; }

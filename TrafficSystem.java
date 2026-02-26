@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.util.Random;
+
 public class TrafficSystem implements DrawingObject{
     private double x, y;
     private Car[] normal, counterFlow;
@@ -28,7 +29,7 @@ public class TrafficSystem implements DrawingObject{
         }
         rng = new Random();
         removeNormal = rng.nextInt(numNormal);
-        if(difficulty >= 4) removeCounter = rng.nextInt(numNormal);
+        if(difficulty >= 4) removeCounter = rng.nextInt(numCounter);
         else removeCounter = 1;
     }
     @Override
@@ -45,12 +46,14 @@ public class TrafficSystem implements DrawingObject{
         }
     }
 
+    // Changes the index of the car that will NOT be rendered
     public void refreshNormalRNG(){removeNormal = rng.nextInt(numNormal);}
     public void refreshCounterRNG(){
-        if(difficulty >= 4) removeCounter = rng.nextInt(numNormal);
+        if(difficulty >= 4) removeCounter = rng.nextInt(numCounter);
         else removeCounter = 1;
     }
 
+    // Returns the cars in the arrays for access
     public Car[] getNormalCars(){return normal;}
     public Car[] getCounterFlowCars(){return counterFlow;}
 

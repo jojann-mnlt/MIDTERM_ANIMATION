@@ -35,30 +35,14 @@ public class Lane implements DrawingObject{
         }
 
         switch(left){
-            case "Yellow":
-                yellowLineL.draw(g2d);
-                break;
-            case "White":
-                whiteLineL.draw(g2d);
-                break;
-            case "Dotted":
-                for(Square s : leftDotted){
-                    s.draw(g2d);
-                }
-                break;
+            case "Yellow": yellowLineL.draw(g2d); break;
+            case "White": whiteLineL.draw(g2d); break;
+            case "Dotted": for (Square s : leftDotted) {s.draw(g2d);} break;
         }
         switch(right){
-            case "Yellow":
-                yellowLineR.draw(g2d);
-                break;
-            case "White":
-                whiteLineR.draw(g2d);
-                break;
-            case "Dotted":
-                for(Square s : rightDotted){
-                    s.draw(g2d);
-                }
-                break;
+            case "Yellow": yellowLineR.draw(g2d); break;
+            case "White": whiteLineR.draw(g2d); break;
+            case "Dotted": for (Square s : rightDotted){s.draw(g2d);} break;
         }
     }
 

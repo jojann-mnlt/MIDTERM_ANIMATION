@@ -5,20 +5,18 @@ public class Sedan extends Car{
     private Circle frontBumper, rearBumper, windShield, rearWindow, roofFront, roofRear;
     private Triangle frontLeftWheel, frontRightWheel, rearLeftWheel, rearRightWheel;
     private Line aPillarL, aPillarR, cPillarL, cPillarR, bPillar;
-    private String carModel;
 
     public Sedan(double x, double y, double size, double angle, Color color) {
         super(x, y, size, angle, color);
         this.x = x;
         this.y = y;
         this.color = color;
-        carModel = "Sedan";
     }
 
     @Override public void draw(Graphics2D g2d){
         AffineTransform ogTransform = g2d.getTransform();
         g2d.rotate(Math.toRadians(angle), x+width*.50, y+height*.50);
-        //Body
+
         frontBumper = new Circle(x+size*0.025, y, width*0.95, height*0.125, color);
         hood = new Square(x+size*0.025, y+size*0.15, width*0.95, height*11/48, color);
         frontLeftWheel = new Triangle(x, y+size*0.15, width*0.05, height*11/48, color);
@@ -28,11 +26,9 @@ public class Sedan extends Car{
         rearLeftWheel = new Triangle(x, y+size*2.3, width*0.1, -(height*1/12), color);
         rearRightWheel = new Triangle(x+size*0.9, y+size*2.3, width*0.1, (-height*1/12), color);
         body = new Square(x, y+size*0.7, width, height*7/12, color);
-        //Windows
         windowBase = new Square(x+size*0.1, y+size*0.8, width*0.8, height*0.47, windowColor);
         windShield = new Circle(x+size*0.1, y+size*0.69, width*0.8, height*1/12, windowColor);
         rearWindow = new Circle(x+size*0.1, y+size*1.778, width*0.8, height*1/8, windowColor);
-        //Roof
         roofFront = new Circle(x+size*0.2, y+size*1.128, width*0.6, height*1/24, color);
         roof = new Square(x+size*0.2, y+size*1.178, width*0.6, height*1/4, color);
         roofRear = new Circle(x+size*0.2, y+size*1.723, width*0.6, height*1/24, color);
@@ -41,7 +37,7 @@ public class Sedan extends Car{
         bPillar = new Line(x+size*0.1, y+size*1.458, x+size*0.9, y+size*1.458, pillarThicknessInt, color);
         cPillarL = new Line(x+size*0.05, y+size*2.028, x+size*0.225, y+size*1.744, pillarThicknessInt, color);
         cPillarR = new Line(x+size*0.95, y+size*2.028, x+size*0.775, y+size*1.744, pillarThicknessInt, color);
-        //Render
+
         frontBumper.draw(g2d);
         hood.draw(g2d);
         frontLeftWheel.draw(g2d);
@@ -65,5 +61,4 @@ public class Sedan extends Car{
         g2d.setTransform(ogTransform);
         this.changeRenderState(true);
     }
-    @Override public String getCarModel(){return carModel;}
 }

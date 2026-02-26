@@ -1,4 +1,5 @@
 import java.awt.*;
+
 public class GearKnob implements DrawingObject{
     private Circle gearKnob, gearKnobOutline;
     private Square gearStick;

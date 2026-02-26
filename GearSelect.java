@@ -3,19 +3,14 @@ import java.awt.*;
 import java.util.*;
 
 public class GearSelect extends JComponent {
-    private double x, y;
-    private int size;
     private GearShifter gears;
     private GearKnob knob;
     private ArrayList<DrawingObject> shifterParts;
 
     public GearSelect(){
         shifterParts = new ArrayList<DrawingObject>();
-        x = 30;
-        y = 90;
-        size = 70;
-        gears = new GearShifter(x, y, size, Color.WHITE);
-        knob = new GearKnob(x-size*0.05, y-size*0.65, size);
+        gears = new GearShifter(30, 90, 70);
+        knob = new GearKnob(26.5, 44.5, 70);
         shifterParts.add(gears);
         shifterParts.add(knob);
     }
