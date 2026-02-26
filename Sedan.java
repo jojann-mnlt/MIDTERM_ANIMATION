@@ -15,8 +15,7 @@ public class Sedan extends Car{
         carModel = "Sedan";
     }
 
-    @Override
-    public void draw(Graphics2D g2d){
+    @Override public void draw(Graphics2D g2d){
         AffineTransform ogTransform = g2d.getTransform();
         g2d.rotate(Math.toRadians(angle), x+width*.50, y+height*.50);
         //Body

@@ -6,16 +6,18 @@ import java.util.*;
 
 public class CarSelect extends JComponent {
 
-    private Car sedan, coupe;
+    private Car sedan, coupe, muscle;
     private int currentCar;
     private ArrayList<Car> cars;
 
     public CarSelect() {
         sedan = new Sedan(125, 100, 150, 0, Color.WHITE);
         coupe = new Coupe(125, 100, 150, 0, Color.WHITE);
+        muscle = new Muscle(125, 100, 150, 0, Color.WHITE);
         cars = new ArrayList<>();
         cars.add(sedan);
         cars.add(coupe);
+        cars.add(muscle);
         currentCar = 0;
     }
 

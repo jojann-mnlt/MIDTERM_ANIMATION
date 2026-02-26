@@ -5,6 +5,7 @@ public abstract class Car implements DrawingObject {
     protected Color color, windowColor;
     protected String carModel;
     protected boolean rendered;
+    protected Square hitbox;
 
     public Car(double x, double y, double size, double angle, Color color){
         this.x = x;
@@ -18,6 +19,7 @@ public abstract class Car implements DrawingObject {
         pillarThicknessInt = (int) pillarThickness;
         windowColor = Color.decode("#202020");
         rendered = false;
+        hitbox = new Square(x+size*0.05, y+size*0.3, width*0.9, height*0.75, Color.RED);
     }
     // Draw Method
     public abstract void draw(Graphics2D g2d);
@@ -29,17 +31,29 @@ public abstract class Car implements DrawingObject {
     public double getHeight(){return height;} //for collision
     public Color getColor(){return color;}
     public abstract String getCarModel();
+    public boolean isVisible(){return rendered;}
+
+    // Hitbox detection
     public boolean isColliding(Car otherCar){
-        return !((this.x + this.width <= otherCar.getX()) ||
-            (this.x >= otherCar.getX() + otherCar.getWidth()) ||
-            (this.y + this.height <= otherCar.getY()) ||
-            (this.y >= otherCar.getY() + otherCar.getHeight())
+        return !((this.hitbox.getX() + this.hitbox.getWidth() <= otherCar.getHitbox().getX()) ||
+            (this.hitbox.getX() >= otherCar.getHitbox().getX() + otherCar.getHitbox().getWidth()) ||
+            (this.hitbox.getY() + this.hitbox.getHeight() <= otherCar.getHitbox().getY()) ||
+            (this.hitbox.getY() >= otherCar.getHitbox().getY() + otherCar.getHitbox().getHeight())
         );
     }
-    public boolean isVisible(){return rendered;}
+    public Square getHitbox(){
+        hitbox = new Square(x+size*0.05, y+size*0.35, width*0.9, height*0.75, Color.RED);
+        return hitbox;
+    }
     // Mutator Methods
-    public void moveX(double amount){x += amount;}
-    public void moveY(double amount){y += amount;}
+    public void moveX(double amount){
+        x += amount;
+        hitbox.moveX(amount);
+    }
+    public void moveY(double amount){
+        y += amount;
+        hitbox.moveY(amount);
+    }
     public void moveTo(double x, double y){
         this.x = x;
         this.y = y;

@@ -22,6 +22,8 @@ public class Circle implements DrawingObject {
 
     public double getX() { return x; } // Made all the getter methods one line.
     public double getY() { return y; }
+    public double getWidth() { return width; }
+    public double getHeight() { return height; }
     public void moveX(double amount) { x += amount; }
     public void moveY(double amount) { y += amount; }
 }

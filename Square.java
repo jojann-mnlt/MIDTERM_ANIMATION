@@ -24,4 +24,7 @@ public class Square implements DrawingObject {
     public double getY() {return y;}
     public void moveX(double amount) {x += amount;}
     public void moveY(double amount) {y += amount;}
+    // Hitbox methods
+    public double getWidth() {return width;}
+    public double getHeight() {return height;}
 }
