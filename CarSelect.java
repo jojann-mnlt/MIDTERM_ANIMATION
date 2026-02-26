@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.*;
 import java.util.*;
 
 public class CarSelect extends JComponent {
@@ -41,7 +39,6 @@ public class CarSelect extends JComponent {
         garage.changeColor(Color.DARK_GRAY);
         Square garageHandle = new Square(166.1, 50.5, 67.8, 10.9, Color.DARK_GRAY);
         garageHandle.draw(g2d);
-        AffineTransform oldTransform = g2d.getTransform();
 
         FreeformQuadrilateral window = new FreeformQuadrilateral(30, 123.3, 30, 521.3,-82, 568.9, -82, 0, Color.WHITE);
         window.draw(g2d);

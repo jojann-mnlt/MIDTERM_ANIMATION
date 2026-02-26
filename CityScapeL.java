@@ -1,14 +1,13 @@
 import java.awt.*;
 
 public class CityScapeL {
-    private double x, y, size, numberOfAdditionalLanes;
+    private double x, y, numberOfAdditionalLanes;
     private Square sidewalk;
     private Square grass1, grass2, grass3, grass4, grass5;
 
-    public CityScapeL(double x, double y, double size, double numberOfAdditionalLanes) {
+    public CityScapeL(double x, double y, double numberOfAdditionalLanes) {
         this.x = x;
         this.y = y;
-        this.size = size;
         this.numberOfAdditionalLanes = numberOfAdditionalLanes;
     }
 

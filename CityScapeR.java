@@ -1,7 +1,7 @@
 import java.awt.*;
 
 public class CityScapeR {
-    private double x, y, size, numberOfAdditionalLanes;
+    private double x, y, size;
     private Square sidewalk;
     private Square sand1;
     private Square sand2;
