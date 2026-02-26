@@ -14,7 +14,6 @@ public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
     private boolean left, right;
     private Timer gameTimer;
-    private String stars;
 
     //Game trackers
     private double gameSpeed;
@@ -31,7 +30,7 @@ public class SceneFrame extends JFrame {
             startSpeedPanel, livesPanel, normalLanesPanel, counterflowPanel,
             gamePausePanel, pauseButtons;
 
-    private JLabel RGBLabel, difficultyLabel, livesLabel, normalLanesLabel, counterflowLanesLabel, startSpeedLabel,
+    private JLabel RGBLabel, livesLabel, normalLanesLabel, counterflowLanesLabel, startSpeedLabel,
             difficulty, lives, normalLanes, counterflowLanes, startSpeed,
             pauseText;
 
@@ -53,7 +52,6 @@ public class SceneFrame extends JFrame {
 
         frame_width = 800;
         frame_height = 600;
-        stars = "★";
 
         phone =  new Phone();
 
