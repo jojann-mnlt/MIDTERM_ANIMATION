@@ -1,6 +1,6 @@
 /**
 This class renders the design in the details panel in the start menu.
-It contains inner classes render each part of the phone.
+It contains inner classes that render each part of the phone.
 
 @author Jacob L. Buenventura (250930)
 @author Johann Karol Benedict O. Manulat (253729)
@@ -22,6 +22,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 public class Phone extends JComponent {
+
+    /* This is the inner class, PhoneScreen. This is used to render the light blue gradient JPanel for the detailsPanel of the SceneFrame. */
     private class PhoneScreen extends JPanel {
         @Override
         public void paintComponent(Graphics g) {
@@ -33,6 +35,7 @@ public class Phone extends JComponent {
         }
     }
 
+    /* This is the inner class, PhoneUpper. This is used to render the top, camera part for the detailsPanel of the SceneFrame. */
     private class PhoneUpper extends JComponent {
         @Override
         protected void paintComponent(Graphics g) {
@@ -55,6 +58,7 @@ public class Phone extends JComponent {
         }
     }
 
+    /* This is the inner class, PhoneLower. This is used to render the lower, button part for the detailsPanel of the SceneFrame. */
     private class PhoneLower extends JComponent {
         @Override
         protected void paintComponent(Graphics g) {
@@ -75,6 +79,7 @@ public class Phone extends JComponent {
         }
     }
 
+    /* these are getter methods for all three inner classes */
     public PhoneUpper drawUpperPhone() {
         PhoneUpper upperPhone = new PhoneUpper();
         return upperPhone;

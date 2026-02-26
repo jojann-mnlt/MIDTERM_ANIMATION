@@ -28,12 +28,14 @@ public class CityScapeR {
     private Square shoreline;
     private Square sea1, sea2, sea3;
 
+    /* The constructor method for the CityScape. */
     public CityScapeR(double x, double y, double size) {
         this.x = x;
         this.y = y;
         this.size = size;
     }
 
+    /* This renders all the DrawingObjects for the left hand side of the game map. This consists of varying shades of yellow and blue. */
     public void draw(Graphics2D g2d) {
         sidewalk = new Square(x+size*1.2, y, 86, 4000, Color.LIGHT_GRAY);
         sidewalk.draw(g2d);

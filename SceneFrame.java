@@ -41,6 +41,7 @@ public class SceneFrame extends JFrame {
     private Clip bgm;
     private Phone phone;
 
+    /* Constructor method for the SceneFrame. */
     public SceneFrame() {
         //Game Trackers
         score = 0; gameSpeed = 0; gameLives = 3;
@@ -121,6 +122,8 @@ public class SceneFrame extends JFrame {
         setUpSliderListeners();
     }
 
+    /* This method renders the main menu / the start menu where players can customize. The frame is split into two parts:
+    The first half is the canvas, CarSelect, and the second half is the gearSelect and the details panel. */
     public void setUpGUI() {
         Container cp = getContentPane();
 
@@ -222,6 +225,7 @@ public class SceneFrame extends JFrame {
         setVisible(true);
     }
 
+    /* this method renders the game proper after driveButton is clicked. */
     private void setUpGameGUI() {
         Container cp = getContentPane();
         cp.repaint();
@@ -232,6 +236,7 @@ public class SceneFrame extends JFrame {
         setVisible(true);
     }
 
+    /* this method renders the simple pause menu after the escape button is clicked. */
     private void setUpPauseGUI(){
         Container cp = getContentPane();
         cp.repaint();
@@ -272,7 +277,9 @@ public class SceneFrame extends JFrame {
         setPreferredSize(new Dimension(frame_width, frame_height));
         setVisible(true);
     }
-    
+
+    /* The next few methods set up the various Action/ChangeListeners we used in our project.
+    This sets up the slider listeners used for player customization. */
     public void setUpSliderListeners() {
         ChangeListener changeListener = new ChangeListener() {
             @Override
@@ -292,6 +299,8 @@ public class SceneFrame extends JFrame {
         blueSlider.addChangeListener(changeListener);
     }
 
+    /* The next few methods set up the various Action/ChangeListeners we used in our project.
+    This sets up the mouse listeners used for changing the car and the difficulty on the gearstick. */
     public void setUpMouseListeners() {
         MouseListener mouseListener = new MouseListener() {
             @Override public void mouseClicked(MouseEvent e){
@@ -363,6 +372,8 @@ public class SceneFrame extends JFrame {
         carSelect.addMouseListener(mouseListener);
     }
 
+    /* The next few methods set up the various Action/ChangeListeners we used in our project.
+    This sets up the button listeners used the pause menu, game over menu, and the main menu. */
     public void setUpButtonListeners() { 
         ActionListener buttonListeners = new ActionListener() {
             @Override
@@ -426,6 +437,7 @@ public class SceneFrame extends JFrame {
         backToMenu.addActionListener(buttonListeners);
     }
 
+    /* Ensures that the player car is in the correct position */
     private void reloadSelectedCar(String purpose){ // Ensures that the player car loads properly
         if (purpose.equals("Game")){
             selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
@@ -440,6 +452,8 @@ public class SceneFrame extends JFrame {
         }
     }
 
+    /* The next few methods set up the various Action/ChangeListeners we used in our project.
+    This sets up the key listeners, vital for player movement. */
     public void setUpKeyListeners() {
         KeyListener keyListener = new KeyListener() {
             // KeyBinds: A > Steer Left, D > Steer Right, ESC = Pause
@@ -470,11 +484,13 @@ public class SceneFrame extends JFrame {
         sceneCanvas.requestFocus();
     }
 
+    /* Sets up the game timer that updates every 16 milliseconds (60 FPS) */
     public void setUpTimers(){
         gameTimer = new Timer(16, e -> drive(gameSpeed));
         gameTimer.start();
     }
 
+    /* this method is checked every 16 milliseconds by the game timer. Updates the movements of the road and the enemy cars spawning */
     public void drive(double speed){
         // Fields to be used in this method
         double delta = (((speed*40000)/60)/60)/60;
@@ -542,6 +558,7 @@ public class SceneFrame extends JFrame {
     }
 
 
+    /* This loads the fail music when the player dies after 3 lives */
     private Clip loadMusic(String filename, boolean loop) {
         try {
             InputStream audioSrc = getClass().getResourceAsStream(filename);

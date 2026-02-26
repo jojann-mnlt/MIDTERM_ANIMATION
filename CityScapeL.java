@@ -25,12 +25,14 @@ public class CityScapeL {
     private Square sidewalk;
     private Square grass1, grass2, grass3, grass4, grass5;
 
+    /* this is the constructor method for the CityScape */
     public CityScapeL(double x, double y, double numberOfAdditionalLanes) {
         this.x = x;
         this.y = y;
         this.numberOfAdditionalLanes = numberOfAdditionalLanes;
     }
 
+    /* this renders all of the backdrop from the left side of the game map. This consists of five varying shades of green squares. */
     public void draw(Graphics2D g2d) {
         sidewalk = new Square(x - 120 * (numberOfAdditionalLanes + .7), y, 86, 4000, Color.LIGHT_GRAY);
         sidewalk.draw(g2d);
@@ -51,5 +53,4 @@ public class CityScapeL {
         grass5 = new Square(grass4.getX()-100, y, 76.4, 4000, Color.decode("#5ba22f"));
         grass5.draw(g2d);
     }
-
 }
