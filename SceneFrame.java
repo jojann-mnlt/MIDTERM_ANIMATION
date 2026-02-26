@@ -567,9 +567,3 @@ public class SceneFrame extends JFrame {
         return null;
     }
 }
-
-/*
-private Clip bgm;
-
-
- */
