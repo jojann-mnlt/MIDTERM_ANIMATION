@@ -24,7 +24,7 @@ public class CityScapeR {
             sideWalkY += 100;
         }
 
-        sand1 = new Square(x+(size*1.2)+size*.863, y, 71.2, 4000, Color.decode("#d9d9c1"));
+        sand1 = new Square(sidewalk.getX()+size*.863, y, 71.2, 4000, Color.decode("#d9d9c1"));
         sand1.draw(g2d);
         sand2 = new Square(sand1.getX()+size*.469, y, 63.2, 4000, Color.decode("#dae2cd"));
         sand2.draw(g2d);

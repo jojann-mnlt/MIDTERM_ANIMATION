@@ -13,7 +13,7 @@ public class CityScapeL {
     }
 
     public void draw(Graphics2D g2d) {
-        sidewalk = new Square(x - size * (numberOfAdditionalLanes + .7), y, 86, 4000, Color.LIGHT_GRAY);
+        sidewalk = new Square(x - 120 * (numberOfAdditionalLanes + .7), y, 86, 4000, Color.LIGHT_GRAY);
         sidewalk.draw(g2d);
         double sideWalkX = sidewalk.getX(), sideWalkY = sidewalk.getY();
 
@@ -29,7 +29,7 @@ public class CityScapeL {
         grass3.draw(g2d);
         grass4 = new Square(grass3.getX()-100*.744, y, 76.4, 4000, Color.decode("#41980a"));
         grass4.draw(g2d);
-        grass5 = new Square(grass4.getX()-100*.646, y, 76.4, 4000, Color.decode("#5ba22f"));
+        grass5 = new Square(grass4.getX()-100, y, 76.4, 4000, Color.decode("#5ba22f"));
         grass5.draw(g2d);
     }
 
