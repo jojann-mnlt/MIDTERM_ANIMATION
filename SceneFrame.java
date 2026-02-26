@@ -13,7 +13,7 @@ public class SceneFrame extends JFrame {
     private String stars;
 
     //Game trackers
-    private double score;
+    private int score;
     private double gameSpeed;
     private int gameLives;
 
@@ -24,13 +24,14 @@ public class SceneFrame extends JFrame {
     private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel,
             RGBPanel, carSelectPanel, gearSelectPanel, detailsPanel,
             redPanel, greenPanel, bluePanel,
-            red, green, blue;
+            red, green, blue,
+            gamePausePanel, pauseButtons;
 
     private JLabel RGBLabel, difficultyLabel, livesLabel, lanesLabel, startSpeedLabel,
-            difficulty, lives, lanes, startSpeed;
+            difficulty, lives, lanes, startSpeed, pauseText;
 
     private JSlider redSlider, greenSlider, blueSlider;
-    private JButton driveButton;
+    private JButton driveButton, resumeGame, restartGame, backToMenu;
 
     private Car selectedCar;
     private int selectedGear;
@@ -98,7 +99,9 @@ public class SceneFrame extends JFrame {
         labels.add(lanesLabel = new JLabel("Lanes", JLabel.CENTER));
         labels.add(livesLabel = new JLabel("Lives", JLabel.CENTER));
 
-
+        resumeGame = new JButton("Continue");
+        backToMenu = new JButton("Back To Menu");
+        restartGame = new JButton("Restart");
 
         setUpGUI();
         setUpButtonListeners();
@@ -191,6 +194,37 @@ public class SceneFrame extends JFrame {
         Container cp = getContentPane();
         cp.repaint();
         cp.add(sceneCanvas = new SceneCanvas(frame_width, frame_height, selectedCar, selectedGear));
+        setTitle("Midterm Project - Buenaventura - Manulat");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setPreferredSize(new Dimension(frame_width, frame_height));
+        setVisible(true);
+    }
+
+    private void setUpPauseGUI(){
+        Container cp = getContentPane();
+        cp.repaint();
+        gamePausePanel = new JPanel();
+
+        pauseText = new JLabel();
+        pauseButtons = new JPanel();
+        pauseButtons.setLayout(new GridLayout(1, 2));
+        boolean gameOver = (gameLives == 0);
+        if (!gameOver){
+            pauseText.setText("Game Paused");
+            pauseButtons.add(resumeGame);
+            pauseButtons.add(backToMenu);
+        }
+        else if (gameOver){
+            pauseText.setText("Game Over");
+            pauseButtons.add(restartGame);
+            pauseButtons.add(backToMenu);
+        }
+
+        gamePausePanel.setLayout(new BorderLayout());
+        gamePausePanel.add(pauseText, BorderLayout.CENTER);
+        gamePausePanel.add(pauseButtons, BorderLayout.SOUTH);
+        cp.add(gamePausePanel);
+
         setTitle("Midterm Project - Buenaventura - Manulat");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(frame_width, frame_height));
@@ -290,6 +324,7 @@ public class SceneFrame extends JFrame {
                 selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
                 selectedCar.changeSize(75);
                 gameSpeed = gearSelect.getShifter().getSpeed();
+                gameLives = 3;
                 score = 0;
                 System.out.println("Car Model: "+ selectedCar.getCarModel());
                 System.out.println("Gear Level: "+ selectedGear);
@@ -302,6 +337,56 @@ public class SceneFrame extends JFrame {
             }
         };
         driveButton.addActionListener(startButtonListener); 
+        ActionListener pauseButtonListeners = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                if (e.getSource() == resumeGame){
+                    selectedCar = carSelect.getCar();
+                    selectedGear = gearSelect.getShifter().getGear();
+                    selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
+                    selectedCar.changeSize(75);
+                    selectedCar.rotate(0);
+                    gameSpeed = gearSelect.getShifter().getSpeed();
+                    getContentPane().removeAll();
+                    setUpGameGUI();
+                    gameTimer.start();
+                    distanceTimer.start();
+                    setUpKeyListeners();
+                    revalidate();
+                    repaint();
+                } else if (e.getSource() == restartGame){
+                    selectedCar = carSelect.getCar();
+                    selectedGear = gearSelect.getShifter().getGear();
+                    selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
+                    selectedCar.changeSize(75);
+                    selectedCar.rotate(0);
+                    gameSpeed = gearSelect.getShifter().getSpeed();
+                    gameLives = 3;
+                    score = 0;
+                    getContentPane().removeAll();
+                    setUpGameGUI();
+                    gameTimer.start();
+                    distanceTimer.start();
+                    setUpKeyListeners();
+                    revalidate();
+                    repaint();
+                } else if (e.getSource() == backToMenu){
+                    selectedCar.moveTo(125, 100);
+                    selectedCar.changeSize(150);
+                    selectedCar.rotate(0);
+                    gameTimer.stop();
+                    distanceTimer.stop();
+                    getContentPane().removeAll();
+                    revalidate();
+                    repaint();
+                    setUpGUI();
+                    System.out.println(score);
+                }
+            }
+        };
+        resumeGame.addActionListener(pauseButtonListeners);
+        restartGame.addActionListener(pauseButtonListeners);
+        backToMenu.addActionListener(pauseButtonListeners);
     }
 
     public void setUpKeyListeners() {
@@ -326,7 +411,7 @@ public class SceneFrame extends JFrame {
             }
             @Override public void keyTyped(KeyEvent e){}
         };
-        KeyListener returnToStart = new KeyListener() {
+        KeyListener pause = new KeyListener() {
             @Override public void keyPressed(KeyEvent e){
                 if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     selectedCar.moveTo(125, 100);
@@ -336,8 +421,7 @@ public class SceneFrame extends JFrame {
                     getContentPane().removeAll();
                     revalidate();
                     repaint();
-                    setUpGUI();
-                    System.out.println("Score: "+ score);
+                    setUpPauseGUI();
                 }
             }
             @Override public void keyReleased(KeyEvent e){}
@@ -346,7 +430,7 @@ public class SceneFrame extends JFrame {
 
         sceneCanvas.setFocusable(true);
         sceneCanvas.addKeyListener(keyListener);
-        sceneCanvas.addKeyListener(returnToStart);
+        sceneCanvas.addKeyListener(pause);
         sceneCanvas.requestFocus();
     }
 
@@ -363,7 +447,7 @@ public class SceneFrame extends JFrame {
         Road road = sceneCanvas.getRoad();
         TrafficSystem traffic = sceneCanvas.getTraffic();
         road.moveY(delta);
-        score += 1;
+        score += delta;
         if (road.getY() >= 0){
             road.moveY(-3400);
         }
@@ -375,7 +459,6 @@ public class SceneFrame extends JFrame {
                 traffic.refreshNormalRNG();
                 c.moveY(-1500);
             } else if (c.isColliding(selectedCar) && c.isVisible()){
-                System.out.println("Crash!");
                 gameLives -= 1;
                 c.moveY(-1500);
             }
@@ -387,10 +470,20 @@ public class SceneFrame extends JFrame {
                 traffic.refreshCounterRNG();
                 c.moveY(-1500);
             } else if (c.isColliding(selectedCar) && c.isVisible()){
-                System.out.println("Crash!");
                 gameLives -= 1;
                 c.moveY(-1500);
             }
+        }
+        if (gameLives == 0){
+            selectedCar.moveTo(125, 100);
+            selectedCar.changeSize(150);
+            gameTimer.stop();
+            distanceTimer.stop();
+            getContentPane().removeAll();
+            revalidate();
+            repaint();
+            setUpPauseGUI();
+            System.out.println(score);
         }
     }
 
