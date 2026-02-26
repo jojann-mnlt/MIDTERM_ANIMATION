@@ -30,6 +30,7 @@ public class CarSelect extends JComponent {
     private ArrayList<Car> cars;
 
     public CarSelect() {
+        /** Creates and adds 3 cars to an arrayList. */
         sedan = new Sedan(125, 100, 150, 0, Color.WHITE);
         coupe = new Coupe(125, 100, 150, 0, Color.WHITE);
         muscle = new Muscle(125, 100, 150, 0, Color.WHITE);
@@ -43,6 +44,7 @@ public class CarSelect extends JComponent {
 
     @Override
     protected void paintComponent(Graphics g) {
+        /** This renders the graphic for the car select part of the start menu. */
         Graphics2D g2d = (Graphics2D) g;
 
         RenderingHints AA = new RenderingHints(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
@@ -106,12 +108,13 @@ public class CarSelect extends JComponent {
         g2d.setColor(new Color(255, 255, 255, 50));
     }
 
-    public Car getCar() { return cars.get(currentCar); }
+    /** Cycles through the cars in the ArrayList. */
     public void changeVehicle() {
         int carListSize = cars.size() - 1;
         if (currentCar < carListSize) {currentCar += 1;} 
         else if (currentCar == carListSize) {currentCar = 0;}
     }
-
+    /** Allow for access to the current car and the list of cars. */
+    public Car getCar() { return cars.get(currentCar); }
     public ArrayList<Car> getListOfCars() { return cars; }
 }

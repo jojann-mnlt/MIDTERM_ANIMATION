@@ -28,6 +28,7 @@ public class GearSelect extends JComponent {
     private ArrayList<DrawingObject> shifterParts;
 
     public GearSelect(){
+        /** Instantiates the drawing objects and adds them to an arraylist. */
         shifterParts = new ArrayList<DrawingObject>();
         gears = new GearShifter(30, 90, 70);
         knob = new GearKnob(26.5, 44.5, 70);
@@ -36,6 +37,7 @@ public class GearSelect extends JComponent {
     }
     @Override
     protected void paintComponent(Graphics g){
+        /** Renders all objects in the arraylist. */
         Graphics2D g2d = (Graphics2D) g;
         g2d.setColor(Color.decode("#292929"));
         g2d.fillRect(0, 0, getWidth(), getHeight());
@@ -49,6 +51,7 @@ public class GearSelect extends JComponent {
             p.draw(g2d);
         }
     }
+    /** Allows for access to the shifter and the knob */
     public GearShifter getShifter(){return gears;}
     public GearKnob getKnob(){return knob;}
 }

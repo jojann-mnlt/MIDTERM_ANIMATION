@@ -29,6 +29,7 @@ public class TrafficSystem implements DrawingObject{
     private int difficulty, removeNormal, removeCounter;
     private Random rng;
     public TrafficSystem(double x, double y, int difficulty){
+        /** Instantiates the fields and adds traffic cars to arrays. */
         this.x = x;
         this.y = y;
         this.difficulty = difficulty;
@@ -54,6 +55,7 @@ public class TrafficSystem implements DrawingObject{
     }
     @Override
     public void draw(Graphics2D g2d){
+        /** Renders all cars except for one random car (chosen by a random number generator). */
         for (int i = 0; i < numNormal; i++) {
             if (i != removeNormal) normal[i].draw(g2d);
             if (i == removeNormal) normal[i].changeRenderState(false);
@@ -66,14 +68,14 @@ public class TrafficSystem implements DrawingObject{
         }
     }
 
-    // Changes the index of the car that will NOT be rendered
+    /** Changes the index of the car that will NOT be rendered. */
     public void refreshNormalRNG(){removeNormal = rng.nextInt(numNormal);}
     public void refreshCounterRNG(){
         if(difficulty >= 4) removeCounter = rng.nextInt(numCounter);
         else removeCounter = 1;
     }
 
-    // Returns the cars in the arrays for access
+    /** Returns the arrays of cars for access to the cars. */
     public Car[] getNormalCars(){return normal;}
     public Car[] getCounterFlowCars(){return counterFlow;}
 

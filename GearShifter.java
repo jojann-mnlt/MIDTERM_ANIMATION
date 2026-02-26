@@ -28,6 +28,7 @@ public class GearShifter implements DrawingObject{
     private int size;
     private Color baseColor, baseOutline, gapColor;
     public GearShifter(double x, double y, int size){
+        /** Instantiates the fields of this class. */
         this.x = x;
         this.y = y;
         this.size = size;
@@ -38,14 +39,14 @@ public class GearShifter implements DrawingObject{
         gapColor = Color.decode("#292929");
     }
     public void draw(Graphics2D g2d){
-        // Instantiating
+        /** Instantiates the drawing objects. */
         shifterBaseOutline = new Square(x, y, size*2, size*2, baseOutline);
         shifterBase = new Square(x+size*0.1, y+size*0.1, size*1.8, size*1.8, baseColor);
         gap = new Square(x+size*0.3, y+size*0.9, size*1.4, size*0.2, gapColor);
         gap12 = new Square(x+size*0.3, y+size*0.3, size*0.2, size*1.4, gapColor);
         gap34 = new Square(x+size*0.9, y+size*0.3, size*0.2, size*1.4, gapColor);
         gap5 = new Square(x+size*1.5, y+size*0.3, size*0.2, size*0.7, gapColor);
-        // Rendering
+        /** Renders the drawing objects. */
         shifterBaseOutline.draw(g2d);
         shifterBase.draw(g2d);
         gap.draw(g2d);
@@ -54,6 +55,7 @@ public class GearShifter implements DrawingObject{
         gap5.draw(g2d);
     }
     public void changeGear(int gear){
+        /** Changes the gear level */
         gearLevel = gear;
         switch (gear){
             case 1,2,3:
@@ -67,6 +69,7 @@ public class GearShifter implements DrawingObject{
                 break;
         }
     }
+    /** Allow for access to private fields. */
     public double getSpeed() {return speed;}
     public int getGear() {return gearLevel;}
     public int getSize() {return size;}

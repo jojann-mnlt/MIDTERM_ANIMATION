@@ -28,6 +28,7 @@ public class Lane implements DrawingObject{
     private Square[] leftDotted, rightDotted;
 
     public Lane(double x, double y, double size, String left, String right){
+        /** Instantiates the fields of this class. */
         this.x = x;
         this.y = y;
         this.size = size;
@@ -41,6 +42,7 @@ public class Lane implements DrawingObject{
     }
 
     public void draw(Graphics2D g2d){
+        /** Instantiates and renders the drawing objects. */
         asphalt = new Square(x, y, width, height, asphaltColor);
         asphalt.draw(g2d);
         yellowLineL = new Square(x+size*0.05, y, size*0.05, height, yellow);
@@ -67,9 +69,10 @@ public class Lane implements DrawingObject{
         }
     }
 
+    /** Allow for access to posistion. */
     public double getX(){return x;}
     public double getY(){return y;}
-
+    /** Allow for manipulation of drawing objects posistion. */
     public void moveX(double amount){x += amount;}
     public void moveY(double amount){y += amount;}
 }
