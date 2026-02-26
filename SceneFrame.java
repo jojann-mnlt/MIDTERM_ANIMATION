@@ -242,7 +242,7 @@ public class SceneFrame extends JFrame {
             pauseButtons.add(backToMenu);
         }
         else if (gameOver){
-            pauseText.setText("Game Over");
+            pauseText.setText("Game Over, You Scored: "+score);
             pauseButtons.add(restartGame);
             pauseButtons.add(backToMenu);
         }

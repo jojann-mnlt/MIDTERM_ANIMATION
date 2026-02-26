@@ -1,19 +1,19 @@
 import java.awt.*;
 public class Lane implements DrawingObject{
     private double x, y, size, width, height;
-    private boolean hasYellowL, hasYellowR;
+    private String left, right;
     private Color asphaltColor, yellow, white;
     private Square asphalt, yellowLineL, yellowLineR, whiteLineL, whiteLineR;
     private Square[] leftDotted, rightDotted;
 
-    public Lane(double x, double y, double size, boolean left, boolean right){
+    public Lane(double x, double y, double size, String left, String right){
         this.x = x;
         this.y = y;
         this.size = size;
         width = size*1.2;
         height = 4000;
-        hasYellowL = left;
-        hasYellowR = right;
+        this.left = left;
+        this.right = right;
         asphaltColor = Color.decode("#272727");
         yellow = Color.decode("#ffcd62");
         white = Color.decode("#dbdbdb");
@@ -30,13 +30,36 @@ public class Lane implements DrawingObject{
         leftDotted = new Square[40];
         rightDotted = new Square[40];
         for (int i = 0; i < 40; i++){
-            leftDotted[i] = new Square(x+size*0.05, y+(size*i), i, i, white);
+            leftDotted[i] = new Square(x+size*0.025, y+(size*i), size*0.05, size*0.5, white);
+            rightDotted[i] = new Square(x+size*47/40, y+(size*i), size*0.05, size*0.5, white);
         }
 
-        if (hasYellowL == true) yellowLineL.draw(g2d);
-        else whiteLineL.draw(g2d);
-        if (hasYellowR == true) yellowLineR.draw(g2d);
-        else whiteLineR.draw(g2d);
+        switch(left){
+            case "Yellow":
+                yellowLineL.draw(g2d);
+                break;
+            case "White":
+                whiteLineL.draw(g2d);
+                break;
+            case "Dotted":
+                for(Square s : leftDotted){
+                    s.draw(g2d);
+                }
+                break;
+        }
+        switch(right){
+            case "Yellow":
+                yellowLineR.draw(g2d);
+                break;
+            case "White":
+                whiteLineR.draw(g2d);
+                break;
+            case "Dotted":
+                for(Square s : rightDotted){
+                    s.draw(g2d);
+                }
+                break;
+        }
     }
 
     public double getX(){return x;}
