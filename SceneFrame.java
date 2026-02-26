@@ -63,16 +63,13 @@ public class SceneFrame extends JFrame {
         carSelectPanel = new JPanel();
         gearSelectPanel = new JPanel();
 
-        UIManager.put("Label.foreground", Color.WHITE);
-        UIManager.put("Panel.background", Color.decode("#222222"));
-        detailsPanel = new JPanel();
+        detailsPanel = phone.drawPhoneScreen();
 
         RGBPanel = new JPanel();
         RGBPanel.setBackground(Color.DARK_GRAY);
         redPanel = new JPanel();
         greenPanel = new JPanel();
         bluePanel = new JPanel();
-        detailsPanel.setBackground(Color.decode("#222222"));
         startSpeedPanel = new JPanel();
         livesPanel = new JPanel();
         normalLanesPanel = new JPanel();
@@ -176,24 +173,29 @@ public class SceneFrame extends JFrame {
         startSpeedPanel.setLayout(new GridLayout(1, 2));
         startSpeedPanel.add(startSpeedLabel);
         startSpeedPanel.add(startSpeed);
+        startSpeedPanel.setOpaque(false);
         detailsPanel.add(startSpeedPanel);
 
         normalLanesPanel.setLayout(new GridLayout(1, 2));
         normalLanesPanel.add(normalLanesLabel);
         normalLanesPanel.add(normalLanes);
+        normalLanesPanel.setOpaque(false);
         detailsPanel.add(normalLanesPanel);
 
         counterflowPanel.setLayout(new GridLayout(1, 2));
         counterflowPanel.add(counterflowLanesLabel);
         counterflowPanel.add(counterflowLanes);
+        counterflowPanel.setOpaque(false);
         detailsPanel.add(counterflowPanel);
 
         livesPanel.setLayout(new GridLayout(1, 2));
         livesPanel.add(livesLabel);
         livesPanel.add(lives);
+        livesPanel.setOpaque(false);
         detailsPanel.add(livesPanel);
 
         detailsPanel.add(phone.drawLowerPhone());
+        detailsPanel.setOpaque(false);
 
         /*
         Speed: [No. of stars]
