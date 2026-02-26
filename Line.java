@@ -27,6 +27,7 @@ public class Line implements DrawingObject {
     private Color color;
 
     public Line(double x, double y, double x2, double y2, int size, Color color) {
+        /** Instantiates the end points of the line. */
         this.x = x;
         this.y = y;
         this.x2 = x2;
@@ -36,12 +37,14 @@ public class Line implements DrawingObject {
     }
 
     public void draw(Graphics2D g2d) {
+        /** Renders the line. */
         Line2D.Double line = new Line2D.Double(x, y, x2, y2);
         g2d.setColor(color);
         g2d.setStroke(new BasicStroke(size));
         g2d.draw(line);
     }
 
+    /** Allow for access to private fields and to change position. */
     public double getX() {return x;}
     public double getY() {return y;}
     public void moveX(double amount) {x += amount;}

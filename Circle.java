@@ -26,6 +26,7 @@ public class Circle implements DrawingObject {
     private Color color;
 
     public Circle(double x, double y, double width, double height, Color color) {
+        /** Instantiates the fields of the circle. */ 
         this.x = x;
         this.y = y;
         this.width = width;
@@ -35,11 +36,13 @@ public class Circle implements DrawingObject {
     }
 
     public void draw(Graphics2D g2d) {
+        /** Renders the circle. */
         Ellipse2D.Double square = new Ellipse2D.Double(x, y, width, height);
         g2d.setColor(color);
         g2d.fill(square);
     }
 
+    /** Allow for access to private fields and to change position. */
     public double getX() { return x; }
     public double getY() { return y; }
     public void moveX(double amount) { x += amount; }

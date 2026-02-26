@@ -33,6 +33,7 @@ public class SceneCanvas extends JComponent {
     private ArrayList<DrawingObject> gameSystems;
 
     public SceneCanvas(double width, double height, Car selectedCar, int selectedGear){
+        /** Instantiates the fields and game systems. */
         gameSystems = new ArrayList<DrawingObject>();
         this.width = width;
         this.height = height;
@@ -47,6 +48,7 @@ public class SceneCanvas extends JComponent {
 
     @Override
     protected void paintComponent(Graphics g) {
+        /** Renders the game system graphics (traffic and roads). */
         Graphics2D g2d = (Graphics2D) g;
 
         AffineTransform oldTransform = g2d.getTransform();
@@ -61,6 +63,7 @@ public class SceneCanvas extends JComponent {
         for (DrawingObject o : gameSystems){o.draw(g2d);}
     }
 
+    /** Allow access to the road and traffic system for position manipulation. */
     public Road getRoad(){return road;}
     public TrafficSystem getTraffic(){return trafficSystem;}
 }

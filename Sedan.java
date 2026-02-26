@@ -28,6 +28,7 @@ public class Sedan extends Car{
     private Line aPillarL, aPillarR, cPillarL, cPillarR, bPillar;
 
     public Sedan(double x, double y, double size, double angle, Color color) {
+        /** Instatiates the private fields and calls the superclass constructor. */
         super(x, y, size, angle, color);
         this.x = x;
         this.y = y;
@@ -35,6 +36,7 @@ public class Sedan extends Car{
     }
 
     @Override public void draw(Graphics2D g2d){
+        /** Instantiates and renders all the parts of the car. */
         AffineTransform ogTransform = g2d.getTransform();
         g2d.rotate(Math.toRadians(angle), x+width*.50, y+height*.50);
 

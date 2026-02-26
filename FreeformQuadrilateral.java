@@ -27,6 +27,7 @@ public class FreeformQuadrilateral implements DrawingObject {
     Color color;
 
     public FreeformQuadrilateral(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, Color color) {
+        /** Instantiates the fields of the quadrilateral. */
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -39,6 +40,7 @@ public class FreeformQuadrilateral implements DrawingObject {
     }
 
     public void draw(Graphics2D g2d) {
+        /** Renders the quadrilateral outline. */
         g2d.setColor(color);
         Path2D.Double quad = new Path2D.Double();
         quad.moveTo(x1, y1);
@@ -50,6 +52,7 @@ public class FreeformQuadrilateral implements DrawingObject {
     }
 
     public void fill(Graphics2D g2d) {
+        /** Renders the quadrilateral with a solid color. */
         g2d.setColor(color);
         Path2D.Double quad = new Path2D.Double();
         quad.moveTo(x1, y1);
@@ -60,6 +63,7 @@ public class FreeformQuadrilateral implements DrawingObject {
         g2d.fill(quad);
     }
 
+    /** Allow for access to private fields. */
     public double getX() {return x1;}
     public double getY() {return y1;}
     public void moveX(double amount) {x1 += amount;}

@@ -26,6 +26,7 @@ public class Road implements DrawingObject{
     private Lane main, lane2, lane3, lane4, lane5, lane6;
     private int difficulty;
     public Road(double x, double y, int difficulty){
+        /** Instantiates the fields of this class. */
         this.x = x;
         this.y = y;
         this.difficulty = difficulty;
@@ -36,8 +37,8 @@ public class Road implements DrawingObject{
         }
     }
 
-    // Renders the roads based on difficulty
     public void draw(Graphics2D g2d){
+        /** Renders roads based on difficulty. */
         main = new Lane(x, y, 100, "Dotted", "White");
         new CityScapeR(x, y, 100).draw(g2d);
         main.draw(g2d);
@@ -89,11 +90,11 @@ public class Road implements DrawingObject{
         }
 
     }
+    /** Allow for access to private fields and to change position. */
     public double getX(){return x;}
     public double getY(){return y;}
     public double getMaxXL(){return maxXL;}
     public double getMaxXR(){return maxXR;}
-
     public void moveX(double amount){
         x += amount;
         maxXR = x+22.5;

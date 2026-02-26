@@ -28,6 +28,7 @@ public class Square implements DrawingObject {
     private Color color;
 
     public Square(double x, double y, double width, double height, Color color) {
+        /** Instantiates the fields of the square. */
         this.x = x;
         this.y = y;
         this.width = width;
@@ -37,17 +38,19 @@ public class Square implements DrawingObject {
     }
 
     public void draw(Graphics2D g2d) {
+        /** Renders the square. */
         Rectangle2D.Double square = new Rectangle2D.Double(x, y, width, height);
         g2d.setColor(color);
         g2d.fill(square);
     }
 
+    /** Allow for access to private fields and to change position. */
     public double getX() {return x;}
     public double getY() {return y;}
     public void moveX(double amount) {x += amount;}
     public void moveY(double amount) {y += amount;}
 
-    // Allow for square to be used as a hitbox
+    /** Used specifically for collision detection in the game. */
     public double getWidth() {return width;}
     public double getHeight() {return height;}
 }

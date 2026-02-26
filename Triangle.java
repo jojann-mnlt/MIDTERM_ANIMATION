@@ -27,6 +27,7 @@ public class Triangle implements DrawingObject {
     private Color color;
 
     public Triangle(double x, double y, double width, double height, Color color){
+        /** Instantiates the fields of the triangle. */
         this.x = x;
         this.y = y;
         this.width = width;
@@ -34,6 +35,7 @@ public class Triangle implements DrawingObject {
         this.color = color;
     }
     public void draw(Graphics2D g2d) {
+        /** Renders the triangle. */
         Path2D.Double triangle = new Path2D.Double();
         triangle.moveTo(x, y+height);
         triangle.lineTo(x+width, y+height);
@@ -42,7 +44,8 @@ public class Triangle implements DrawingObject {
         g2d.setColor(color);
         g2d.fill(triangle);
     }
-    public double getX() {return x;} // Made all the getter methods one line
+    /** Allow for access to private fields and to change position. */
+    public double getX() {return x;}
     public double getY() {return y;}
     public void moveX(double amount) {x += amount;}
     public void moveY(double amount) {y += amount;}
