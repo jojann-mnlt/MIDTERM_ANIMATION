@@ -4,6 +4,7 @@ public class Lane implements DrawingObject{
     private boolean hasYellowL, hasYellowR;
     private Color asphaltColor, yellow, white;
     private Square asphalt, yellowLineL, yellowLineR, whiteLineL, whiteLineR;
+    private Square[] leftDotted, rightDotted;
 
     public Lane(double x, double y, double size, boolean left, boolean right){
         this.x = x;
@@ -20,11 +21,17 @@ public class Lane implements DrawingObject{
 
     public void draw(Graphics2D g2d){
         asphalt = new Square(x, y, width, height, asphaltColor);
+        asphalt.draw(g2d);
         yellowLineL = new Square(x+size*0.05, y, size*0.05, height, yellow);
         yellowLineR = new Square(x+size*1.1, y, size*0.05, height, yellow);
         whiteLineL = new Square(x-size*0.025, y, size*0.05, height, white);
         whiteLineR = new Square(x+size*47/40, y, size*0.05, height, white);
-        asphalt.draw(g2d);
+
+        leftDotted = new Square[40];
+        rightDotted = new Square[40];
+        for (int i = 0; i < 40; i++){
+            leftDotted[i] = new Square(x+size*0.05, y+(size*i), i, i, white);
+        }
 
         if (hasYellowL == true) yellowLineL.draw(g2d);
         else whiteLineL.draw(g2d);
