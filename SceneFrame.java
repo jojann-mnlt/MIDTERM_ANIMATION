@@ -3,9 +3,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.InputStream;
 import java.util.*;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.Timer;
 import javax.swing.event.*;
@@ -52,7 +50,6 @@ public class SceneFrame extends JFrame {
 
         frame_width = 800;
         frame_height = 600;
-
         phone =  new Phone();
 
         carSelect = new CarSelect();
@@ -567,9 +564,3 @@ public class SceneFrame extends JFrame {
         return null;
     }
 }
-
-/*
-private Clip bgm;
-
-
- */
