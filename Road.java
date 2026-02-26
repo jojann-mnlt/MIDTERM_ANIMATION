@@ -25,13 +25,13 @@ public class Road implements DrawingObject{
         switch (difficulty){
             case 1:
                 lane2 = new Lane(x-120, y, 100, "White", "Dotted");
-                new CityScapeL(x, y, 120, 1).draw(g2d);
+                new CityScapeL(x, y, 100, 1).draw(g2d);
                 lane2.draw(g2d);
                 break;
             case 2:
                 lane2 = new Lane(x-120, y, 100, "Dotted", "Dotted");
                 lane3 = new Lane(x-(120*2), y, 100, "White", "Dotted");
-                new CityScapeL(x, y, 120, 2).draw(g2d);
+                new CityScapeL(x, y, 100, 2).draw(g2d);
                 lane2.draw(g2d);
                 lane3.draw(g2d);
                 break;
@@ -39,7 +39,7 @@ public class Road implements DrawingObject{
                 lane2 = new Lane(x-120, y, 100, "Dotted", "Dotted");
                 lane3 = new Lane(x-(120*2), y, 100, "Dotted", "Dotted");
                 lane4 = new Lane(x-(120*3), y, 100, "White", "Dotted");
-                new CityScapeL(x, y, 120, 3).draw(g2d);
+                new CityScapeL(x, y, 100, 3).draw(g2d);
                 lane2.draw(g2d);
                 lane3.draw(g2d);
                 lane4.draw(g2d);
@@ -48,7 +48,7 @@ public class Road implements DrawingObject{
                 lane2 = new Lane(x-120, y, 100, "Yellow", "Dotted");
                 lane3 = new Lane(x-(120*2), y, 100, "Dotted", "Yellow");
                 lane4 = new Lane(x-(120*3), y, 100, "White", "Dotted");
-                new CityScapeL(x, y, 120, 3).draw(g2d);
+                new CityScapeL(x, y, 100, 3).draw(g2d);
                 lane2.draw(g2d);
                 lane3.draw(g2d);
                 lane4.draw(g2d);
@@ -59,7 +59,7 @@ public class Road implements DrawingObject{
                 lane4 = new Lane(x-(120*3), y, 100, "Dotted", "Yellow");
                 lane5 = new Lane(x-(120*4), y, 100, "Dotted", "Dotted");
                 lane6 = new Lane(x-(120*5), y, 100, "White", "Dotted");
-                new CityScapeL(x, y, 120, 5).draw(g2d);
+                new CityScapeL(x, y, 100, 5).draw(g2d);
                 lane2.draw(g2d);
                 lane3.draw(g2d);
                 lane4.draw(g2d);
