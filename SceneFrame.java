@@ -9,7 +9,7 @@ import javax.swing.event.*;
 public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
     private boolean left, right;
-    private Timer gameTimer, distanceTimer;
+    private Timer gameTimer;
     private String stars;
 
     //Game trackers
@@ -315,67 +315,53 @@ public class SceneFrame extends JFrame {
         carSelect.addMouseListener(mouseListener);
     }
 
-    public void setUpButtonListeners() {
-        ActionListener startButtonListener = new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                selectedCar = carSelect.getCar();
-                selectedGear = gearSelect.getShifter().getGear();
-                selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
-                selectedCar.changeSize(75);
-                gameSpeed = gearSelect.getShifter().getSpeed();
-                gameLives = 3;
-                score = 0;
-                System.out.println("Car Model: "+ selectedCar.getCarModel());
-                System.out.println("Gear Level: "+ selectedGear);
-                getContentPane().removeAll();
-                setUpGameGUI();
-                setUpKeyListeners();
-                setUpTimers();
-                revalidate();
-                repaint();
-            }
-        };
-        driveButton.addActionListener(startButtonListener); 
-        ActionListener pauseButtonListeners = new ActionListener() {
+    public void setUpButtonListeners() { 
+        ActionListener buttonListeners = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                if (e.getSource() == resumeGame){
+                if (e.getSource() == driveButton){
+                    selectedCar = carSelect.getCar();
+                    reloadSelectedCar("Game");
+                    selectedGear = gearSelect.getShifter().getGear();
+                    gameSpeed = gearSelect.getShifter().getSpeed();
+                    gameLives = 3;
+                    score = 0;
+                    System.out.println("Car Model: "+ selectedCar.getCarModel());
+                    System.out.println("Gear Level: "+ selectedGear);
+                    getContentPane().removeAll();
+                    setUpGameGUI();
+                    setUpKeyListeners();
+                    setUpTimers();
+                    revalidate();
+                    repaint();
+                }
+                else if (e.getSource() == resumeGame){
                     selectedCar = carSelect.getCar();
                     selectedGear = gearSelect.getShifter().getGear();
-                    selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
-                    selectedCar.changeSize(75);
-                    selectedCar.rotate(0);
+                    reloadSelectedCar("Game");
                     gameSpeed = gearSelect.getShifter().getSpeed();
                     getContentPane().removeAll();
                     setUpGameGUI();
                     gameTimer.start();
-                    distanceTimer.start();
                     setUpKeyListeners();
                     revalidate();
                     repaint();
                 } else if (e.getSource() == restartGame){
                     selectedCar = carSelect.getCar();
                     selectedGear = gearSelect.getShifter().getGear();
-                    selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
-                    selectedCar.changeSize(75);
-                    selectedCar.rotate(0);
+                    reloadSelectedCar("Game");
                     gameSpeed = gearSelect.getShifter().getSpeed();
                     gameLives = 3;
                     score = 0;
                     getContentPane().removeAll();
                     setUpGameGUI();
                     gameTimer.start();
-                    distanceTimer.start();
                     setUpKeyListeners();
                     revalidate();
                     repaint();
                 } else if (e.getSource() == backToMenu){
-                    selectedCar.moveTo(125, 100);
-                    selectedCar.changeSize(150);
-                    selectedCar.rotate(0);
+                    reloadSelectedCar("Menu");
                     gameTimer.stop();
-                    distanceTimer.stop();
                     getContentPane().removeAll();
                     revalidate();
                     repaint();
@@ -384,75 +370,78 @@ public class SceneFrame extends JFrame {
                 }
             }
         };
-        resumeGame.addActionListener(pauseButtonListeners);
-        restartGame.addActionListener(pauseButtonListeners);
-        backToMenu.addActionListener(pauseButtonListeners);
+        driveButton.addActionListener(buttonListeners);
+        resumeGame.addActionListener(buttonListeners);
+        restartGame.addActionListener(buttonListeners);
+        backToMenu.addActionListener(buttonListeners);
+    }
+
+    private void reloadSelectedCar(String purpose){ // Ensures that the player car loads properly
+        if (purpose.equals("Game")){
+            selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
+            selectedCar.changeSize(75);
+            selectedCar.rotate(0);
+            left = false;
+            right = false;
+        } else if (purpose.equals("Menu")){
+            selectedCar.moveTo(125, 100);
+            selectedCar.changeSize(150);
+            selectedCar.rotate(0);
+        }
     }
 
     public void setUpKeyListeners() {
         KeyListener keyListener = new KeyListener() {
-            // Use keyPressed for the keybinds
+            // KeyBinds: A > Steer Left, D > Steer Right, ESC = Pause
             @Override public void keyPressed(KeyEvent e){
                 if (e.getKeyCode() == KeyEvent.VK_A){
                     left = true;
                 }
                 else if (e.getKeyCode() == KeyEvent.VK_D){
                     right = true;
-                }
-                sceneCanvas.repaint();
-            }
-            @Override public void keyReleased(KeyEvent e){
-                if (e.getKeyCode() == KeyEvent.VK_A){
-                    left = false;
-                }
-                else if (e.getKeyCode() == KeyEvent.VK_D){
-                    right = false;
-                }
-            }
-            @Override public void keyTyped(KeyEvent e){}
-        };
-        KeyListener pause = new KeyListener() {
-            @Override public void keyPressed(KeyEvent e){
-                if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                    selectedCar.moveTo(125, 100);
-                    selectedCar.changeSize(150);
+                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                    reloadSelectedCar("Menu");
                     gameTimer.stop();
-                    distanceTimer.stop();
                     getContentPane().removeAll();
                     revalidate();
                     repaint();
                     setUpPauseGUI();
                 }
+                sceneCanvas.repaint();
             }
-            @Override public void keyReleased(KeyEvent e){}
+            @Override public void keyReleased(KeyEvent e){
+                if (e.getKeyCode() == KeyEvent.VK_A) {left = false;}
+                else if (e.getKeyCode() == KeyEvent.VK_D) {right = false;}
+            }
             @Override public void keyTyped(KeyEvent e){}
         };
-
         sceneCanvas.setFocusable(true);
         sceneCanvas.addKeyListener(keyListener);
-        sceneCanvas.addKeyListener(pause);
         sceneCanvas.requestFocus();
     }
 
     public void setUpTimers(){
-        gameTimer = new Timer(16, e -> movement());
+        gameTimer = new Timer(16, e -> drive(gameSpeed));
         gameTimer.start();
-
-        distanceTimer = new Timer(16, e-> drive(gameSpeed));
-        distanceTimer.start();
     }
 
     public void drive(double speed){
+        // Fields to be used in this method
         double delta = (((speed*40000)/60)/60)/60;
         Road road = sceneCanvas.getRoad();
         TrafficSystem traffic = sceneCanvas.getTraffic();
-        road.moveY(delta);
-        score += delta;
-        if (road.getY() >= 0){
-            road.moveY(-3400);
-        }
-
+        double amount = 0;
+        if (gameSpeed*0.2 < 5) amount = 5;
+        else if (gameSpeed*0.2 > 15) amount = 15;
+        else amount = gameSpeed*0.2;
         Car[] normalCars = traffic.getNormalCars();
+        Car[] counterFlowCars = traffic.getCounterFlowCars();
+        // Adding to score
+        score += delta;
+        // Ensure that road does not fall off the frame
+        road.moveY(delta);
+        if (road.getY() >= 0){road.moveY(-3400);}
+        // Illusion of forward moving
         for (Car c : normalCars){
             c.moveY(delta*0.8);
             if (c.getY() > 800) {
@@ -463,7 +452,6 @@ public class SceneFrame extends JFrame {
                 c.moveY(-1500);
             }
         }
-        Car[] counterFlowCars = traffic.getCounterFlowCars();
         for (Car c : counterFlowCars){
             c.moveY(delta);
             if (c.getY() > 800) {
@@ -474,30 +462,7 @@ public class SceneFrame extends JFrame {
                 c.moveY(-1500);
             }
         }
-        if (gameLives == 0){
-            selectedCar.moveTo(125, 100);
-            selectedCar.changeSize(150);
-            gameTimer.stop();
-            distanceTimer.stop();
-            getContentPane().removeAll();
-            revalidate();
-            repaint();
-            setUpPauseGUI();
-            System.out.println(score);
-        }
-    }
-
-    public void movement() {
-        double amount = 0;
-        if (gameSpeed*0.2 < 5) amount = 5;
-        else if (gameSpeed*0.2 > 15) amount = 15;
-        else amount = gameSpeed*0.2;
-
-        Road road = sceneCanvas.getRoad();
-        TrafficSystem traffic = sceneCanvas.getTraffic();
-        Car[] normalCars = traffic.getNormalCars();
-        Car[] counterFlowCars = traffic.getCounterFlowCars();
-
+        // Left and Right steering
         if (left && selectedCar.getX() != road.getMaxXL()) {
             road.moveX(amount);
             for (Car c : normalCars){c.moveX(amount);}
@@ -513,7 +478,17 @@ public class SceneFrame extends JFrame {
         else if ((!left && !right) || (selectedCar.getX() == road.getMaxXL() || selectedCar.getX() == road.getMaxXR())) {
             selectedCar.rotate(0);
         }
-
+        // Constantly check if lives become 0
+        if (gameLives == 0){
+            selectedCar.moveTo(125, 100);
+            selectedCar.changeSize(150);
+            gameTimer.stop();
+            getContentPane().removeAll();
+            revalidate();
+            repaint();
+            setUpPauseGUI();
+            System.out.println(score);
+        }
         sceneCanvas.repaint();
     }
 }
