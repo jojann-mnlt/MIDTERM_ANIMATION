@@ -24,16 +24,19 @@ public class SceneFrame extends JFrame {
     private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel,
             RGBPanel, carSelectPanel, gearSelectPanel, detailsPanel,
             redPanel, greenPanel, bluePanel,
-            red, green, blue;
+            red, green, blue,
+            startSpeedPanel, livesPanel, normalLanesPanel, counterflowPanel;
 
-    private JLabel RGBLabel, difficultyLabel, livesLabel, lanesLabel, startSpeedLabel,
-            difficulty, lives, lanes, startSpeed;
+    private JLabel RGBLabel, difficultyLabel, livesLabel, normalLanesLabel, counterflowLanesLabel, startSpeedLabel,
+            difficulty, lives, normalLanes, counterflowLanes, startSpeed;
 
     private JSlider redSlider, greenSlider, blueSlider;
     private JButton driveButton;
 
     private Car selectedCar;
     private int selectedGear;
+
+    private Phone phone;
 
     public SceneFrame() {
         //Game Trackers
@@ -43,8 +46,8 @@ public class SceneFrame extends JFrame {
         frame_height = 600;
         stars = "★";
 
-        UIManager.put("Label.font", new Font("Courier New", Font.BOLD, 12));
-        UIManager.put("Label.foreground", Color.WHITE);
+        phone =  new Phone();
+
         carSelect = new CarSelect();
         gearSelect = new GearSelect();
 
@@ -55,6 +58,9 @@ public class SceneFrame extends JFrame {
 
         carSelectPanel = new JPanel();
         gearSelectPanel = new JPanel();
+
+        UIManager.put("Label.foreground", Color.WHITE);
+        UIManager.put("Panel.background", Color.decode("#222222"));
         detailsPanel = new JPanel();
 
         RGBPanel = new JPanel();
@@ -63,6 +69,10 @@ public class SceneFrame extends JFrame {
         greenPanel = new JPanel();
         bluePanel = new JPanel();
         detailsPanel.setBackground(Color.decode("#222222"));
+        startSpeedPanel = new JPanel();
+        livesPanel = new JPanel();
+        normalLanesPanel = new JPanel();
+        counterflowPanel = new JPanel();
 
         redSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
         greenSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
@@ -88,17 +98,18 @@ public class SceneFrame extends JFrame {
             slider.setMinorTickSpacing(5);
         }
 
-        ArrayList<JLabel> labels = new ArrayList<>();
-        labels.add(difficulty = new JLabel("Difficulty: " + stars, JLabel.CENTER));
-        labels.add(lives = new JLabel("❤❤❤", JLabel.CENTER));
-        labels.add(lanes = new JLabel("Lanes", JLabel.CENTER));
-        labels.add(startSpeed = new JLabel("10 kph", JLabel.CENTER));
-        labels.add(difficultyLabel = new JLabel("Difficulty", JLabel.CENTER));
-        labels.add(startSpeedLabel = new JLabel("Start Speed", JLabel.CENTER));
-        labels.add(lanesLabel = new JLabel("Lanes", JLabel.CENTER));
-        labels.add(livesLabel = new JLabel("Lives", JLabel.CENTER));
+        difficulty = new JLabel("DIFFICULTY", JLabel.CENTER);
+        difficulty.setFont(new Font("Helvetica", Font.BOLD, 18));
 
-
+        UIManager.put("Label.font", new Font("Helvetica", Font.BOLD, 13));
+        lives = new JLabel("❤❤❤", JLabel.LEFT);
+        normalLanes = new JLabel("| 2 | 1 | ", JLabel.LEFT);
+        counterflowLanes = new JLabel("X", JLabel.LEFT);
+        startSpeed  = new JLabel("★", JLabel.LEFT);
+        startSpeedLabel = new JLabel("Speed ", JLabel.RIGHT);
+        normalLanesLabel = new JLabel("Normal Lanes ", JLabel.RIGHT);
+        livesLabel = new JLabel("Lives ", JLabel.RIGHT);
+        counterflowLanesLabel = new JLabel("Counterflow ", JLabel.RIGHT);
 
         setUpGUI();
         setUpButtonListeners();
@@ -154,16 +165,31 @@ public class SceneFrame extends JFrame {
         rightHalfPanel.setLayout(new GridLayout(2, 1));
         gearSelectPanel.setLayout(new GridLayout(1,2 ));
 
-        detailsPanel.setLayout(new GridLayout(8, 1));
-        detailsPanel.add(new JLabel());
+        detailsPanel.setLayout(new GridLayout(7, 1));
+        detailsPanel.add(phone.drawUpperPhone()); // top phone design
         detailsPanel.add(difficulty, JLabel.CENTER, 1);
-        detailsPanel.add(startSpeedLabel);
-        detailsPanel.add(startSpeed, JLabel.CENTER, 3);
-        detailsPanel.add(livesLabel);
-        detailsPanel.add(lives, JLabel.CENTER, 5);
-        detailsPanel.add(lanesLabel);
-        detailsPanel.add(lanes, JLabel.CENTER, 7);
-        UIManager.put("Label.font", new Font("Times New Roman", Font.BOLD, 24));
+
+        startSpeedPanel.setLayout(new GridLayout(1, 2));
+        startSpeedPanel.add(startSpeedLabel);
+        startSpeedPanel.add(startSpeed);
+        detailsPanel.add(startSpeedPanel);
+
+        normalLanesPanel.setLayout(new GridLayout(1, 2));
+        normalLanesPanel.add(normalLanesLabel);
+        normalLanesPanel.add(normalLanes);
+        detailsPanel.add(normalLanesPanel);
+
+        counterflowPanel.setLayout(new GridLayout(1, 2));
+        counterflowPanel.add(counterflowLanesLabel);
+        counterflowPanel.add(counterflowLanes);
+        detailsPanel.add(counterflowPanel);
+
+        livesPanel.setLayout(new GridLayout(1, 2));
+        livesPanel.add(livesLabel);
+        livesPanel.add(lives);
+        detailsPanel.add(livesPanel);
+
+        detailsPanel.add(phone.drawLowerPhone());
 
         /*
         Speed: [No. of stars]
@@ -248,19 +274,27 @@ public class SceneFrame extends JFrame {
                     System.out.println("Current Gear: "+gearSelect.getShifter().getGear());
                         switch (gearSelect.getShifter().getGear()) {
                             case 1:
-                                difficulty.setText("Difficulty: ★");
+                                startSpeed.setText("★");
+                                normalLanes.setText("| 1 | 2 |");
+                                counterflowLanes.setText("X");
                                 break;
                             case 2:
-                                difficulty.setText("Difficulty: ★★");
+                                startSpeed.setText("★ ★");
+                                normalLanes.setText("| 1 | 2 | 3 |");
                                 break;
                             case 3:
-                                difficulty.setText("Difficulty: ★★★");
+                                startSpeed.setText("★ ★ ★");
+                                normalLanes.setText("| 1 | 2 | 3 | 4 |");
                                 break;
                             case 4:
-                                difficulty.setText("Difficulty: ★★★★");
+                                startSpeed.setText("★ ★ ★ ★");
+                                normalLanes.setText("| 1 | 2 |");
+                                counterflowLanes.setText("| 1 | 2 |");
                                 break;
                             case 5:
-                                difficulty.setText("Difficulty: ★★★★★");
+                                startSpeed.setText("★ ★ ★ ★ ★");
+                                normalLanes.setText("| 1 | 2 | 3 |");
+                                counterflowLanes.setText("| 1 | 2 | 3 |");
                                 break;
                     }
 

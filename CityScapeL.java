@@ -30,5 +30,4 @@ public class CityScapeL {
         grass4 = new Square(grass3.getX()-100*.744, 0, 76.4, 600, Color.decode("#41980a"));
         grass4.draw(g2d);
     }
-
 }

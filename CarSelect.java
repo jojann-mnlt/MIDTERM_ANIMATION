@@ -32,8 +32,6 @@ public class CarSelect extends JComponent {
         g2d.fillRect(0, 0, getWidth(), getHeight());
         Square floor = new Square(47.25, 70, 297.5,500, Color.decode("#444444"));
         floor.draw(g2d);
-        cars.get(currentCar).draw(g2d);
-
 
         g2d.setStroke(new BasicStroke(7));
         FreeformQuadrilateral garage = new FreeformQuadrilateral(49.1, 70, 342.1, 70, 387, -34, 8.1, -34, Color.decode("#b7b7b7"));
@@ -50,6 +48,8 @@ public class CarSelect extends JComponent {
 
         FreeformQuadrilateral sunbeam = new FreeformQuadrilateral(-1.5, 115, -1.5, 535.1, 400, 600, 610, -10, new Color(255, 222, 89, 50));
         sunbeam.fill(g2d);
+        cars.get(currentCar).draw(g2d);
+
 
         g2d.translate(0, -2);
         double x = 20, y = 8, x2 = 372;
