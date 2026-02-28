@@ -42,11 +42,10 @@ public class Muscle extends Car{
         
         frontBumper = new Circle(x, y, width, height*1/8, color);
         body = new Square(x, y+size*0.125, width, height*23/32, color);
-        trunk = new Square(x+size*0.075, y+size*1.7, width*0.85, height*1/4, color);
-        rearLeftWheel = new Triangle(x, y+size*2.3, width*0.15, (-height*3/16), color);
-        rearRightWheel = new Triangle(x+size*0.85, y+size*2.3, width*0.15, (-height*3/16), color);
-        rearBumper = new Circle(x+size*0.075, y+size*2.2, width*0.85, height*1/12, color);
-
+        trunk = new Square(x+size*0.025, y+size*1.7, width*0.95, height*0.25, color);
+        rearLeftWheel = new Triangle(x, y+size*2.3, width*0.05, (-height*3/16), color);
+        rearRightWheel = new Triangle(x+size*0.95, y+size*2.3, width*0.05, (-height*3/16), color);
+        rearBumper = new Circle(x+size*0.025, y+size*2.2, width*0.95, height*1/12, color);
         windowBase = new Square(x+size*0.05, y+size*0.9, width*0.9, height*13/48, windowColor);
         windShield = new Circle(x+size*0.05, y+size*0.825, width*0.9, height*1/16, windowColor);
         rearWindow = new Square(x+size*0.15, y+size*1.45, width*0.7, height*5/24, windowColor);
