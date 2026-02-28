@@ -79,4 +79,8 @@ public class Muscle extends Car{
         g2d.setTransform(ogTransform);
         this.changeRenderState(true);
     }
+    @Override public Square getHitbox(){
+        hitbox = new Square(x+size*0.05, y+size*0.12, width*0.9, height*0.9, Color.RED);
+        return hitbox;
+    }
 }

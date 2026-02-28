@@ -79,4 +79,8 @@ public class Coupe extends Car {
         g2d.setTransform(ogTransform);
         this.changeRenderState(true);
     }
+    @Override public Square getHitbox(){
+        hitbox = new Square(x+size*0.075, y+size*0.3, width*0.85, height*0.75, Color.RED);
+        return hitbox;
+    }
 }

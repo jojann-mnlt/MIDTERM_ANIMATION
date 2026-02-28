@@ -249,7 +249,7 @@ public class SceneFrame extends JFrame {
 
         pauseButtons = new JPanel();
         pauseButtons.setLayout(new GridLayout(1, 2));
-        boolean gameOver = (gameLives == 0);
+        boolean gameOver = (gameLives <= 0);
         if (!gameOver){
             pauseText.setText("Game Paused");
             pauseButtons.add(resumeGame);
