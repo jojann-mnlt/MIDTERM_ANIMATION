@@ -338,15 +338,15 @@ public class SceneFrame extends JFrame {
                                 counterflowLanes.setText("X");
                                 break;
                             case 2:
-                                startSpeed.setText("★ ");
+                                startSpeed.setText("★ ★");
                                 normalLanes.setText("| 1 | 2 | 3 |");
                                 break;
                             case 3:
-                                startSpeed.setText("★ ");
+                                startSpeed.setText("★ ★ ★");
                                 normalLanes.setText("| 1 | 2 | 3 | 4 |");
                                 break;
                             case 4:
-                                startSpeed.setText("★ ★ ");
+                                startSpeed.setText("★ ★ ★");
                                 normalLanes.setText("| 1 | 2 |");
                                 counterflowLanes.setText("| 1 | 2 |");
                                 break;

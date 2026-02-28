@@ -58,13 +58,13 @@ public class GearShifter implements DrawingObject{
         /** Changes the gear level */
         gearLevel = gear;
         switch (gear){
-            case 1,2,3:
+            case 1:
                 speed = 80;
                 break;
-            case 4:
+            case 2:
                 speed = 90;
                 break;
-            case 5:
+            case 3, 4, 5:
                 speed = 100;
                 break;
         }
