@@ -32,7 +32,7 @@ public class GearShifter implements DrawingObject{
         this.x = x;
         this.y = y;
         this.size = size;
-        speed = 60;
+        speed = 80;
         gearLevel = 1;
         baseOutline = Color.decode("#5f5f5f");
         baseColor = Color.decode("#000000");
@@ -59,7 +59,7 @@ public class GearShifter implements DrawingObject{
         gearLevel = gear;
         switch (gear){
             case 1,2,3:
-                speed = 60;
+                speed = 80;
                 break;
             case 4:
                 speed = 90;

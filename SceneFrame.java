@@ -10,16 +10,17 @@ import javax.swing.event.*;
 
 public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
-    private boolean left, right;
-    private Timer gameTimer;
+    // Start Menu fields
 
-    //Game trackers
+    // Game fields
+    private SceneCanvas sceneCanvas;
+    private boolean left, right, inCounterFlow;
+    private Timer gameTimer;
     private double gameSpeed;
     private int gameLives, score;
 
     private CarSelect carSelect;
     private GearSelect gearSelect;
-    private SceneCanvas sceneCanvas;
 
     private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel,
             RGBPanel, carSelectPanel, gearSelectPanel, detailsPanel,
@@ -218,7 +219,7 @@ public class SceneFrame extends JFrame {
 
         startMenuMainPanel.add(leftHalfPanel); startMenuMainPanel.add(rightHalfPanel); // adds the left and right half
         cp.add(startMenuMainPanel);
-        setTitle("Midterm Project - Buenaventura - Manulat");
+        setTitle("21C: Drive");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(frame_width, frame_height));
         pack();
@@ -230,7 +231,7 @@ public class SceneFrame extends JFrame {
         Container cp = getContentPane();
         cp.repaint();
         cp.add(sceneCanvas = new SceneCanvas(frame_width, frame_height, selectedCar, selectedGear));
-        setTitle("Midterm Project - Buenaventura - Manulat");
+        setTitle("21C: Drive");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(frame_width, frame_height));
         setVisible(true);
@@ -272,7 +273,7 @@ public class SceneFrame extends JFrame {
         gamePausePanel.add(pauseButtons, BorderLayout.SOUTH);
         cp.add(gamePausePanel);
 
-        setTitle("Midterm Project - Buenaventura - Manulat");
+        setTitle("21C: Drive");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(frame_width, frame_height));
         setVisible(true);
@@ -337,20 +338,20 @@ public class SceneFrame extends JFrame {
                                 counterflowLanes.setText("X");
                                 break;
                             case 2:
-                                startSpeed.setText("★ ★");
+                                startSpeed.setText("★ ");
                                 normalLanes.setText("| 1 | 2 | 3 |");
                                 break;
                             case 3:
-                                startSpeed.setText("★ ★ ★");
+                                startSpeed.setText("★ ");
                                 normalLanes.setText("| 1 | 2 | 3 | 4 |");
                                 break;
                             case 4:
-                                startSpeed.setText("★ ★ ★ ★");
+                                startSpeed.setText("★ ★ ");
                                 normalLanes.setText("| 1 | 2 |");
                                 counterflowLanes.setText("| 1 | 2 |");
                                 break;
                             case 5:
-                                startSpeed.setText("★ ★ ★ ★ ★");
+                                startSpeed.setText("★ ★ ★ ");
                                 normalLanes.setText("| 1 | 2 | 3 |");
                                 counterflowLanes.setText("| 1 | 2 | 3 |");
                                 break;
@@ -502,14 +503,21 @@ public class SceneFrame extends JFrame {
         else amount = gameSpeed*0.2;
         Car[] normalCars = traffic.getNormalCars();
         Car[] counterFlowCars = traffic.getCounterFlowCars();
+
+        // Checking if car is in counterflow lane
+        if (selectedCar.getX()+selectedCar.getWidth() <= road.getCounterFlowX()) inCounterFlow = true;
+        else inCounterFlow = false;
+
         // Adding to score
-        score += delta;
+        if (!inCounterFlow) score += delta;
+        else if (inCounterFlow) score += delta*1.5;
+
         // Ensure that road does not fall off the frame
         road.moveY(delta);
         if (road.getY() >= 0){road.moveY(-3400);}
         // Illusion of forward moving
         for (Car c : normalCars){
-            c.moveY(delta*0.8);
+            c.moveY(delta*0.75);
             if (c.getY() > 800) {
                 traffic.refreshNormalRNG();
                 c.moveY(-1500);
@@ -519,7 +527,7 @@ public class SceneFrame extends JFrame {
             }
         }
         for (Car c : counterFlowCars){
-            c.moveY(delta);
+            c.moveY(delta*1.25);
             if (c.getY() > 800) {
                 traffic.refreshCounterRNG();
                 c.moveY(-1500);
@@ -545,7 +553,7 @@ public class SceneFrame extends JFrame {
             selectedCar.rotate(0);
         }
         // Constantly check if lives become 0
-        if (gameLives == 0){
+        if (gameLives <= 0){
             selectedCar.moveTo(125, 100);
             selectedCar.changeSize(150);
             gameTimer.stop();

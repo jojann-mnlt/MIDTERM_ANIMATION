@@ -22,7 +22,7 @@ of our program.
 */
 import java.awt.*;
 public class Road implements DrawingObject{
-    private double x, y, maxXL, maxXR;
+    private double x, y, maxXL, maxXR, counterFlowX;
     private Lane main, lane2, lane3, lane4, lane5, lane6;
     private int difficulty;
     public Road(double x, double y, int difficulty){
@@ -35,6 +35,7 @@ public class Road implements DrawingObject{
             case 4: maxXL = x-(120*(3))+22.5; break;
             default: maxXL = x-(120*difficulty)+22.5; break;
         }
+        counterFlowX = 0;
     }
 
     public void draw(Graphics2D g2d){
@@ -73,6 +74,7 @@ public class Road implements DrawingObject{
                 lane2.draw(g2d);
                 lane3.draw(g2d);
                 lane4.draw(g2d);
+                counterFlowX = x-120;
                 break;
             case 5:
                 lane2 = new Lane(x-120, y, 100, "Dotted", "Dotted");
@@ -86,6 +88,7 @@ public class Road implements DrawingObject{
                 lane4.draw(g2d);
                 lane5.draw(g2d);
                 lane6.draw(g2d);
+                counterFlowX = x-240;
                 break;
         }
 
@@ -95,6 +98,7 @@ public class Road implements DrawingObject{
     public double getY(){return y;}
     public double getMaxXL(){return maxXL;}
     public double getMaxXR(){return maxXR;}
+    public double getCounterFlowX(){return counterFlowX;}
     public void moveX(double amount){
         x += amount;
         maxXR = x+22.5;
