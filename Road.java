@@ -30,10 +30,10 @@ public class Road implements DrawingObject{
         this.x = x;
         this.y = y;
         this.difficulty = difficulty;
-        maxXR = x+22.5;
+        maxXR = x+120;
         switch (difficulty){
-            case 4: maxXL = x-(120*(3))+22.5; break;
-            default: maxXL = x-(120*difficulty)+22.5; break;
+            case 4: maxXL = x-(120*(3)); break;
+            default: maxXL = x-(120*difficulty); break;
         }
         counterFlowX = 0;
     }
@@ -101,13 +101,24 @@ public class Road implements DrawingObject{
     public double getCounterFlowX(){return counterFlowX;}
     public void moveX(double amount){
         x += amount;
-        maxXR = x+22.5;
+        maxXR = x+120;
         switch (difficulty){
             case 4:
-                maxXL = x-(120*(3))+22.5; break;
+                maxXL = x-(120*(3)); break;
             default:
-                maxXL = x-(120*difficulty)+22.5; break;
+                maxXL = x-(120*difficulty); break;
         }
     }
     public void moveY(double amount){y += amount;}
+    public void setX(double amount){
+        x = amount;
+        maxXR = x+120;
+        switch (difficulty){
+            case 4:
+                maxXL = x-(120*(3)); break;
+            default:
+                maxXL = x-(120*difficulty); break;
+        }
+    }
+    public void setY(double amount){y = amount;}
 }

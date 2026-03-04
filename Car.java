@@ -67,10 +67,10 @@ public abstract class Car implements DrawingObject {
     }
     /** This method checks if the hitbox of a car is colliding with the hitbox of another. */
     public boolean isColliding(Car otherCar){
-        return !((this.hitbox.getX() + this.hitbox.getWidth() <= otherCar.getHitbox().getX()) ||
-            (this.hitbox.getX() >= otherCar.getHitbox().getX() + otherCar.getHitbox().getWidth()) ||
-            (this.hitbox.getY() + this.hitbox.getHeight() <= otherCar.getHitbox().getY()) ||
-            (this.hitbox.getY() >= otherCar.getHitbox().getY() + otherCar.getHitbox().getHeight())
+        return !((this.getHitbox().getX() + this.getHitbox().getWidth() <= otherCar.getHitbox().getX()) ||
+            (this.getHitbox().getX() >= otherCar.getHitbox().getX() + otherCar.getHitbox().getWidth()) ||
+            (this.getHitbox().getY() + this.getHitbox().getHeight() <= otherCar.getHitbox().getY()) ||
+            (this.getHitbox().getY() >= otherCar.getHitbox().getY() + otherCar.getHitbox().getHeight())
         );
     }
     
@@ -83,6 +83,8 @@ public abstract class Car implements DrawingObject {
         y += amount;
         hitbox.moveY(amount);
     }
+    public void setX(double amount){this.x = amount;}
+    public void setY(double amount){this.y = amount;}
     public void moveTo(double x, double y){
         this.x = x;
         this.y = y;

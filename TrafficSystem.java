@@ -24,6 +24,7 @@ import java.util.Random;
 public class TrafficSystem implements DrawingObject{
     private double x, y;
     private Car[] normal, counterFlow;
+    private double[] lastNormalX, lastNormalY;
     private int numNormal, numCounter;
     private Color highwayCarColor;
     private int difficulty, removeNormal, removeCounter;
@@ -52,6 +53,9 @@ public class TrafficSystem implements DrawingObject{
         removeNormal = rng.nextInt(numNormal);
         if(difficulty >= 4) removeCounter = rng.nextInt(numCounter);
         else removeCounter = 1;
+
+        lastNormalX = new double[numNormal];
+        lastNormalY = new double[numNormal];
     }
     @Override
     public void draw(Graphics2D g2d){
@@ -82,6 +86,26 @@ public class TrafficSystem implements DrawingObject{
     public double getX(){return x;}
     public double getY(){return y;}
 
-    public void moveX(double amount){x += amount;}
+    public void moveX(double amount){
+        x += amount;
+        for (Car c : normal){c.moveX(amount);}
+        for (Car c : counterFlow){c.moveX(amount);}
+    }
     public void moveY(double amount){y += amount;}
+
+    // Save and Load last positions
+    public double[] saveNormalCarsX() {
+        for(int i = 0; i < numNormal; i++){lastNormalX[i] = normal[i].getX();}
+        return lastNormalX;
+    }
+    public double[] saveNormalCarsY() {
+        for(int i = 0; i < numNormal; i++){lastNormalY[i] = normal[i].getY();}
+        return lastNormalY;
+    }
+    public void loadNormalCarPositions(double[] lastNormalX_, double[] lastNormalY_){
+        for(int i = 0; i < numNormal; i++) {
+            System.out.println(String.valueOf(lastNormalX_[i])+" "+String.valueOf(lastNormalY_[i]));
+            normal[i].moveTo(lastNormalX_[i], lastNormalY_[i]);
+        }
+    }
 }

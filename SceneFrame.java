@@ -11,41 +11,43 @@ import javax.swing.event.*;
 public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
     // Start Menu fields
-
-    // Game fields
-    private SceneCanvas sceneCanvas;
-    private boolean left, right, inCounterFlow;
-    private Timer gameTimer;
-    private double gameSpeed;
-    private int gameLives, score;
-
-    private CarSelect carSelect;
-    private GearSelect gearSelect;
-
     private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel,
             RGBPanel, carSelectPanel, gearSelectPanel, detailsPanel,
             redPanel, greenPanel, bluePanel,
             red, green, blue,
-            startSpeedPanel, livesPanel, normalLanesPanel, counterflowPanel,
-            gamePausePanel, pauseButtons;
-
-    private JLabel RGBLabel, livesLabel, normalLanesLabel, counterflowLanesLabel, startSpeedLabel,
-            difficulty, lives, normalLanes, counterflowLanes, startSpeed,
-            pauseText;
-
+            startSpeedPanel, livesPanel, normalLanesPanel, counterflowPanel;
     private JSlider redSlider, greenSlider, blueSlider;
-    private JButton driveButton, resumeGame, restartGame, backToMenu;
+    private JLabel RGBLabel, livesLabel, normalLanesLabel, counterflowLanesLabel, startSpeedLabel,
+            difficulty, lives, normalLanes, counterflowLanes, startSpeed;
+    private Phone phone;
+    private JButton driveButton;
+    private CarSelect carSelect;
+    private GearSelect gearSelect;
+
+    // Game fields
+    private SceneCanvas sceneCanvas;
+    private boolean accelerating, braking, left, right, inCounterFlow;
+    private Timer gameTimer;
+    private double gameSpeed;;
+    private int gameLives, score;
+    private JLabel counterflowMultiplier, speedDisplay, livesDisplay, scoreDisplay;
+    private JPanel HUD;
 
     private Car selectedCar;
     private int selectedGear;
+    // Save states
+    private double lastRoadX, lastRoadY;
+    private double[] lastNormalX, lastNormalY;
+
+    // Pause/Game Over Fields
+    private JPanel gamePausePanel, pauseButtons;
+    private JLabel pauseText;
+    private JButton resumeGame, restartGame, backToMenu;
 
     private Clip bgm;
-    private Phone phone;
 
     /* Constructor method for the SceneFrame. */
     public SceneFrame() {
-        //Game Trackers
-        score = 0; gameSpeed = 0; gameLives = 3;
         resumeGame = new JButton("Continue");
         backToMenu = new JButton("Back To Menu");
         restartGame = new JButton("Restart");
@@ -112,7 +114,7 @@ public class SceneFrame extends JFrame {
         normalLanes = new JLabel("| 2 | 1 | ", JLabel.LEFT);
         counterflowLanes = new JLabel("X", JLabel.LEFT);
         startSpeed  = new JLabel("★", JLabel.LEFT);
-        startSpeedLabel = new JLabel("Speed ", JLabel.RIGHT);
+        startSpeedLabel = new JLabel("Start Speed ", JLabel.RIGHT);
         normalLanesLabel = new JLabel("Normal Lanes ", JLabel.RIGHT);
         livesLabel = new JLabel("Lives ", JLabel.RIGHT);
         counterflowLanesLabel = new JLabel("Counterflow ", JLabel.RIGHT);
@@ -204,11 +206,6 @@ public class SceneFrame extends JFrame {
         detailsPanel.add(phone.drawLowerPhone());
         detailsPanel.setOpaque(false);
 
-        /*
-        Speed: [No. of stars]
-        Normal Flow Lanes:
-        Counter Flow Lanes:
-         */
 
         gearSelectPanel.add(gearSelect);
         gearSelectPanel.add(detailsPanel);
@@ -230,6 +227,22 @@ public class SceneFrame extends JFrame {
     private void setUpGameGUI() {
         Container cp = getContentPane();
         cp.repaint();
+        counterflowMultiplier = new JLabel();
+        speedDisplay = new JLabel();
+        livesDisplay = new JLabel();
+        scoreDisplay = new JLabel();
+        counterflowMultiplier.setForeground(Color.BLACK);
+        speedDisplay.setForeground(Color.BLACK);
+        livesDisplay.setForeground(Color.BLACK);
+        scoreDisplay.setForeground(Color.BLACK);
+
+        HUD = new JPanel(new GridLayout(1, 4));
+        HUD.add(counterflowMultiplier);
+        HUD.add(speedDisplay);
+        HUD.add(livesDisplay);
+        HUD.add(scoreDisplay);
+        cp.add(HUD, BorderLayout.NORTH);
+
         cp.add(sceneCanvas = new SceneCanvas(frame_width, frame_height, selectedCar, selectedGear));
         setTitle("21C: Drive");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -247,17 +260,18 @@ public class SceneFrame extends JFrame {
         pauseText = new JLabel("", JLabel.CENTER);
         gamePausePanel.setBackground(Color.decode("#222222"));
 
-        pauseButtons = new JPanel();
-        pauseButtons.setLayout(new GridLayout(1, 2));
+        pauseButtons = new JPanel(new GridLayout(1, 3));
         boolean gameOver = (gameLives <= 0);
         if (!gameOver){
             pauseText.setText("Game Paused");
             pauseButtons.add(resumeGame);
+            pauseButtons.add(restartGame);
             pauseButtons.add(backToMenu);
         }
         else if (gameOver){
             pauseText.setText("Game Over! You Scored: "+score);
             pauseButtons.add(restartGame);
+            pauseButtons.add(new JLabel());
             pauseButtons.add(backToMenu);
 
             if (bgm != null && bgm.isRunning()) {
@@ -379,7 +393,7 @@ public class SceneFrame extends JFrame {
         ActionListener buttonListeners = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
-                if (e.getSource() == driveButton){
+                if (e.getSource() == driveButton || e.getSource() == restartGame){
                     selectedCar = carSelect.getCar();
                     reloadSelectedCar("Game");
                     selectedGear = gearSelect.getShifter().getGear();
@@ -394,25 +408,14 @@ public class SceneFrame extends JFrame {
                     repaint();
                 }
                 else if (e.getSource() == resumeGame){
-                    selectedCar = carSelect.getCar();
-                    selectedGear = gearSelect.getShifter().getGear();
                     reloadSelectedCar("Game");
-                    gameSpeed = gearSelect.getShifter().getSpeed();
                     getContentPane().removeAll();
                     setUpGameGUI();
-                    gameTimer.start();
-                    setUpKeyListeners();
-                    revalidate();
-                    repaint();
-                } else if (e.getSource() == restartGame){
-                    selectedCar = carSelect.getCar();
-                    selectedGear = gearSelect.getShifter().getGear();
-                    reloadSelectedCar("Game");
-                    gameSpeed = gearSelect.getShifter().getSpeed();
-                    gameLives = 3;
-                    score = 0;
-                    getContentPane().removeAll();
-                    setUpGameGUI();
+
+                    sceneCanvas.getRoad().setX(lastRoadX);
+                    sceneCanvas.getRoad().setY(lastRoadY);
+                    sceneCanvas.getTraffic().loadNormalCarPositions(lastNormalX, lastNormalY);
+
                     gameTimer.start();
                     setUpKeyListeners();
                     revalidate();
@@ -446,6 +449,8 @@ public class SceneFrame extends JFrame {
             selectedCar.rotate(0);
             left = false;
             right = false;
+            accelerating = false;
+            braking = false;
         } else if (purpose.equals("Menu")){
             selectedCar.moveTo(125, 100);
             selectedCar.changeSize(150);
@@ -459,13 +464,17 @@ public class SceneFrame extends JFrame {
         KeyListener keyListener = new KeyListener() {
             // KeyBinds: A > Steer Left, D > Steer Right, ESC = Pause
             @Override public void keyPressed(KeyEvent e){
-                if (e.getKeyCode() == KeyEvent.VK_A){
-                    left = true;
-                }
-                else if (e.getKeyCode() == KeyEvent.VK_D){
-                    right = true;
-                } else if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
+                if (e.getKeyCode() == KeyEvent.VK_A){left = true;}
+                else if (e.getKeyCode() == KeyEvent.VK_D){right = true;} 
+                else if (e.getKeyCode() == KeyEvent.VK_W){accelerating = true;}
+                else if (e.getKeyCode() == KeyEvent.VK_S){braking = true;}
+                else if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     reloadSelectedCar("Menu");
+                    lastRoadX = sceneCanvas.getRoad().getX();
+                    lastRoadY = sceneCanvas.getRoad().getY();
+                    lastNormalX = sceneCanvas.getTraffic().saveNormalCarsX();
+                    lastNormalY = sceneCanvas.getTraffic().saveNormalCarsY();
+
                     gameTimer.stop();
                     getContentPane().removeAll();
                     revalidate();
@@ -477,6 +486,8 @@ public class SceneFrame extends JFrame {
             @Override public void keyReleased(KeyEvent e){
                 if (e.getKeyCode() == KeyEvent.VK_A) {left = false;}
                 else if (e.getKeyCode() == KeyEvent.VK_D) {right = false;}
+                else if (e.getKeyCode() == KeyEvent.VK_W){accelerating = false;}
+                else if (e.getKeyCode() == KeyEvent.VK_S){braking = false;}
             }
             @Override public void keyTyped(KeyEvent e){}
         };
@@ -494,23 +505,32 @@ public class SceneFrame extends JFrame {
     /* this method is checked every 16 milliseconds by the game timer. Updates the movements of the road and the enemy cars spawning */
     public void drive(double speed){
         // Fields to be used in this method
-        double delta = (((speed*40000)/60)/60)/60;
+        double delta = speed*0.18;
         Road road = sceneCanvas.getRoad();
         TrafficSystem traffic = sceneCanvas.getTraffic();
-        double amount = 0;
-        if (gameSpeed*0.2 < 5) amount = 5;
-        else if (gameSpeed*0.2 > 15) amount = 15;
-        else amount = gameSpeed*0.2;
+        double amount = speed*0.15;
+
         Car[] normalCars = traffic.getNormalCars();
         Car[] counterFlowCars = traffic.getCounterFlowCars();
 
+        // Updating HUD
+        speedDisplay.setText(String.valueOf((int) gameSpeed)+" kph");
+        livesDisplay.setText(String.valueOf(gameLives)+" lives");
+        scoreDisplay.setText(String.valueOf(score));
+
         // Checking if car is in counterflow lane
-        if (selectedCar.getX()+selectedCar.getWidth() <= road.getCounterFlowX()) inCounterFlow = true;
-        else inCounterFlow = false;
+        if (selectedCar.getX()+selectedCar.getWidth() <= road.getCounterFlowX()) {
+            inCounterFlow = true;
+            counterflowMultiplier.setText("Active");
+        }
+        else {
+            inCounterFlow = false;
+            counterflowMultiplier.setText("Inactive");
+        }
 
         // Adding to score
         if (!inCounterFlow) score += delta;
-        else if (inCounterFlow) score += delta*1.5;
+        else if (inCounterFlow) score += delta*3;
 
         // Ensure that road does not fall off the frame
         road.moveY(delta);
@@ -536,22 +556,28 @@ public class SceneFrame extends JFrame {
                 c.moveY(-1500);
             }
         }
+
+        // Acceleration, Braking, and Natural Decceleration
+        if (accelerating) {gameSpeed += 0.15;}
+        else if (braking) {gameSpeed -= 0.5;}
+        else if (!accelerating && !braking) {gameSpeed -= 0.01;}
+        if (gameSpeed <= 50) {gameSpeed = 50;}
+
         // Left and Right steering
-        if (left && selectedCar.getX() != road.getMaxXL()) {
+        if (left && selectedCar.getX() != road.getMaxXL() && selectedCar.getX() > road.getMaxXL()) {
             road.moveX(amount);
-            for (Car c : normalCars){c.moveX(amount);}
-            for (Car c : counterFlowCars){c.moveX(amount);}
+            traffic.moveX(amount);
             selectedCar.rotate(-15);
         }
-        else if (right && selectedCar.getX() != road.getMaxXR()) {
+        else if (right && selectedCar.getX()+75 != road.getMaxXR() && selectedCar.getX()+75 < road.getMaxXR()) {
             road.moveX(-amount);
-            for (Car c : normalCars){c.moveX(-amount);}
-            for (Car c : counterFlowCars){c.moveX(-amount);}
+            traffic.moveX(-amount);
             selectedCar.rotate(15);
         }
-        else if ((!left && !right) || (selectedCar.getX() == road.getMaxXL() || selectedCar.getX() == road.getMaxXR())) {
+        else if ((!left && !right) || (selectedCar.getX() < road.getMaxXL() || selectedCar.getX()+75 > road.getMaxXR())) {
             selectedCar.rotate(0);
         }
+
         // Constantly check if lives become 0
         if (gameLives <= 0){
             selectedCar.moveTo(125, 100);
