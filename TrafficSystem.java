@@ -29,7 +29,7 @@ public class TrafficSystem implements DrawingObject{
     private Color highwayCarColor;
     private int difficulty, removeNormal, removeCounter;
     private Random rng;
-    public TrafficSystem(double x, double y, int difficulty){
+    public TrafficSystem(double x, double y, int difficulty, int rng_removeNormal, int rng_removeCounter){
         /** Instantiates the fields and adds traffic cars to arrays. */
         this.x = x;
         this.y = y;
@@ -50,8 +50,8 @@ public class TrafficSystem implements DrawingObject{
             else if (difficulty == 5) {counterFlow[i] = new Sedan(x-(120*(i+3)), y, 75, 180, highwayCarColor);}
         }
         rng = new Random();
-        removeNormal = rng.nextInt(numNormal);
-        if(difficulty >= 4) removeCounter = rng.nextInt(numCounter);
+        removeNormal = rng_removeNormal;
+        if(difficulty >= 4) removeCounter = rng_removeCounter;
         else removeCounter = 1;
 
         lastNormalX = new double[numNormal];
@@ -103,9 +103,9 @@ public class TrafficSystem implements DrawingObject{
         return lastNormalY;
     }
     public void loadNormalCarPositions(double[] lastNormalX_, double[] lastNormalY_){
-        for(int i = 0; i < numNormal; i++) {
-            System.out.println(String.valueOf(lastNormalX_[i])+" "+String.valueOf(lastNormalY_[i]));
-            normal[i].moveTo(lastNormalX_[i], lastNormalY_[i]);
-        }
+        for(int i = 0; i < numNormal; i++) {normal[i].moveTo(lastNormalX_[i], lastNormalY_[i]);}
     }
+
+    public int getCurrentRemoveNormal(){return removeNormal;}
+    public int getCurrentRemoveCounter(){return removeCounter;}
 }

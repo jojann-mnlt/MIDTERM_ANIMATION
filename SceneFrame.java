@@ -38,6 +38,7 @@ public class SceneFrame extends JFrame {
     // Save states
     private double lastRoadX, lastRoadY;
     private double[] lastNormalX, lastNormalY;
+    private int lastRemoveNormal, lastRemoveCounter;
 
     // Pause/Game Over Fields
     private JPanel gamePausePanel, pauseButtons;
@@ -243,7 +244,7 @@ public class SceneFrame extends JFrame {
         HUD.add(scoreDisplay);
         cp.add(HUD, BorderLayout.NORTH);
 
-        cp.add(sceneCanvas = new SceneCanvas(frame_width, frame_height, selectedCar, selectedGear));
+        cp.add(sceneCanvas = new SceneCanvas(frame_width, frame_height, selectedCar, selectedGear, lastRemoveNormal, lastRemoveCounter));
         setTitle("21C: Drive");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(frame_width, frame_height));
@@ -400,6 +401,8 @@ public class SceneFrame extends JFrame {
                     gameSpeed = gearSelect.getShifter().getSpeed();
                     gameLives = 3;
                     score = 0;
+                    lastRemoveNormal = 0;
+                    lastRemoveCounter = 0;
                     getContentPane().removeAll();
                     setUpGameGUI();
                     setUpKeyListeners();
@@ -474,6 +477,8 @@ public class SceneFrame extends JFrame {
                     lastRoadY = sceneCanvas.getRoad().getY();
                     lastNormalX = sceneCanvas.getTraffic().saveNormalCarsX();
                     lastNormalY = sceneCanvas.getTraffic().saveNormalCarsY();
+                    lastRemoveNormal = sceneCanvas.getTraffic().getCurrentRemoveNormal();
+                    lastRemoveCounter = sceneCanvas.getTraffic().getCurrentRemoveCounter();
 
                     gameTimer.stop();
                     getContentPane().removeAll();

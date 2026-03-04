@@ -32,7 +32,7 @@ public class SceneCanvas extends JComponent {
     private TrafficSystem trafficSystem;
     private ArrayList<DrawingObject> gameSystems;
 
-    public SceneCanvas(double width, double height, Car selectedCar, int selectedGear){
+    public SceneCanvas(double width, double height, Car selectedCar, int selectedGear, int lastRemoveNormal, int lastRemoveCounter){
         /** Instantiates the fields and game systems. */
         gameSystems = new ArrayList<DrawingObject>();
         this.width = width;
@@ -40,7 +40,7 @@ public class SceneCanvas extends JComponent {
         this.selectedCar = selectedCar;
         difficulty = selectedGear;
         road = new Road(340, -3400, difficulty);
-        trafficSystem = new TrafficSystem(362.5, -1000, selectedGear);
+        trafficSystem = new TrafficSystem(362.5, -1000, selectedGear, lastRemoveNormal, lastRemoveNormal);
         gameSystems.add(this.road);
         gameSystems.add(this.trafficSystem);
         gameSystems.add(this.selectedCar);
