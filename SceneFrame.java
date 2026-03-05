@@ -386,7 +386,7 @@ public class SceneFrame extends JFrame {
                     reloadSelectedCar("Game");
                     selectedGear = gearSelect.getShifter().getGear();
                     gameSpeed = gearSelect.getShifter().getSpeed();
-                    maxSpeed = 180;
+                    maxSpeed = 120;
 
                     gameLives = gearSelect.getShifter().getLives();
                     score = 0;
@@ -458,7 +458,7 @@ public class SceneFrame extends JFrame {
             @Override public void keyPressed(KeyEvent e){
                 if (e.getKeyCode() == KeyEvent.VK_A){left = true;}
                 else if (e.getKeyCode() == KeyEvent.VK_D){right = true;} 
-                // Unused: Could be used later on
+                // Unused, could be used later on
                 else if (e.getKeyCode() == KeyEvent.VK_W){accelerating = true;}
                 else if (e.getKeyCode() == KeyEvent.VK_S){braking = true;}
 
@@ -485,7 +485,7 @@ public class SceneFrame extends JFrame {
             @Override public void keyReleased(KeyEvent e){
                 if (e.getKeyCode() == KeyEvent.VK_A) {left = false;}
                 else if (e.getKeyCode() == KeyEvent.VK_D) {right = false;}
-                // Unused: Could be used later on
+                // Unused, could be used later on
                 else if (e.getKeyCode() == KeyEvent.VK_W){accelerating = false;}
                 else if (e.getKeyCode() == KeyEvent.VK_S){braking = false;}
             }
@@ -525,8 +525,8 @@ public class SceneFrame extends JFrame {
             counterflowMultiplier.setText("Inactive");
         }
         // Adds to score, applies 3x multiplier if in counterflow lane
-        if (!inCounterFlow) score += delta*0.5;
-        else if (inCounterFlow) score += delta*1.5;
+        if (!inCounterFlow) score += delta;
+        else if (inCounterFlow) score += delta*3;
         // Ensures that road does not fall off the frame
         road.moveY(delta);
         if (road.getY() >= 0){road.moveY(-3400);}
@@ -535,7 +535,7 @@ public class SceneFrame extends JFrame {
         Counterflow Car Speed 125% of game speed
         */
         for (Car c : normalCars){
-            c.moveY(delta*0.75);
+            c.moveY(delta*0.8);
             if (c.getY() > 800) {
                 traffic.refreshNormalRNG();
                 c.moveY(-1500);
@@ -545,7 +545,7 @@ public class SceneFrame extends JFrame {
             }
         }
         for (Car c : counterFlowCars){
-            c.moveY(delta*1.25);
+            c.moveY(delta*1.2);
             if (c.getY() > 800) {
                 traffic.refreshCounterRNG();
                 c.moveY(-1500);
