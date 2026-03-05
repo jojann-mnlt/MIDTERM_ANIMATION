@@ -40,7 +40,7 @@ public class SceneCanvas extends JComponent {
         this.selectedCar = selectedCar;
         difficulty = selectedGear;
         road = new Road(340, -3400, difficulty);
-        trafficSystem = new TrafficSystem(362.5, -1000, selectedGear, lastRemoveNormal, lastRemoveNormal);
+        trafficSystem = new TrafficSystem(362.5, -1000, selectedGear, lastRemoveNormal, lastRemoveCounter);
         gameSystems.add(this.road);
         gameSystems.add(this.trafficSystem);
         gameSystems.add(this.selectedCar);

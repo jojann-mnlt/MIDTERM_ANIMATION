@@ -1,4 +1,8 @@
-// This is the base class for the GUI. You can make any additions as you wish. Don't delete anything.
+/** Handles all operations for the start menu, game, and pause menu.
+ * @author Jacob Buenaventura
+ * @author Johann Manulat
+ * @version 1.1.0
+ */
 import java.awt.*;
 import java.awt.event.*;
 import java.io.InputStream;
@@ -10,7 +14,7 @@ import javax.swing.event.*;
 
 public class SceneFrame extends JFrame {
     private int frame_width, frame_height;
-    // Start Menu fields
+    // Main Menu fields
     private JPanel startMenuMainPanel, leftHalfPanel, rightHalfPanel,
             RGBPanel, carSelectPanel, gearSelectPanel, detailsPanel,
             redPanel, greenPanel, bluePanel,
@@ -28,16 +32,16 @@ public class SceneFrame extends JFrame {
     private SceneCanvas sceneCanvas;
     private boolean accelerating, braking, left, right, inCounterFlow;
     private Timer gameTimer;
-    private double gameSpeed;;
+    private double gameSpeed, maxSpeed;
     private int gameLives, score;
     private JLabel counterflowMultiplier, speedDisplay, livesDisplay, scoreDisplay;
     private JPanel HUD;
-
     private Car selectedCar;
     private int selectedGear;
+
     // Save states
     private double lastRoadX, lastRoadY;
-    private double[] lastNormalX, lastNormalY;
+    private double[] lastNormalX, lastNormalY, lastCounterflowX, lastCounterflowY;
     private int lastRemoveNormal, lastRemoveCounter;
 
     // Pause/Game Over Fields
@@ -45,57 +49,56 @@ public class SceneFrame extends JFrame {
     private JLabel pauseText;
     private JButton resumeGame, restartGame, backToMenu;
 
+    // SFX
     private Clip bgm;
 
-    /* Constructor method for the SceneFrame. */
+    /** Constructor method for the SceneFrame. */
     public SceneFrame() {
+        frame_width = 800;
+        frame_height = 600;
+
+        // Pause Menu Buttons
         resumeGame = new JButton("Continue");
         backToMenu = new JButton("Back To Menu");
         restartGame = new JButton("Restart");
 
-        frame_width = 800;
-        frame_height = 600;
-        phone =  new Phone();
-
         carSelect = new CarSelect();
         gearSelect = new GearSelect();
 
+        // Main Menu Components
         startMenuMainPanel = new JPanel();
+        // Left Half
         leftHalfPanel = new JPanel();
-        rightHalfPanel = new JPanel();
         driveButton = new JButton("Drive");
-
         carSelectPanel = new JPanel();
+        // Right Half
+        rightHalfPanel = new JPanel();
         gearSelectPanel = new JPanel();
-
+        // Details
+        phone =  new Phone();
         detailsPanel = phone.drawPhoneScreen();
-
+        startSpeedPanel = new JPanel();
+        normalLanesPanel = new JPanel();
+        counterflowPanel = new JPanel();
+        livesPanel = new JPanel();
+        // RGB
         RGBPanel = new JPanel();
         RGBPanel.setBackground(Color.DARK_GRAY);
         redPanel = new JPanel();
         greenPanel = new JPanel();
         bluePanel = new JPanel();
-        startSpeedPanel = new JPanel();
-        livesPanel = new JPanel();
-        normalLanesPanel = new JPanel();
-        counterflowPanel = new JPanel();
-
         redSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
         greenSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
         blueSlider = new JSlider(JSlider.HORIZONTAL, 255, 100);
-
         red = new JPanel();
         green = new JPanel();
         blue = new JPanel();
-
         UIManager.put("Label.foreground", Color.WHITE);
-        RGBLabel = new JLabel("Select Car Color", JLabel.CENTER);
+        RGBLabel = new JLabel("Color Picker", JLabel.CENTER);
         ArrayList<JSlider> sliders = new ArrayList<>();
-
         sliders.add(greenSlider);
         sliders.add(blueSlider);
         sliders.add(redSlider);
-
         for (JSlider slider : sliders) {
             slider.setBackground(Color.DARK_GRAY);
             slider.setPaintTrack(true);
@@ -110,15 +113,14 @@ public class SceneFrame extends JFrame {
         difficulty.setFont(new Font("Helvetica", Font.BOLD, 18));
 
         UIManager.put("Label.font", new Font("Helvetica", Font.BOLD, 13));
-
-        lives = new JLabel("❤❤❤", JLabel.LEFT);
-        normalLanes = new JLabel("| 2 | 1 | ", JLabel.LEFT);
-        counterflowLanes = new JLabel("X", JLabel.LEFT);
-        startSpeed  = new JLabel("★", JLabel.LEFT);
         startSpeedLabel = new JLabel("Start Speed ", JLabel.RIGHT);
+        startSpeed  = new JLabel("50", JLabel.LEFT);
         normalLanesLabel = new JLabel("Normal Lanes ", JLabel.RIGHT);
-        livesLabel = new JLabel("Lives ", JLabel.RIGHT);
+        normalLanes = new JLabel("| 2 | 1 | ", JLabel.LEFT);
         counterflowLanesLabel = new JLabel("Counterflow ", JLabel.RIGHT);
+        counterflowLanes = new JLabel("X", JLabel.LEFT);
+        livesLabel = new JLabel("Lives ", JLabel.RIGHT);
+        lives = new JLabel("❤❤", JLabel.LEFT);
 
         setUpGUI();
         setUpButtonListeners();
@@ -126,96 +128,86 @@ public class SceneFrame extends JFrame {
         setUpSliderListeners();
     }
 
-    /* This method renders the main menu / the start menu where players can customize. The frame is split into two parts:
-    The first half is the canvas, CarSelect, and the second half is the gearSelect and the details panel. */
+    /** Renders the main menu where players can customize the car model, car color, and difficulty. */
     public void setUpGUI() {
         Container cp = getContentPane();
 
         detailsPanel.removeAll();
 
-        // left half
+        // Left Half
         leftHalfPanel.setLayout(new GridLayout(1, 1));
         carSelectPanel.setLayout(new BorderLayout());
         carSelectPanel.add(carSelect);
-
         carSelectPanel.add(carSelect, BorderLayout.CENTER);
         carSelectPanel.add(driveButton, BorderLayout.SOUTH);
         leftHalfPanel.add(carSelectPanel);
-
         RGBPanel.setLayout(new GridLayout(4, 1));
 
-        // RGB Panel, 1st Cell
-
-        RGBLabel.setFont(new Font("Sans Serif", Font.BOLD, 30));
-        RGBPanel.add(RGBLabel);
-
-        // RGB Panel, 2nd Cell (RED)
-        redPanel.setLayout(new BorderLayout());
-        redPanel.add(redSlider, BorderLayout.CENTER);
-        redPanel.add(red, BorderLayout.WEST);
-        RGBPanel.add(redPanel);
-
-        // RGB Panel, 3rd Cell (GREEN)
-        greenPanel.setLayout(new BorderLayout());
-        greenPanel.add(greenSlider, BorderLayout.CENTER);
-        greenPanel.add(green, BorderLayout.WEST);
-        RGBPanel.add(greenPanel);
-
-        // RGB Panel, 4th Cell (BLUE)
-        bluePanel.setLayout(new BorderLayout());
-        bluePanel.add(blueSlider, BorderLayout.CENTER);
-        bluePanel.add(blue, BorderLayout.WEST);
-        RGBPanel.add(bluePanel);
-
-        red.setBackground(new Color(100, 0, 0));
-        green.setBackground(new Color(0, 100, 0));
-        blue.setBackground(new Color(0, 0, 100));
-
-        // right half
-        rightHalfPanel.setBackground(Color.CYAN);
+        // Right Half
         rightHalfPanel.setLayout(new GridLayout(2, 1));
         gearSelectPanel.setLayout(new GridLayout(1,2 ));
-
+        // Details Panel (Top of Phone)
         detailsPanel.setLayout(new GridLayout(7, 1));
-        detailsPanel.add(phone.drawUpperPhone()); // top phone design
+        detailsPanel.add(phone.drawUpperPhone()); 
         detailsPanel.add(difficulty, JLabel.CENTER, 1);
-
+        // Details Panel (Start Speed)
         startSpeedPanel.setLayout(new GridLayout(1, 2));
         startSpeedPanel.add(startSpeedLabel);
         startSpeedPanel.add(startSpeed);
         startSpeedPanel.setOpaque(false);
         detailsPanel.add(startSpeedPanel);
-
+        // Details Panel (# of Normal Lanes)
         normalLanesPanel.setLayout(new GridLayout(1, 2));
         normalLanesPanel.add(normalLanesLabel);
         normalLanesPanel.add(normalLanes);
         normalLanesPanel.setOpaque(false);
         detailsPanel.add(normalLanesPanel);
-
+        // Details Panel (# of Counterflow Lanes)
         counterflowPanel.setLayout(new GridLayout(1, 2));
         counterflowPanel.add(counterflowLanesLabel);
         counterflowPanel.add(counterflowLanes);
         counterflowPanel.setOpaque(false);
         detailsPanel.add(counterflowPanel);
-
+        // Details Panel (# of Lives)
         livesPanel.setLayout(new GridLayout(1, 2));
         livesPanel.add(livesLabel);
         livesPanel.add(lives);
         livesPanel.setOpaque(false);
         detailsPanel.add(livesPanel);
-
+        // Details Panel (Bottom of Phone)
         detailsPanel.add(phone.drawLowerPhone());
         detailsPanel.setOpaque(false);
-
-
+        // RGB Panel, 1st Cell
+        RGBLabel.setFont(new Font("Sans Serif", Font.BOLD, 30));
+        RGBPanel.add(RGBLabel);
+        // RGB Panel, 2nd Cell (RED)
+        redPanel.setLayout(new BorderLayout());
+        redPanel.add(redSlider, BorderLayout.CENTER);
+        redPanel.add(red, BorderLayout.WEST);
+        RGBPanel.add(redPanel);
+        // RGB Panel, 3rd Cell (GREEN)
+        greenPanel.setLayout(new BorderLayout());
+        greenPanel.add(greenSlider, BorderLayout.CENTER);
+        greenPanel.add(green, BorderLayout.WEST);
+        RGBPanel.add(greenPanel);
+        // RGB Panel, 4th Cell (BLUE)
+        bluePanel.setLayout(new BorderLayout());
+        bluePanel.add(blueSlider, BorderLayout.CENTER);
+        bluePanel.add(blue, BorderLayout.WEST);
+        RGBPanel.add(bluePanel);
+        red.setBackground(new Color(100, 0, 0));
+        green.setBackground(new Color(0, 100, 0));
+        blue.setBackground(new Color(0, 0, 100));
+        // Compiles the Right Half of the Start Menu
         gearSelectPanel.add(gearSelect);
         gearSelectPanel.add(detailsPanel);
         rightHalfPanel.add(gearSelectPanel);
         rightHalfPanel.add(RGBPanel);
 
+        // Compiles the whole Main Menu
         startMenuMainPanel.setLayout(new GridLayout(1, 2));
-
-        startMenuMainPanel.add(leftHalfPanel); startMenuMainPanel.add(rightHalfPanel); // adds the left and right half
+        startMenuMainPanel.add(leftHalfPanel); 
+        startMenuMainPanel.add(rightHalfPanel);
         cp.add(startMenuMainPanel);
         setTitle("21C: Drive");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -224,7 +216,7 @@ public class SceneFrame extends JFrame {
         setVisible(true);
     }
 
-    /* this method renders the game proper after driveButton is clicked. */
+    /** Renders the game for gamplay. */
     private void setUpGameGUI() {
         Container cp = getContentPane();
         cp.repaint();
@@ -251,7 +243,7 @@ public class SceneFrame extends JFrame {
         setVisible(true);
     }
 
-    /* this method renders the simple pause menu after the escape button is clicked. */
+    /* Renders the pause menu after the escape button is clicked or the game over screen when lives hit 0. */
     private void setUpPauseGUI(){
         Container cp = getContentPane();
         cp.repaint();
@@ -274,13 +266,10 @@ public class SceneFrame extends JFrame {
             pauseButtons.add(restartGame);
             pauseButtons.add(new JLabel());
             pauseButtons.add(backToMenu);
-
             if (bgm != null && bgm.isRunning()) {
                 bgm.stop();
             }
-
             bgm = loadMusic("failMusic.wav", true);
-
         }
 
         gamePausePanel.setLayout(new BorderLayout());
@@ -294,8 +283,7 @@ public class SceneFrame extends JFrame {
         setVisible(true);
     }
 
-    /* The next few methods set up the various Action/ChangeListeners we used in our project.
-    This sets up the slider listeners used for player customization. */
+    /* Sets up the slider listeners used for player customization. */
     public void setUpSliderListeners() {
         ChangeListener changeListener = new ChangeListener() {
             @Override
@@ -315,8 +303,7 @@ public class SceneFrame extends JFrame {
         blueSlider.addChangeListener(changeListener);
     }
 
-    /* The next few methods set up the various Action/ChangeListeners we used in our project.
-    This sets up the mouse listeners used for changing the car and the difficulty on the gearstick. */
+    /* Sets up the mouse listeners used for changing the car and the difficulty on the gearstick. */
     public void setUpMouseListeners() {
         MouseListener mouseListener = new MouseListener() {
             @Override public void mouseClicked(MouseEvent e){
@@ -346,30 +333,31 @@ public class SceneFrame extends JFrame {
                         gk.moveX(-size*1.2);
                         g.changeGear(1);
                     }
-                        switch (gearSelect.getShifter().getGear()) {
-                            case 1:
-                                startSpeed.setText("★");
-                                normalLanes.setText("| 1 | 2 |");
-                                counterflowLanes.setText("X");
-                                break;
-                            case 2:
-                                startSpeed.setText("★ ★");
-                                normalLanes.setText("| 1 | 2 | 3 |");
-                                break;
-                            case 3:
-                                startSpeed.setText("★ ★ ★");
-                                normalLanes.setText("| 1 | 2 | 3 | 4 |");
-                                break;
-                            case 4:
-                                startSpeed.setText("★ ★ ★");
-                                normalLanes.setText("| 1 | 2 |");
-                                counterflowLanes.setText("| 1 | 2 |");
-                                break;
-                            case 5:
-                                startSpeed.setText("★ ★ ★ ");
-                                normalLanes.setText("| 1 | 2 | 3 |");
-                                counterflowLanes.setText("| 1 | 2 | 3 |");
-                                break;
+                    switch (gearSelect.getShifter().getGear()) {
+                        case 1:
+                            startSpeed.setText("50 kph");
+                            normalLanes.setText("| 1 | 2 |");
+                            counterflowLanes.setText("X");
+                            lives.setText("❤❤");
+                            break;
+                        case 2:
+                            startSpeed.setText("60 kph");
+                            normalLanes.setText("| 1 | 2 | 3 |");
+                            break;
+                        case 3:
+                            startSpeed.setText("70 kph");
+                            normalLanes.setText("| 1 | 2 | 3 | 4 |");
+                            lives.setText("❤❤❤");
+                            break;
+                        case 4:
+                            normalLanes.setText("| 1 | 2 |");
+                            counterflowLanes.setText("| 1 | 2 |");
+                            break;
+                        case 5:
+                            normalLanes.setText("| 1 | 2 | 3 |");
+                            counterflowLanes.setText("| 1 | 2 | 3 |");
+                            lives.setText("❤❤❤❤");
+                            break;
                     }
 
                     gearSelect.repaint();
@@ -388,8 +376,7 @@ public class SceneFrame extends JFrame {
         carSelect.addMouseListener(mouseListener);
     }
 
-    /* The next few methods set up the various Action/ChangeListeners we used in our project.
-    This sets up the button listeners used the pause menu, game over menu, and the main menu. */
+    /* Sets up the button listeners used in the main menu, pause screen, game over screen. */
     public void setUpButtonListeners() { 
         ActionListener buttonListeners = new ActionListener() {
             @Override
@@ -399,7 +386,9 @@ public class SceneFrame extends JFrame {
                     reloadSelectedCar("Game");
                     selectedGear = gearSelect.getShifter().getGear();
                     gameSpeed = gearSelect.getShifter().getSpeed();
-                    gameLives = 3;
+                    maxSpeed = 180;
+
+                    gameLives = gearSelect.getShifter().getLives();
                     score = 0;
                     lastRemoveNormal = 0;
                     lastRemoveCounter = 0;
@@ -418,6 +407,7 @@ public class SceneFrame extends JFrame {
                     sceneCanvas.getRoad().setX(lastRoadX);
                     sceneCanvas.getRoad().setY(lastRoadY);
                     sceneCanvas.getTraffic().loadNormalCarPositions(lastNormalX, lastNormalY);
+                    sceneCanvas.getTraffic().loadCounterflowCarPositions(lastCounterflowX, lastCounterflowY);
 
                     gameTimer.start();
                     setUpKeyListeners();
@@ -444,8 +434,8 @@ public class SceneFrame extends JFrame {
         backToMenu.addActionListener(buttonListeners);
     }
 
-    /* Ensures that the player car is in the correct position */
-    private void reloadSelectedCar(String purpose){ // Ensures that the player car loads properly
+    /* Ensures that the player car loads in the correct position. */
+    private void reloadSelectedCar(String purpose){
         if (purpose.equals("Game")){
             selectedCar.moveTo((frame_width/2)-37.5, (frame_height/2+50));
             selectedCar.changeSize(75);
@@ -461,22 +451,26 @@ public class SceneFrame extends JFrame {
         }
     }
 
-    /* The next few methods set up the various Action/ChangeListeners we used in our project.
-    This sets up the key listeners, vital for player movement. */
+    /* Sets up the key listeners for player movement during gameplay. */
     public void setUpKeyListeners() {
         KeyListener keyListener = new KeyListener() {
             // KeyBinds: A > Steer Left, D > Steer Right, ESC = Pause
             @Override public void keyPressed(KeyEvent e){
                 if (e.getKeyCode() == KeyEvent.VK_A){left = true;}
                 else if (e.getKeyCode() == KeyEvent.VK_D){right = true;} 
+                // Unused: Could be used later on
                 else if (e.getKeyCode() == KeyEvent.VK_W){accelerating = true;}
                 else if (e.getKeyCode() == KeyEvent.VK_S){braking = true;}
+
                 else if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
                     reloadSelectedCar("Menu");
+
                     lastRoadX = sceneCanvas.getRoad().getX();
                     lastRoadY = sceneCanvas.getRoad().getY();
                     lastNormalX = sceneCanvas.getTraffic().saveNormalCarsX();
                     lastNormalY = sceneCanvas.getTraffic().saveNormalCarsY();
+                    lastCounterflowX = sceneCanvas.getTraffic().saveCounterflowCarsX();
+                    lastCounterflowY = sceneCanvas.getTraffic().saveCounterflowCarsY();
                     lastRemoveNormal = sceneCanvas.getTraffic().getCurrentRemoveNormal();
                     lastRemoveCounter = sceneCanvas.getTraffic().getCurrentRemoveCounter();
 
@@ -491,6 +485,7 @@ public class SceneFrame extends JFrame {
             @Override public void keyReleased(KeyEvent e){
                 if (e.getKeyCode() == KeyEvent.VK_A) {left = false;}
                 else if (e.getKeyCode() == KeyEvent.VK_D) {right = false;}
+                // Unused: Could be used later on
                 else if (e.getKeyCode() == KeyEvent.VK_W){accelerating = false;}
                 else if (e.getKeyCode() == KeyEvent.VK_S){braking = false;}
             }
@@ -501,29 +496,26 @@ public class SceneFrame extends JFrame {
         sceneCanvas.requestFocus();
     }
 
-    /* Sets up the game timer that updates every 16 milliseconds (60 FPS) */
+    /* Sets up the game timer that updates every 16 milliseconds (Approx 60 times per second/60 FPS) */
     public void setUpTimers(){
         gameTimer = new Timer(16, e -> drive(gameSpeed));
         gameTimer.start();
     }
 
-    /* this method is checked every 16 milliseconds by the game timer. Updates the movements of the road and the enemy cars spawning */
+    /* This method is called every 16 milliseconds by the game timer. Updates the positions of all game components. */
     public void drive(double speed){
-        // Fields to be used in this method
-        double delta = speed*0.18;
+        // Calculates the value used in most gameplay systems
+        double delta = speed*0.15;
+        // Calls all the game components that require movement in game
         Road road = sceneCanvas.getRoad();
         TrafficSystem traffic = sceneCanvas.getTraffic();
-        double amount = speed*0.15;
-
         Car[] normalCars = traffic.getNormalCars();
         Car[] counterFlowCars = traffic.getCounterFlowCars();
-
-        // Updating HUD
+        // Updates the HUD
         speedDisplay.setText(String.valueOf((int) gameSpeed)+" kph");
         livesDisplay.setText(String.valueOf(gameLives)+" lives");
         scoreDisplay.setText(String.valueOf(score));
-
-        // Checking if car is in counterflow lane
+        // Checks if car is in the counterflow lane
         if (selectedCar.getX()+selectedCar.getWidth() <= road.getCounterFlowX()) {
             inCounterFlow = true;
             counterflowMultiplier.setText("Active");
@@ -532,15 +524,16 @@ public class SceneFrame extends JFrame {
             inCounterFlow = false;
             counterflowMultiplier.setText("Inactive");
         }
-
-        // Adding to score
-        if (!inCounterFlow) score += delta;
-        else if (inCounterFlow) score += delta*3;
-
-        // Ensure that road does not fall off the frame
+        // Adds to score, applies 3x multiplier if in counterflow lane
+        if (!inCounterFlow) score += delta*0.5;
+        else if (inCounterFlow) score += delta*1.5;
+        // Ensures that road does not fall off the frame
         road.moveY(delta);
         if (road.getY() >= 0){road.moveY(-3400);}
-        // Illusion of forward moving
+        /* Sets the speed of the cars relative to the player speed and ensures they do not fall downward forever 
+        Normal Car Speed = 75% of game speed
+        Counterflow Car Speed 125% of game speed
+        */
         for (Car c : normalCars){
             c.moveY(delta*0.75);
             if (c.getY() > 800) {
@@ -561,29 +554,25 @@ public class SceneFrame extends JFrame {
                 c.moveY(-1500);
             }
         }
-
-        // Acceleration, Braking, and Natural Decceleration
-        if (accelerating) {gameSpeed += 0.15;}
-        else if (braking) {gameSpeed -= 0.5;}
-        else if (!accelerating && !braking) {gameSpeed -= 0.01;}
-        if (gameSpeed <= 50) {gameSpeed = 50;}
-
-        // Left and Right steering
+        // Gradually accelerates the game.
+        gameSpeed += 0.01;
+        if (gameSpeed >= maxSpeed) {gameSpeed = maxSpeed;}
+        // Implements left and right steering
         if (left && selectedCar.getX() != road.getMaxXL() && selectedCar.getX() > road.getMaxXL()) {
-            road.moveX(amount);
-            traffic.moveX(amount);
+            road.moveX(delta);
+            traffic.moveX(delta);
             selectedCar.rotate(-15);
         }
         else if (right && selectedCar.getX()+75 != road.getMaxXR() && selectedCar.getX()+75 < road.getMaxXR()) {
-            road.moveX(-amount);
-            traffic.moveX(-amount);
+            road.moveX(-delta);
+            traffic.moveX(-delta);
             selectedCar.rotate(15);
         }
         else if ((!left && !right) || (selectedCar.getX() < road.getMaxXL() || selectedCar.getX()+75 > road.getMaxXR())) {
             selectedCar.rotate(0);
         }
 
-        // Constantly check if lives become 0
+        // Checks if lives become 0
         if (gameLives <= 0){
             selectedCar.moveTo(125, 100);
             selectedCar.changeSize(150);
@@ -593,11 +582,12 @@ public class SceneFrame extends JFrame {
             repaint();
             setUpPauseGUI();
         }
+        // Repaints the canvas for smooth animation
         sceneCanvas.repaint();
     }
 
 
-    /* This loads the fail music when the player dies after 3 lives */
+    /* Loads the SFX. */
     private Clip loadMusic(String filename, boolean loop) {
         try {
             InputStream audioSrc = getClass().getResourceAsStream(filename);

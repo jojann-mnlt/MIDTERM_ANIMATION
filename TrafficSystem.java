@@ -24,7 +24,7 @@ import java.util.Random;
 public class TrafficSystem implements DrawingObject{
     private double x, y;
     private Car[] normal, counterFlow;
-    private double[] lastNormalX, lastNormalY;
+    private double[] lastNormalX, lastNormalY, lastCounterflowX, lastCounterflowY;
     private int numNormal, numCounter;
     private Color highwayCarColor;
     private int difficulty, removeNormal, removeCounter;
@@ -56,6 +56,8 @@ public class TrafficSystem implements DrawingObject{
 
         lastNormalX = new double[numNormal];
         lastNormalY = new double[numNormal];
+        lastCounterflowX = new double[numCounter];
+        lastCounterflowY = new double[numCounter];
     }
     @Override
     public void draw(Graphics2D g2d){
@@ -93,7 +95,7 @@ public class TrafficSystem implements DrawingObject{
     }
     public void moveY(double amount){y += amount;}
 
-    // Save and Load last positions
+    // Save and Load last positions for Normal Cars
     public double[] saveNormalCarsX() {
         for(int i = 0; i < numNormal; i++){lastNormalX[i] = normal[i].getX();}
         return lastNormalX;
@@ -104,6 +106,23 @@ public class TrafficSystem implements DrawingObject{
     }
     public void loadNormalCarPositions(double[] lastNormalX_, double[] lastNormalY_){
         for(int i = 0; i < numNormal; i++) {normal[i].moveTo(lastNormalX_[i], lastNormalY_[i]);}
+    }
+
+    // Save and Load last positions for Counterflow Cars
+    public double[] saveCounterflowCarsX() {
+        if (difficulty >= 4){
+            for(int i = 0; i < numCounter; i++){lastCounterflowX[i] = counterFlow[i].getX();}
+        }
+        return lastCounterflowX;
+    }
+    public double[] saveCounterflowCarsY() {
+        if (difficulty >= 4){
+            for(int i = 0; i < numCounter; i++){lastCounterflowY[i] = counterFlow[i].getY();}
+        }
+        return lastCounterflowY;
+    }
+    public void loadCounterflowCarPositions(double[] lastCounterflowlX_, double[] lastCounterflowY_){
+        for(int i = 0; i < numCounter; i++) {counterFlow[i].moveTo(lastCounterflowlX_[i], lastCounterflowY_[i]);}
     }
 
     public int getCurrentRemoveNormal(){return removeNormal;}

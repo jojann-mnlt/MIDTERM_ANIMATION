@@ -23,7 +23,7 @@ import java.awt.*;
 
 public class GearShifter implements DrawingObject{
     private Square shifterBase, shifterBaseOutline, gap, gap12, gap34, gap5;
-    private int gearLevel;
+    private int gearLevel, lives;
     private double x, y, speed;
     private int size;
     private Color baseColor, baseOutline, gapColor;
@@ -34,6 +34,7 @@ public class GearShifter implements DrawingObject{
         this.size = size;
         speed = 50;
         gearLevel = 1;
+        lives = 2;
         baseOutline = Color.decode("#5f5f5f");
         baseColor = Color.decode("#000000");
         gapColor = Color.decode("#292929");
@@ -58,19 +59,15 @@ public class GearShifter implements DrawingObject{
         /** Changes the gear level */
         gearLevel = gear;
         switch (gear){
-            case 1:
-                speed = 50;
-                break;
-            case 2:
-                speed = 60;
-                break;
-            case 3, 4, 5:
-                speed = 70;
-                break;
+            case 1: speed = 50; lives = 2; break;
+            case 2: speed = 60; lives = 2; break;
+            case 3, 4: speed = 70; lives = 3; break;
+            case 5: speed = 70; lives = 4; break;
         }
     }
     /** Allow for access to private fields. */
     public double getSpeed() {return speed;}
+    public int getLives() {return lives;}
     public int getGear() {return gearLevel;}
     public int getSize() {return size;}
     public double getX() {return x;}
